@@ -1,0 +1,76 @@
+@startuml Backend
+
+!theme mars from https://raw.githubusercontent.com/plantuml/plantuml/master/themes
+
+class User {
+  -string username
+  -string emailAddress
+  -string userId
+  -string phoneNumber
+
+  +string getUsername()
+  +string getPhoneNumber()
+  +string getUserId()
+  +string getEmailAddress()
+}
+
+class Manager Extends User{
+  +void addItems()
+  +void removeItems()
+  +void generateReports()
+}
+
+class Admin Extends User{
+  +void addManager()
+  +void deleteManager()
+}
+
+class Customer Extends User{
+  -int wallet
+  -string address
+  -Cart
+  -wishlist
+  +void makePayment()
+  +void placeOrder()
+  +void removeItemFromCart()
+  +void topUpWallet()
+}
+
+class Product{
+  -int price
+  -int stock
+  -string description
+  -string serialNumber
+  -string name
+  -string image
+  -string category
+  -int discount
+  -int deiveryTime
+
+  +int getPrice()
+  +int getStock()
+  +string getDescription()
+  +string getSerialNumber()
+  +string getName()
+  +string getImage()
+  +string getCategory()
+  +int getDiscount()
+  +int getDeliveryTime()
+}
+
+class Order{
+  -Product[] products
+  -string dateOfPlaced
+  -string dateOfArrival
+  +string getDateOfPlaced()
+  +string getDateOfArrival()
+  +void getProducts()
+  +void setProducts()
+  +void setDateOfPlaced()
+  +void setDateOfArrival()
+}
+
+Customer o-- Product
+Product o-- Order
+
+@enduml
