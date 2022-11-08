@@ -12,6 +12,8 @@ enum Role{
 
 ' This is not gonna be a table
 ' Now probably it is a table
+
+' Classes for Users
 class User {
   -String username
   -String emailAddress
@@ -32,22 +34,12 @@ class User {
   +String setPassword()
 }
 
-' TODO:Same as manager what do?
 class Admin Extends User{
-  ' +void addManager()
-  ' +void deleteManager()
 }
-' Need to check this
-' For now this is a table too
-' TODO:What do with the methods?
+
 class Manager Extends User{
-  ' +void addItems()
-  ' +void removeItems()
-  ' +void generateReports()
 }
 
-
-' Need to check this
 class Customer Extends User{
   -float moneyInWallet
   -Cart cart
@@ -62,7 +54,6 @@ class Cart {
   -ArrayList<HashMap<Product, Integer>> productsWithQuantity
   -int totalPrice
   -int totalItems
-
   +ArrayList<HashMap<Product, Integer>> getProductsInCartWithQuantity()
   +int getTotalPrice()
   +int getTotalItemCount()
@@ -71,8 +62,64 @@ class Cart {
   +ArrayList<HashMap<Product, Integer>> emptyCart()
 }
 
-Customer *-- Cart
+class Product{
+  -float price
+  -int stock
+  -int serialNumber
+  -String description
+  -String name
+  -String image
+  -int categoryId
+  -int deiveryTime
 
+  +float getPrice()
+  +int getStock()
+  +int getSerialNumber()
+  +String getDescription()
+  +String getName()
+  +String getImage()
+  +int getCategoryId()
+  +int getDeliveryTime()
+  +void setPrice()
+  +void setStock()
+  +void setDescription()
+  +void setSerialNumber()
+  +void setName()
+  +void setImage()
+  +void setCategoryId()
+  +void setDeliveryTime()
+}
+
+' Category
+' This is is gonna be a table too
+class Category{
+  -int categoryId
+  -String name
+  +int getCategoryId()
+  +String getCategoryName()
+  +void setCategoryId()
+  +void setCategoryName()
+}
+
+' TODO:Order class
+' Order
+class Order{
+  -int orderId
+  -ArrayList<HashMap<Product, int>> productsInOrder
+  -int customerId
+  -boolean deliveryStatus
+  ' Make a method to calculate the max for delivery time
+  +int getOrderId()
+  +int getCustomerId()
+  +boolean getDeliveryStatus()
+  +ArrayList<HashMap<Product, int>> getProductsInOrder()
+  +void setOrderId()
+  +void setCustomerId()
+  +void setDeliveryStatus()
+  +void setProductsInOrder()
+}
+
+' Repositories
 ' This extends JPA repository
 interface AdminRepository {
   +ArrayList<Admin> findAll()
@@ -104,6 +151,15 @@ interface CustomerRepository{
   +ArrayList<Order> getAllOrders()
 }
 
+interface CartRepository {
+  +Cart getCart()
+  +int getTotalPrice()
+  +int getTotalItemCount()
+  +void addItemToCart()
+  +void removeItemFromCart()
+  +void emptyCart()
+}
+
 class CustomerController {
   -CustomerRepository customerRepository
 
@@ -122,15 +178,6 @@ class CustomerController {
   +ArrayList<Order> getAllOrders()
 }
 
-interface CartRepository {
-  +Cart getCart()
-  +int getTotalPrice()
-  +int getTotalItemCount()
-  +void addItemToCart()
-  +void removeItemFromCart()
-  +void emptyCart()
-}
-
 class CartController {
   -CartRepository CartRepository
 
@@ -142,36 +189,6 @@ class CartController {
   +void emptyCart()
 }
 
-
-
-class Product{
-  -float price
-  -int stock
-  -int serialNumber
-  -String description
-  -String name
-  -String image
-  -int categoryId
-  -int deiveryTime
-
-  +float getPrice()
-  +int getStock()
-  +int getSerialNumber()
-  +String getDescription()
-  +String getName()
-  +String getImage()
-  +int getCategoryId()
-  +int getDeliveryTime()
-  +void setPrice()
-  +void setStock()
-  +void setDescription()
-  +void setSerialNumber()
-  +void setName()
-  +void setImage()
-  +void setCategoryId()
-  +void setDeliveryTime()
-}
-
 class ProductController{
   +List<Product> getAllProducts()
   +Product getProduct()
@@ -179,41 +196,14 @@ class ProductController{
   +void deleteProduct()
 }
 
-' class Order{
-'   -Product[] products
-'   -String dateOfPlaced
-'   -String dateOfArrival
-'   +String getDateOfPlaced()
-'   +String getDateOfArrival()
-'   +void getProducts()
-'   +void setProducts()
-'   +void setDateOfPlaced()
-'   +void setDateOfArrival()
-' }
-
-' Customer o-- Product
-' Product o-- Order
-
 ' Shopping cart
 ' TODO:Make a cart class and add products here
 class ShoppingCartService{
-
-  ' +void addProduct()
+  +void addProduct()
   +void getProductsInCart()
   +void removeProduct()
   +void checkoutCart()
   +void getTotal()
-}
-
-' Category
-' This is is gonna be a table too
-class Category{
-  -int categoryId
-  -String name
-  +int getCategoryId()
-  +String getCategoryName()
-  +void setCategoryId()
-  +void setCategoryName()
 }
 
 interface CategoryRepository{
@@ -224,24 +214,6 @@ class CategoryController{
   +void addCategory()
   +void deleteCategory()
   +void editCategory()
-}
-
-' TODO:Order class
-' Order
-class Order{
-  -int orderId
-  -ArrayList<HashMap<Product, int>> productsInOrder
-  -int customerId
-  -boolean deliveryStatus
-  ' Make a method to calculate the max for delivery time
-  +int getOrderId()
-  +int getCustomerId()
-  +boolean getDeliveryStatus()
-  +ArrayList<HashMap<Product, int>> getProductsInOrder()
-  +void setOrderId()
-  +void setCustomerId()
-  +void setDeliveryStatus()
-  +void setProductsInOrder()
 }
 
 ' TODO:Auth class
@@ -267,5 +239,8 @@ class CustomerDetailsService{
 	-CustomerRepository customerRepository
 	+CustomerDetails loadUserByUsername()
 }
+
+' Relations
+Customer *-- Cart
 
 @enduml
