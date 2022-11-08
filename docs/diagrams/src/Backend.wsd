@@ -4,19 +4,27 @@
 
 ' TODO:All the controllers
 
+enum Role{
+ ADMIN
+ MANAGER
+ CUSTOMER
+}
+
 ' This is not gonna be a table
-abstract class User {
+' Now probably it is a table
+class User {
   -String username
   -String emailAddress
   -String userId
   -String phoneNumber
   -String password
-
+  -Role role
   +String getUsername()
   +String getPhoneNumber()
   +String getUserId()
   +String getEmailAddress()
   +String getPassword()
+  +String getRole()
   +String setUsername()
   +String setPhoneNumber()
   +String setUserId()
@@ -24,6 +32,11 @@ abstract class User {
   +String setPassword()
 }
 
+' TODO:Same as manager what do?
+class Admin Extends User{
+  ' +void addManager()
+  ' +void deleteManager()
+}
 ' Need to check this
 ' For now this is a table too
 ' TODO:What do with the methods?
@@ -33,19 +46,6 @@ class Manager Extends User{
   ' +void generateReports()
 }
 
-interface ManagerRepository{
-  +Manager findByEmail()
-}
-
-' TODO:Same as manager what do?
-class Admin Extends User{
-  ' +void addManager()
-  ' +void deleteManager()
-}
-
-interface AdminRepository {
-  +Admin findByEmail()
-}
 
 ' Need to check this
 class Customer Extends User{
@@ -59,26 +59,16 @@ class Customer Extends User{
 }
 
 ' This extends JPA repository
+interface AdminRepository {
+  +Admin findByEmail()
+}
+
+interface ManagerRepository{
+  +Manager findByEmail()
+}
+
 interface CustomerRepository{
 	+Customer findByEmail()
-}
-
-' This extends "UserDetails" from spring security
-' TODO:Login shite
-class UserDetails {
-  -User user
-	+String getPassword()
-	+String getEmail()
-	+Collection<? extends GrantedAuthority> getAuthorities()
-	+boolean isAccountNonExpired()
-	+boolean isAccountNonLocked()
-	+boolean isCredentialsNonExpired()
-	+boolean isEnabled()
-}
-
-class CustomerDetailsService{
-	-CustomerRepository customerRepository
-	+CustomerDetails loadUserByUsername()
 }
 
 class Product{
@@ -107,6 +97,13 @@ class Product{
   +void setImage()
   +void setCategoryId()
   +void setDeliveryTime()
+}
+
+class ProductController{
+  +List<Product> getAllProducts()
+  +Product getProduct()
+  +void updateProductDetails()
+  +void deleteProduct()
 }
 
 ' class Order{
@@ -140,21 +137,38 @@ class ShoppingCartService{
 class Category{
   -int categoryId
   -String name
+  +int getCategoryId()
+  +String getCategoryName()
+  +void setCategoryId()
+  +void setCategoryName()
 }
 
 interface CategoryRepository{
   +Category findByName()
 }
 
+class CategoryController{
+  +void addCategory()
+  +void deleteCategory()
+  +void editCategory()
+}
+
 ' TODO:Order class
 ' Order
 class Order{
   -int orderId
-  ' List of maps with product and quantity
-  -List
+  -ArrayList<HashMap<Product, int>> productsInOrder
   -int customerId
   -boolean deliveryStatus
   ' Make a method to calculate the max for delivery time
+  +int getOrderId()
+  +int getCustomerId()
+  +boolean getDeliveryStatus()
+  +ArrayList<HashMap<Product, int>> getProductsInOrder()
+  +void setOrderId()
+  +void setCustomerId()
+  +void setDeliveryStatus()
+  +void setProductsInOrder()
 }
 
 ' TODO:Auth class
@@ -162,4 +176,23 @@ class AuthorizationController{
   +String register()
   +String login()
 }
+
+' This extends "UserDetails" from spring security
+' TODO:Login shite
+class UserDetails {
+  -User user
+	+String getPassword()
+	+String getEmail()
+	+Collection<? extends GrantedAuthority> getAuthorities()
+	+boolean isAccountNonExpired()
+	+boolean isAccountNonLocked()
+	+boolean isCredentialsNonExpired()
+	+boolean isEnabled()
+}
+
+class CustomerDetailsService{
+	-CustomerRepository customerRepository
+	+CustomerDetails loadUserByUsername()
+}
+
 @enduml
