@@ -138,7 +138,7 @@ interface ManagerRepository{
 
 interface CustomerRepository{
   +ArrayList<Customer> findAll()
-	+Customer findByEmail()
+  +Customer findByEmail()
   +void save()
   +void deleteById()
   +void addItemToCart()
@@ -158,6 +158,23 @@ interface CartRepository {
   +void addItemToCart()
   +void removeItemFromCart()
   +void emptyCart()
+}
+
+
+' *Controllers
+class ManagerController{
+  -ManagerRepository managerRepository
+  +void addItem()
+  +void removeItem()
+  +void getReport()
+  ' how is the report being gotten?
+  ' what will the difference be between the Product methods to update product attributes?
+}
+
+class AdminController{
+  -AdminRepository adminRepository
+  +void addManager()
+  +void removeManager()
 }
 
 class CustomerController {
@@ -243,4 +260,9 @@ class CustomerDetailsService{
 ' Relations
 Customer *-- Cart
 
+' TODO:Auth class
+class AuthorizationController{
+  +String register()
+  +String login()
+}
 @enduml
