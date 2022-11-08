@@ -33,8 +33,13 @@ class Manager Extends User{
   ' +void generateReports()
 }
 
+' This extends JPA repository
 interface ManagerRepository{
+  +ArrayList<Manager> findAll()
   +Manager findByEmail()
+  +void save()
+  +void deleteById()
+
 }
 
 ' TODO:Same as manager what do?
@@ -43,24 +48,93 @@ class Admin Extends User{
   ' +void deleteManager()
 }
 
+' This extends JPA repository
 interface AdminRepository {
+  +ArrayList<Admin> findAll()
   +Admin findByEmail()
+  +void save()
+  +void deleteById()
 }
 
 ' Need to check this
 class Customer Extends User{
   -float moneyInWallet
-  -List<Product> productsInCart
+  -Cart cart
 
   +float getMoneyInWallet()
-  +List<Product> getProductsInCart()
+  +ArrayList<HashMap<Product, Integer>> getProductsInCart()
   +void setMoneyInWallet()
-  +void setProductsInCart()
+  +void setProductsInCart() 
 }
+
+class Cart {
+  -ArrayList<HashMap<Product, Integer>> productsWithQuantity
+  -int totalPrice
+  -int totalItems
+
+  +ArrayList<HashMap<Product, Integer>> getProductsInCartWithQuantity()
+  +int getTotalPrice()
+  +int getTotalItemCount()
+  +ArrayList<HashMap<Product, Integer>> addItemToCart()
+  +ArrayList<HashMap<Product, Integer>> removeItemFromCart()
+  +ArrayList<HashMap<Product, Integer>> emptyCart()
+}
+
+Customer *-- Cart
 
 ' This extends JPA repository
 interface CustomerRepository{
+  +ArrayList<Customer> findAll()
 	+Customer findByEmail()
+  +void save()
+  +void deleteById()
+  +void addItemToCart()
+  +void removeItemFromCart()
+  +int getTotalItemCount()
+  +int getTotalCartCost()
+  +boolean isMoneyInWalletEmpty()
+  +void updateMoneyInWallet()
+  +Order getOrder()
+  +ArrayList<Order> getAllOrders()
+}
+
+class CustomerController {
+  -CustomerRepository customerRepository
+  
+  +ArrayList<Customer> getAllCustomers()
+  +Customer getCustomer()
+  +void createCustomerAccount()
+  +void deleteCustomerAccount()
+  +void updateCustomerAccount()
+  +void addItemToCart()
+  +void removeItemFromCart()
+  +int getTotalItemCount()
+  +int getTotalCartCost()
+  +boolean isMoneyInWalletEmpty()
+  +void updateMoneyInWallet()
+  +Order getOrder()
+  +ArrayList<Order> getAllOrders()
+}
+
+' This extends JPA repository
+interface CartRepository {
+  +Cart getCart()
+  +int getTotalPrice()
+  +int getTotalItemCount()
+  +void addItemToCart()
+  +void removeItemFromCart()
+  +void emptyCart()
+}
+
+class CartController {
+  -CartRepository CartRepository
+
+  +Cart getCart()
+  +int getTotalPrice()
+  +int getTotalItemCount()
+  +void addItemToCart()
+  +void removeItemFromCart()
+  +void emptyCart()
 }
 
 ' This extends "UserDetails" from spring security
