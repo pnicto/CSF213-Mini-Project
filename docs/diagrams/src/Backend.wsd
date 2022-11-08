@@ -2,236 +2,244 @@
 
 ' !theme mars from https://raw.githubusercontent.com/plantuml/plantuml/master/themes
 
-' TODO:All the controllers
-
-enum Role{
- ADMIN
- MANAGER
- CUSTOMER
-}
-
 ' This is not gonna be a table
 ' Now probably it is a table
+' *Entity classes
+package models #DDDDDD {
+  enum Role{
+    ADMIN
+    MANAGER
+    CUSTOMER
+  }
 
-' Classes for Users
-class User {
-  -String username
-  -String emailAddress
-  -String userId
-  -String phoneNumber
-  -String password
-  -Role role
-  +String getUsername()
-  +String getPhoneNumber()
-  +String getUserId()
-  +String getEmailAddress()
-  +String getPassword()
-  +String getRole()
-  +String setUsername()
-  +String setPhoneNumber()
-  +String setUserId()
-  +String setEmailAddress()
-  +String setPassword()
+  class User {
+    -String username
+    -String emailAddress
+    -String userId
+    -String phoneNumber
+    -String password
+    -Role role
+    +String getUsername()
+    +String getPhoneNumber()
+    +String getUserId()
+    +String getEmailAddress()
+    +String getPassword()
+    +String getRole()
+    +String setUsername()
+    +String setPhoneNumber()
+    +String setUserId()
+    +String setEmailAddress()
+    +String setPassword()
+  }
+
+  class Admin Extends User{
+  }
+
+  class Manager Extends User{
+  }
+
+  class Customer Extends User{
+    -float moneyInWallet
+    -Cart cart
+
+    +float getMoneyInWallet()
+    +ArrayList<HashMap<Product, Integer>> getProductsInCart()
+    +void setMoneyInWallet()
+    +void setProductsInCart()
+  }
+
+  class Cart {
+    -ArrayList<HashMap<Product, Integer>> productsWithQuantity
+    -int totalPrice
+    -int totalItems
+    +ArrayList<HashMap<Product, Integer>> getProductsInCartWithQuantity()
+    +int getTotalPrice()
+    +int getTotalItemCount()
+    +ArrayList<HashMap<Product, Integer>> addItemToCart()
+    +ArrayList<HashMap<Product, Integer>> removeItemFromCart()
+    +ArrayList<HashMap<Product, Integer>> emptyCart()
+  }
+
+  class Product{
+    -float price
+    -int stock
+    -int serialNumber
+    -String description
+    -String name
+    -String image
+    -int categoryId
+    -int deiveryTime
+
+    +float getPrice()
+    +int getStock()
+    +int getSerialNumber()
+    +String getDescription()
+    +String getName()
+    +String getImage()
+    +int getCategoryId()
+    +int getDeliveryTime()
+    +void setPrice()
+    +void setStock()
+    +void setDescription()
+    +void setSerialNumber()
+    +void setName()
+    +void setImage()
+    +void setCategoryId()
+    +void setDeliveryTime()
+  }
+
+  ' This is is gonna be a table too
+  class Category{
+    -int categoryId
+    -String name
+    +int getCategoryId()
+    +String getCategoryName()
+    +void setCategoryId()
+    +void setCategoryName()
+  }
+
+  ' TODO:Order class
+  ' Order
+  class Order{
+    -int orderId
+    -ArrayList<HashMap<Product, int>> productsInOrder
+    -int customerId
+    -boolean deliveryStatus
+    ' Make a method to calculate the max for delivery time
+    +int getOrderId()
+    +int getCustomerId()
+    +boolean getDeliveryStatus()
+    +ArrayList<HashMap<Product, int>> getProductsInOrder()
+    +void setOrderId()
+    +void setCustomerId()
+    +void setDeliveryStatus()
+    +void setProductsInOrder()
+  }
 }
 
-class Admin Extends User{
-}
-
-class Manager Extends User{
-}
-
-class Customer Extends User{
-  -float moneyInWallet
-  -Cart cart
-
-  +float getMoneyInWallet()
-  +ArrayList<HashMap<Product, Integer>> getProductsInCart()
-  +void setMoneyInWallet()
-  +void setProductsInCart()
-}
-
-class Cart {
-  -ArrayList<HashMap<Product, Integer>> productsWithQuantity
-  -int totalPrice
-  -int totalItems
-  +ArrayList<HashMap<Product, Integer>> getProductsInCartWithQuantity()
-  +int getTotalPrice()
-  +int getTotalItemCount()
-  +ArrayList<HashMap<Product, Integer>> addItemToCart()
-  +ArrayList<HashMap<Product, Integer>> removeItemFromCart()
-  +ArrayList<HashMap<Product, Integer>> emptyCart()
-}
-
-class Product{
-  -float price
-  -int stock
-  -int serialNumber
-  -String description
-  -String name
-  -String image
-  -int categoryId
-  -int deiveryTime
-
-  +float getPrice()
-  +int getStock()
-  +int getSerialNumber()
-  +String getDescription()
-  +String getName()
-  +String getImage()
-  +int getCategoryId()
-  +int getDeliveryTime()
-  +void setPrice()
-  +void setStock()
-  +void setDescription()
-  +void setSerialNumber()
-  +void setName()
-  +void setImage()
-  +void setCategoryId()
-  +void setDeliveryTime()
-}
-
-' Category
-' This is is gonna be a table too
-class Category{
-  -int categoryId
-  -String name
-  +int getCategoryId()
-  +String getCategoryName()
-  +void setCategoryId()
-  +void setCategoryName()
-}
-
-' TODO:Order class
-' Order
-class Order{
-  -int orderId
-  -ArrayList<HashMap<Product, int>> productsInOrder
-  -int customerId
-  -boolean deliveryStatus
-  ' Make a method to calculate the max for delivery time
-  +int getOrderId()
-  +int getCustomerId()
-  +boolean getDeliveryStatus()
-  +ArrayList<HashMap<Product, int>> getProductsInOrder()
-  +void setOrderId()
-  +void setCustomerId()
-  +void setDeliveryStatus()
-  +void setProductsInOrder()
-}
-
-' Repositories
+' *Repositories
 ' This extends JPA repository
-interface AdminRepository {
-  +ArrayList<Admin> findAll()
-  +Admin findByEmail()
-  +void save()
-  +void deleteById()
+package repositories #DDDDDD{
+  interface AdminRepository {
+    +ArrayList<Admin> findAll()
+    +Admin findByEmail()
+    +void save()
+    +void deleteById()
+  }
+
+  interface ManagerRepository{
+    +ArrayList<Manager> findAll()
+    +Manager findByEmail()
+    +void save()
+    +void deleteById()
+
+  }
+
+  interface CustomerRepository{
+    +ArrayList<Customer> findAll()
+    +Customer findByEmail()
+    +void save()
+    +void deleteById()
+    +void addItemToCart()
+    +void removeItemFromCart()
+    +int getTotalItemCount()
+    +int getTotalCartCost()
+    +boolean isMoneyInWalletEmpty()
+    +void updateMoneyInWallet()
+    +Order getOrder()
+    +ArrayList<Order> getAllOrders()
+  }
+
+  interface CartRepository {
+    +Cart getCart()
+    +int getTotalPrice()
+    +int getTotalItemCount()
+    +void addItemToCart()
+    +void removeItemFromCart()
+    +void emptyCart()
+  }
+
+  interface CategoryRepository{
+  +Category findByName()
+  }
+
 }
-
-interface ManagerRepository{
-  +ArrayList<Manager> findAll()
-  +Manager findByEmail()
-  +void save()
-  +void deleteById()
-
-}
-
-interface CustomerRepository{
-  +ArrayList<Customer> findAll()
-  +Customer findByEmail()
-  +void save()
-  +void deleteById()
-  +void addItemToCart()
-  +void removeItemFromCart()
-  +int getTotalItemCount()
-  +int getTotalCartCost()
-  +boolean isMoneyInWalletEmpty()
-  +void updateMoneyInWallet()
-  +Order getOrder()
-  +ArrayList<Order> getAllOrders()
-}
-
-interface CartRepository {
-  +Cart getCart()
-  +int getTotalPrice()
-  +int getTotalItemCount()
-  +void addItemToCart()
-  +void removeItemFromCart()
-  +void emptyCart()
-}
-
 
 ' *Controllers
-class ManagerController{
-  -ManagerRepository managerRepository
-  +void addItem()
-  +void removeItem()
-  +void getReport()
-  ' how is the report being gotten?
+package controllers #DDDDDD {
+  class ManagerController{
+    -ManagerRepository managerRepository
+    +void addItem()
+    +void removeItem()
+    +void getReport()
+    ' how is the report being gotten?
   ' what will the difference be between the Product methods to update product attributes?
-}
+  }
 
-class AdminController{
-  -AdminRepository adminRepository
-  +void addManager()
-  +void removeManager()
-}
+  class AdminController{
+    -AdminRepository adminRepository
+    +void addManager()
+    +void removeManager()
+  }
 
-class CustomerController {
-  -CustomerRepository customerRepository
+  class CustomerController {
+    -CustomerRepository customerRepository
 
-  +ArrayList<Customer> getAllCustomers()
-  +Customer getCustomer()
-  +void createCustomerAccount()
-  +void deleteCustomerAccount()
-  +void updateCustomerAccount()
-  +void addItemToCart()
-  +void removeItemFromCart()
-  +int getTotalItemCount()
-  +int getTotalCartCost()
-  +boolean isMoneyInWalletEmpty()
-  +void updateMoneyInWallet()
-  +Order getOrder()
-  +ArrayList<Order> getAllOrders()
-}
+    +ArrayList<Customer> getAllCustomers()
+    +Customer getCustomer()
+    +void createCustomerAccount()
+    +void deleteCustomerAccount()
+    +void updateCustomerAccount()
+    +void addItemToCart()
+    +void removeItemFromCart()
+    +int getTotalItemCount()
+    +int getTotalCartCost()
+    +boolean isMoneyInWalletEmpty()
+    +void updateMoneyInWallet()
+    +Order getOrder()
+    +ArrayList<Order> getAllOrders()
+  }
 
-class CartController {
-  -CartRepository CartRepository
+  class CartController {
+    -CartRepository CartRepository
 
-  +Cart getCart()
-  +int getTotalPrice()
-  +int getTotalItemCount()
-  +void addItemToCart()
-  +void removeItemFromCart()
-  +void emptyCart()
-}
+    +Cart getCart()
+    +int getTotalPrice()
+    +int getTotalItemCount()
+    +void addItemToCart()
+    +void removeItemFromCart()
+    +void emptyCart()
+  }
 
-class ProductController{
-  +List<Product> getAllProducts()
-  +Product getProduct()
-  +void updateProductDetails()
-  +void deleteProduct()
+  class ProductController{
+    -ProductRepository productRepository
+
+    +List<Product> getAllProducts()
+    +Product getProduct()
+    +void updateProductDetails()
+    +void deleteProduct()
+  }
+
+  class CategoryController{
+    -CategoryRepository categoryRepository
+    +void addCategory()
+    +void deleteCategory()
+    +void editCategory()
+  }
 }
 
 ' Shopping cart
 ' TODO:Make a cart class and add products here
-class ShoppingCartService{
-  +void addProduct()
-  +void getProductsInCart()
-  +void removeProduct()
-  +void checkoutCart()
-  +void getTotal()
+package services #DDDDDD {
+  class ShoppingCartService{
+    +Product addProduct()
+    +ArrayList<HashMap<Product, int>> getProductsInCart()
+    +void removeProduct()
+    +void checkoutCart()
+    +int getTotal()
+  }
 }
 
-interface CategoryRepository{
-  +Category findByName()
-}
-
-class CategoryController{
-  +void addCategory()
-  +void deleteCategory()
-  +void editCategory()
-}
 
 ' TODO:Auth class
 class AuthorizationController{
@@ -260,9 +268,4 @@ class CustomerDetailsService{
 ' Relations
 Customer *-- Cart
 
-' TODO:Auth class
-class AuthorizationController{
-  +String register()
-  +String login()
-}
 @enduml
