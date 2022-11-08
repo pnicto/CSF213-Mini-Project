@@ -85,7 +85,7 @@ Customer *-- Cart
 ' This extends JPA repository
 interface CustomerRepository{
   +ArrayList<Customer> findAll()
-	+Customer findByEmail()
+  +Customer findByEmail()
   +void save()
   +void deleteById()
   +void addItemToCart()
@@ -235,5 +235,20 @@ class Order{
 class AuthorizationController{
   +String register()
   +String login()
+}
+
+class ManagerController{
+  -ManagerRepository managerRepository
+  +void addItem()
+  +void removeItem()
+  +void getReport()
+  ' how is the report being gotten?
+  ' what will the difference be between the Product methods to update product attributes?
+}
+
+class AdminController{
+    -AdminRepository adminRepository
+    +void addManager()
+    +void removeManager()
 }
 @enduml
