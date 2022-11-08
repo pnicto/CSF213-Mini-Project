@@ -1,76 +1,165 @@
 @startuml Backend
 
-!theme mars from https://raw.githubusercontent.com/plantuml/plantuml/master/themes
+' !theme mars from https://raw.githubusercontent.com/plantuml/plantuml/master/themes
 
-class User {
-  -string username
-  -string emailAddress
-  -string userId
-  -string phoneNumber
+' TODO:All the controllers
 
-  +string getUsername()
-  +string getPhoneNumber()
-  +string getUserId()
-  +string getEmailAddress()
+' This is not gonna be a table
+abstract class User {
+  -String username
+  -String emailAddress
+  -String userId
+  -String phoneNumber
+  -String password
+
+  +String getUsername()
+  +String getPhoneNumber()
+  +String getUserId()
+  +String getEmailAddress()
+  +String getPassword()
+  +String setUsername()
+  +String setPhoneNumber()
+  +String setUserId()
+  +String setEmailAddress()
+  +String setPassword()
 }
 
+' Need to check this
+' For now this is a table too
+' TODO:What do with the methods?
 class Manager Extends User{
-  +void addItems()
-  +void removeItems()
-  +void generateReports()
+  ' +void addItems()
+  ' +void removeItems()
+  ' +void generateReports()
 }
 
+interface ManagerRepository{
+  +Manager findByEmail()
+}
+
+' TODO:Same as manager what do?
 class Admin Extends User{
-  +void addManager()
-  +void deleteManager()
+  ' +void addManager()
+  ' +void deleteManager()
 }
 
+interface AdminRepository {
+  +Admin findByEmail()
+}
+
+' Need to check this
 class Customer Extends User{
-  -int wallet
-  -string address
-  -Cart
-  -wishlist
-  +void makePayment()
-  +void placeOrder()
-  +void removeItemFromCart()
-  +void topUpWallet()
+  -float moneyInWallet
+  -List<Product> productsInCart
+
+  +float getMoneyInWallet()
+  +List<Product> getProductsInCart()
+  +void setMoneyInWallet()
+  +void setProductsInCart()
+}
+
+' This extends JPA repository
+interface CustomerRepository{
+	+Customer findByEmail()
+}
+
+' This extends "UserDetails" from spring security
+' TODO:Login shite
+class UserDetails {
+  -User user
+	+String getPassword()
+	+String getEmail()
+	+Collection<? extends GrantedAuthority> getAuthorities()
+	+boolean isAccountNonExpired()
+	+boolean isAccountNonLocked()
+	+boolean isCredentialsNonExpired()
+	+boolean isEnabled()
+}
+
+class CustomerDetailsService{
+	-CustomerRepository customerRepository
+	+CustomerDetails loadUserByUsername()
 }
 
 class Product{
-  -int price
+  -float price
   -int stock
-  -string description
-  -string serialNumber
-  -string name
-  -string image
-  -string category
-  -int discount
+  -int serialNumber
+  -String description
+  -String name
+  -String image
+  -int categoryId
   -int deiveryTime
 
-  +int getPrice()
+  +float getPrice()
   +int getStock()
-  +string getDescription()
-  +string getSerialNumber()
-  +string getName()
-  +string getImage()
-  +string getCategory()
-  +int getDiscount()
+  +int getSerialNumber()
+  +String getDescription()
+  +String getName()
+  +String getImage()
+  +int getCategoryId()
   +int getDeliveryTime()
+  +void setPrice()
+  +void setStock()
+  +void setDescription()
+  +void setSerialNumber()
+  +void setName()
+  +void setImage()
+  +void setCategoryId()
+  +void setDeliveryTime()
 }
 
+' class Order{
+'   -Product[] products
+'   -String dateOfPlaced
+'   -String dateOfArrival
+'   +String getDateOfPlaced()
+'   +String getDateOfArrival()
+'   +void getProducts()
+'   +void setProducts()
+'   +void setDateOfPlaced()
+'   +void setDateOfArrival()
+' }
+
+' Customer o-- Product
+' Product o-- Order
+
+' Shopping cart
+' TODO:Make a cart class and add products here
+class ShoppingCartService{
+
+  ' +void addProduct()
+  +void getProductsInCart()
+  +void removeProduct()
+  +void checkoutCart()
+  +void getTotal()
+}
+
+' Category
+' This is is gonna be a table too
+class Category{
+  -int categoryId
+  -String name
+}
+
+interface CategoryRepository{
+  +Category findByName()
+}
+
+' TODO:Order class
+' Order
 class Order{
-  -Product[] products
-  -string dateOfPlaced
-  -string dateOfArrival
-  +string getDateOfPlaced()
-  +string getDateOfArrival()
-  +void getProducts()
-  +void setProducts()
-  +void setDateOfPlaced()
-  +void setDateOfArrival()
+  -int orderId
+  ' List of maps with product and quantity
+  -List
+  -int customerId
+  -boolean deliveryStatus
+  ' Make a method to calculate the max for delivery time
 }
 
-Customer o-- Product
-Product o-- Order
-
+' TODO:Auth class
+class AuthorizationController{
+  +String register()
+  +String login()
+}
 @enduml
