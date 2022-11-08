@@ -4,6 +4,9 @@
 
 ' This is not gonna be a table
 ' Now probably it is a table
+
+' TODO:Category and product association, Remove cart controller, Reports, Extend JPA Repository, Timestamps for user and orders and a reports contrloler with order repo
+
 ' *Entity classes
 package models #DDDDDD {
   enum Role{
@@ -12,18 +15,21 @@ package models #DDDDDD {
     CUSTOMER
   }
 
-  class User {
+  abstract class User {
     -String username
     -String emailAddress
     -String userId
     -String phoneNumber
     -String password
     -Role role
+    -LocalDate createdAt
+
     +String getUsername()
     +String getPhoneNumber()
     +String getUserId()
     +String getEmailAddress()
     +String getPassword()
+    +LocalDate getCreatedAtTime()
     +String getRole()
     +String setUsername()
     +String setPhoneNumber()
@@ -43,21 +49,7 @@ package models #DDDDDD {
     -Cart cart
 
     +float getMoneyInWallet()
-    +ArrayList<HashMap<Product, Integer>> getProductsInCart()
     +void setMoneyInWallet()
-    +void setProductsInCart()
-  }
-
-  class Cart {
-    -ArrayList<HashMap<Product, Integer>> productsWithQuantity
-    -int totalPrice
-    -int totalItems
-    +ArrayList<HashMap<Product, Integer>> getProductsInCartWithQuantity()
-    +int getTotalPrice()
-    +int getTotalItemCount()
-    +ArrayList<HashMap<Product, Integer>> addItemToCart()
-    +ArrayList<HashMap<Product, Integer>> removeItemFromCart()
-    +ArrayList<HashMap<Product, Integer>> emptyCart()
   }
 
   class Product{
@@ -68,7 +60,7 @@ package models #DDDDDD {
     -String name
     -String image
     -int categoryId
-    -int deiveryTime
+    -int deliveryTime
 
     +float getPrice()
     +int getStock()
@@ -98,6 +90,19 @@ package models #DDDDDD {
     +void setCategoryName()
   }
 
+  class Cart {
+    -ArrayList<HashMap<Product, Integer>> productsWithQuantity
+    -int totalPrice
+    -int totalItems
+    +int getTotalPrice()
+    +int getTotalItemCount()
+    +ArrayList<HashMap<Product, Integer>> getProductsInCartWithQuantity()
+    +void setProductsInCartWithQuantity()
+    +ArrayList<HashMap<Product, Integer>> addItemToCart()
+    +void emptyCart()
+    +void removeItemFromCart()
+  }
+
   ' TODO:Order class
   ' Order
   class Order{
@@ -105,12 +110,13 @@ package models #DDDDDD {
     -ArrayList<HashMap<Product, int>> productsInOrder
     -int customerId
     -boolean deliveryStatus
-    ' Make a method to calculate the max for delivery time
+    -LocalDate orderedAt
+
     +int getOrderId()
     +int getCustomerId()
     +boolean getDeliveryStatus()
+    +LocalDate getOrderAt()
     +ArrayList<HashMap<Product, int>> getProductsInOrder()
-    +void setOrderId()
     +void setCustomerId()
     +void setDeliveryStatus()
     +void setProductsInOrder()
@@ -120,20 +126,8 @@ package models #DDDDDD {
 ' *Repositories
 ' This extends JPA repository
 package repositories #DDDDDD{
-  interface AdminRepository {
-    +ArrayList<Admin> findAll()
-    +Admin findByEmail()
-    +void save()
-    +void deleteById()
-  }
 
-  interface ManagerRepository{
-    +ArrayList<Manager> findAll()
-    +Manager findByEmail()
-    +void save()
-    +void deleteById()
-
-  }
+  note  "All repositories extend the JpaRepository interface provided by Hibernate" as n1
 
   interface CustomerRepository{
     +ArrayList<Customer> findAll()
@@ -150,36 +144,54 @@ package repositories #DDDDDD{
     +ArrayList<Order> getAllOrders()
   }
 
-  interface CartRepository {
-    +Cart getCart()
-    +int getTotalPrice()
-    +int getTotalItemCount()
-    +void addItemToCart()
-    +void removeItemFromCart()
-    +void emptyCart()
+  interface AdminRepository {
+    +ArrayList<Admin> findAll()
+    +Admin findByEmail()
+    +void save()
+    +void deleteById()
   }
+
+  interface ManagerRepository{
+    +ArrayList<Manager> findAll()
+    +Manager findByEmail()
+    +void save()
+    +void deleteById()
+
+  }
+
+  ' interface CartRepository {
+  '   +Cart getCart()
+  '   +int getTotalPrice()
+  '   +int getTotalItemCount()
+  '   +void addItemToCart()
+  '   +void removeItemFromCart()
+  '   +void emptyCart()
+  ' }
 
   interface CategoryRepository{
   +Category findByName()
   }
 
+  interface OrderRepository{
+
+  }
+  n1 .. OrderRepository
+  n1 .. CategoryRepository
+  n1 .. ManagerRepository
+  n1 .. AdminRepository
+  n1 .. CustomerRepository
 }
 
 ' *Controllers
 package controllers #DDDDDD {
   class ManagerController{
     -ManagerRepository managerRepository
-    +void addItem()
-    +void removeItem()
-    +void getReport()
+
+    +Manager addManager()
+    +void removeManager()
+    +void updateManager()
     ' how is the report being gotten?
   ' what will the difference be between the Product methods to update product attributes?
-  }
-
-  class AdminController{
-    -AdminRepository adminRepository
-    +void addManager()
-    +void removeManager()
   }
 
   class CustomerController {
@@ -190,25 +202,26 @@ package controllers #DDDDDD {
     +void createCustomerAccount()
     +void deleteCustomerAccount()
     +void updateCustomerAccount()
+    +boolean isMoneyInWalletEmpty()
+    +void updateMoneyInWallet()
+
     +void addItemToCart()
     +void removeItemFromCart()
     +int getTotalItemCount()
     +int getTotalCartCost()
-    +boolean isMoneyInWalletEmpty()
-    +void updateMoneyInWallet()
+    +void checkoutCart()
+
+
     +Order getOrder()
     +ArrayList<Order> getAllOrders()
   }
 
-  class CartController {
-    -CartRepository CartRepository
+  ' TODO:Auth class
+  class AuthorizationController{
+    -UserRepository userRepository
 
-    +Cart getCart()
-    +int getTotalPrice()
-    +int getTotalItemCount()
-    +void addItemToCart()
-    +void removeItemFromCart()
-    +void emptyCart()
+    +String register()
+    +String login()
   }
 
   class ProductController{
@@ -216,56 +229,46 @@ package controllers #DDDDDD {
 
     +List<Product> getAllProducts()
     +Product getProduct()
+    +Product createNewProduct()
     +void updateProductDetails()
     +void deleteProduct()
   }
 
   class CategoryController{
     -CategoryRepository categoryRepository
+
     +void addCategory()
     +void deleteCategory()
     +void editCategory()
   }
-}
 
-' Shopping cart
-' TODO:Make a cart class and add products here
-package services #DDDDDD {
-  class ShoppingCartService{
-    +Product addProduct()
-    +ArrayList<HashMap<Product, int>> getProductsInCart()
-    +void removeProduct()
-    +void checkoutCart()
-    +int getTotal()
+  class ReportsController{
+    -OrderRepository orderRepository
+    -CustomerRepository customerRepository
+
+    +int totalCustomersRegistered()
+    +int totalNewRegistrationsInThirtyDays()
+    +ArrayList<Order> getSalesInThirtyDays()
+    +ArrayList<Product> getProductsNotInStock()
   }
-}
 
+  ' class CartController {
+  '   -CartRepository CartRepository
 
-' TODO:Auth class
-class AuthorizationController{
-  +String register()
-  +String login()
-}
+  '   +Cart getCart()
+  '   +int getTotalPrice()
+  '   +int getTotalItemCount()
+  '   +void addItemToCart()
+  '   +void removeItemFromCart()
+  '   +void emptyCart()
+  ' }
 
-' This extends "UserDetails" from spring security
-' TODO:Login shite
-class UserDetails {
-  -User user
-	+String getPassword()
-	+String getEmail()
-	+Collection<? extends GrantedAuthority> getAuthorities()
-	+boolean isAccountNonExpired()
-	+boolean isAccountNonLocked()
-	+boolean isCredentialsNonExpired()
-	+boolean isEnabled()
-}
-
-class CustomerDetailsService{
-	-CustomerRepository customerRepository
-	+CustomerDetails loadUserByUsername()
 }
 
 ' Relations
-Customer *-- Cart
-
+Customer *-- Cart : composition
+Product "many" - "1" Category
+Customer "1" -- "many" Order
+Cart o-- Product : aggregation
+Order o-- Product : aggregation
 @enduml
