@@ -17,7 +17,7 @@ package models #DDDDDD {
     CUSTOMER
   }
 
-  abstract class User {
+  class User {
     -String username
     -String emailAddress
     -String userId
@@ -179,12 +179,13 @@ package repositories #DDDDDD{
   }
 
   interface ProductRepository{
+    +ArrayList<Product> findall()
     +Product findById()
     +void deleteById()
   }
 
   interface UserRepository{
-
+    +User findByEmail()
   }
 
   n1 .. OrderRepository
