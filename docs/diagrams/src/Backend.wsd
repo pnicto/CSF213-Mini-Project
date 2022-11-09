@@ -178,11 +178,22 @@ package repositories #DDDDDD{
 
   }
 
+  interface ProductRepository{
+    +Product findById()
+    +void deleteById()
+  }
+
+  interface UserRepository{
+
+  }
+
   n1 .. OrderRepository
   n1 .. CategoryRepository
   n1 .. ManagerRepository
   n1 .. AdminRepository
   n1 .. CustomerRepository
+  n1 .. ProductRepository
+  n1 .. UserRepository
 }
 
 ' *Controllers
@@ -218,6 +229,7 @@ package controllers #DDDDDD {
   }
 
   class AdminController {
+    -AdminRepository adminRepository
     +Admin getDetails()
     +void updateDetails()
   }
