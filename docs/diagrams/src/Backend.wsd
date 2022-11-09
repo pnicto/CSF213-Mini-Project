@@ -7,6 +7,8 @@
 
 ' TODO:Category and product association, Remove cart controller, Reports, Extend JPA Repository, Timestamps for user and orders and a reports contrloler with order repo
 
+' TODO:Take a look at manager controller for getAll()
+
 ' *Entity classes
 package models #DDDDDD {
   enum Role{
@@ -131,21 +133,21 @@ package repositories #DDDDDD{
 
   interface CustomerRepository{
     +ArrayList<Customer> findAll()
+    +Customer findById()
     +Customer findByEmail()
     +void save()
     +void deleteById()
-    +void addItemToCart()
-    +void removeItemFromCart()
-    +int getTotalItemCount()
-    +int getTotalCartCost()
-    +boolean isMoneyInWalletEmpty()
-    +void updateMoneyInWallet()
-    +Order getOrder()
-    +ArrayList<Order> getAllOrders()
+    ' +void addItemToCart()
+    ' +void removeItemFromCart()
+    ' +int getTotalItemCount()
+    ' +int getTotalCartCost()
+    ' +boolean isMoneyInWalletEmpty()
+    ' +void updateMoneyInWallet()
+    ' +Order getOrder()
+    ' +ArrayList<Order> getAllOrders()
   }
 
   interface AdminRepository {
-    +ArrayList<Admin> findAll()
     +Admin findByEmail()
     +void save()
     +void deleteById()
@@ -169,12 +171,13 @@ package repositories #DDDDDD{
   ' }
 
   interface CategoryRepository{
-  +Category findByName()
+    +Category findByName()
   }
 
   interface OrderRepository{
 
   }
+
   n1 .. OrderRepository
   n1 .. CategoryRepository
   n1 .. ManagerRepository
@@ -184,14 +187,12 @@ package repositories #DDDDDD{
 
 ' *Controllers
 package controllers #DDDDDD {
-  class ManagerController{
+  class ManagerController {
     -ManagerRepository managerRepository
 
     +Manager addManager()
     +void removeManager()
     +void updateManager()
-    ' how is the report being gotten?
-  ' what will the difference be between the Product methods to update product attributes?
   }
 
   class CustomerController {
@@ -216,6 +217,11 @@ package controllers #DDDDDD {
     +ArrayList<Order> getAllOrders()
   }
 
+  class AdminController {
+    +Admin getDetails()
+    +void updateDetails()
+  }
+
   ' TODO:Auth class
   class AuthorizationController{
     -UserRepository userRepository
@@ -227,7 +233,7 @@ package controllers #DDDDDD {
   class ProductController{
     -ProductRepository productRepository
 
-    +List<Product> getAllProducts()
+    +ArrayList<Product> getAllProducts()
     +Product getProduct()
     +Product createNewProduct()
     +void updateProductDetails()
