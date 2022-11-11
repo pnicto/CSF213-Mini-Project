@@ -1,0 +1,13 @@
+package g9.springframework.silkroad;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class SilkroadApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(SilkroadApplication.class, args);
+	}
+
+}
