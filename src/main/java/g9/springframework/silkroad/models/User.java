@@ -3,7 +3,6 @@ package g9.springframework.silkroad.models;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -11,10 +10,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,6 +25,8 @@ import lombok.Setter;
 @Entity
 @Table(name = "users")
 @NoArgsConstructor
+@JsonIgnoreProperties({ "enabled", "authorities", "username", "credentialsNonExpired", "accountNonExpired",
+    "accountNonLocked" })
 public class User implements UserDetails {
 
   @Id
@@ -33,6 +35,8 @@ public class User implements UserDetails {
 
   private String name;
   private String email;
+
+  @JsonIgnore
   private String password;
 
   @Enumerated(value = EnumType.STRING)
