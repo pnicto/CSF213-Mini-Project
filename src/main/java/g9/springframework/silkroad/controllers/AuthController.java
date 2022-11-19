@@ -35,7 +35,6 @@ public class AuthController {
   public ResponseEntity<?> token(@RequestBody LoginRequest request) {
     var authentication = authenticationManager
         .authenticate(new UsernamePasswordAuthenticationToken(request.email(), request.password()));
-    System.out.println(authentication.getAuthorities());
     String token = tokenService.generateToken(authentication);
     return ResponseEntity.ok().body(Collections.singletonMap("accessToken", token));
   }
