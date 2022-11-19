@@ -1,8 +1,11 @@
 import { MantineProvider } from "@mantine/core";
 import { Route, Routes } from "react-router-dom";
-import { Home } from "./pages/Home";
 import { BrowserRouter } from "react-router-dom";
 import Login from "./pages/Login";
+import { QueryClient, QueryClientProvider } from "react-query";
+import Home from "./pages/Home";
+
+const queryClient = new QueryClient();
 
 export default function App() {
   return (
@@ -56,10 +59,12 @@ export default function App() {
           primaryColor: "deepBlue",
         }}
       >
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/" element={<Home />} />
-        </Routes>
+        <QueryClientProvider client={queryClient}>
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/" element={<Home />} />
+          </Routes>
+        </QueryClientProvider>
       </MantineProvider>
     </BrowserRouter>
   );
