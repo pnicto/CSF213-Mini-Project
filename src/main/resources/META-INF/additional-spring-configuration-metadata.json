@@ -1,0 +1,14 @@
+{
+  "properties": [
+    {
+      "name": "rsa.public-key",
+      "type": "java.lang.String",
+      "description": "Your RSA public key file location"
+    },
+    {
+      "name": "rsa.private-key",
+      "type": "java.lang.String",
+      "description": "Your RSA private key file location"
+    }
+  ]
+}
