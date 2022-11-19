@@ -1,5 +1,6 @@
 package g9.springframework.silkroad.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -8,10 +9,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @Entity
+@Getter
+@Setter
 public class Cart {
   @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE)
+  @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
 
   @ManyToMany
@@ -19,20 +25,15 @@ public class Cart {
   private int totalPrice;
   private int totalQuantity;
 
-  public int getTotalPrice() {
-    return totalPrice;
+  public Cart(List<Product> products) {
+    this.products = products;
+    this.totalPrice = 0;
+    this.totalQuantity = 0;
   }
 
-  public void setTotalPrice(int totalPrice) {
-    this.totalPrice = totalPrice;
+  public Cart() {
+    this.products = new ArrayList<>();
+    this.totalPrice = 0;
+    this.totalQuantity = 0;
   }
-
-  public int getTotalQuantity() {
-    return totalQuantity;
-  }
-
-  public void setTotalQuantity(int totalQuantity) {
-    this.totalQuantity = totalQuantity;
-  }
-
 }
