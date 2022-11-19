@@ -13,7 +13,7 @@ public class AuthServiceImpl implements AuthService {
   private final CustomerRepository customerRepository;
 
   public Customer register(String name, String email, String password, String phoneNumber) {
-    boolean isCustomerExists = customerRepository.findUserByEmail(email).isPresent();
+    boolean isCustomerExists = customerRepository.findByEmail(email).isPresent();
 
     if (isCustomerExists) {
       throw new IllegalStateException("Customer already exists");

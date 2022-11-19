@@ -9,6 +9,6 @@ import g9.springframework.silkroad.models.Customer;
 
 @Repository
 public interface CustomerRepository extends CrudRepository<Customer, Long> {
-  Optional<Customer> findUserByEmail(String email);
+  Optional<Customer> findByEmail(String email);
 
 }
