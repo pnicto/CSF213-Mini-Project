@@ -1,5 +1,6 @@
 package g9.springframework.silkroad.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -21,12 +22,14 @@ public class Customer extends User {
   @OneToOne(cascade = CascadeType.ALL)
   private Cart cart;
 
-  @OneToMany
+  @OneToMany(cascade = CascadeType.ALL)
   private List<Order> orders;
 
   public Customer(String name, String email, String password, String phoneNumber) {
     super(name, email, password, Role.CUSTOMER, phoneNumber);
     this.moneyInWallet = 1000;
+    this.cart = new Cart();
+    this.orders = new ArrayList<>();
   }
 
 }
