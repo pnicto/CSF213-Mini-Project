@@ -43,9 +43,9 @@ public class SecurityConfig {
         .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .csrf(csrf -> csrf.disable())
         .authorizeRequests(auth -> {
-          auth.mvcMatchers("/api/v1/auth/*").permitAll()
-              .mvcMatchers("/api/v1/customers/*").hasAuthority("SCOPE_CUSTOMER")
-              .mvcMatchers("/api/v1/managers/*").hasAuthority("SCOPE_ADMIN");
+          auth.mvcMatchers("/api/v1/auth/**").permitAll();
+          auth.mvcMatchers("/api/v1/customers/**").hasAuthority("SCOPE_CUSTOMER");
+          auth.mvcMatchers("/api/v1/managers/**").hasAuthority("SCOPE_ADMIN");
           auth.anyRequest().authenticated();
         })
         .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
