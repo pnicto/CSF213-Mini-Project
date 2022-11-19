@@ -2,9 +2,7 @@ import { Title, TextInput, Group, Anchor, Button, Text } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useState } from "react";
 
-type Props = {};
-
-const LoginForm = ({}: Props) => {
+const LoginForm = () => {
   const [pageMode, setPageMode] = useState<"Login" | "Register">("Login");
 
   const form = useForm({
