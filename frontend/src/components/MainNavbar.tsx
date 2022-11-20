@@ -1,16 +1,25 @@
-import { ActionIcon, Container, Flex, Menu, Title } from "@mantine/core";
-import { Outlet } from "react-router-dom";
+import {
+  ActionIcon,
+  Anchor,
+  Container,
+  Flex,
+  Menu,
+  Title,
+} from "@mantine/core";
 import { IconDots, IconLogout } from "@tabler/icons";
+import { Link, Outlet } from "react-router-dom";
 import { useLoginStore } from "../store/loginStore";
 
-type Props = {};
+type Props = {
+  navbarElements: string[];
+};
 
-const MainNavbar = ({}: Props) => {
+const MainNavbar = ({ navbarElements = ["cart", "my profile"] }: Props) => {
   const loginStore = useLoginStore();
 
   return (
     <>
-      <Container fluid mb={"xs"}>
+      <Container fluid mb={"sm"} bg="blue.1">
         <nav>
           <Flex justify={"space-between"} p={"xs"}>
             <div>
@@ -19,10 +28,28 @@ const MainNavbar = ({}: Props) => {
               </Title>
             </div>
 
-            <div>
-              <Menu position="bottom-start">
+            <Flex dir="row" justify={"space-around"} align="center" miw={"20%"}>
+              {navbarElements.map((ele, idx) => {
+                return (
+                  <Anchor
+                    fw="bold"
+                    key={idx}
+                    component={Link}
+                    to={`/${ele}`}
+                    tt="capitalize"
+                    size="lg"
+                  >
+                    {ele}
+                  </Anchor>
+                );
+              })}
+              <Menu position="bottom" trigger="hover" shadow={"lg"}>
                 <Menu.Target>
-                  <ActionIcon variant="filled" color={"deepBlue"}>
+                  <ActionIcon
+                    color={"deepBlue"}
+                    variant="transparent"
+                    size={"lg"}
+                  >
                     <IconDots />
                   </ActionIcon>
                 </Menu.Target>
@@ -32,6 +59,7 @@ const MainNavbar = ({}: Props) => {
                     icon={<IconLogout />}
                     fw="bold"
                     color="red"
+                    title="more options menu"
                     onClick={() => {
                       loginStore.logoutUser();
                     }}
@@ -40,7 +68,7 @@ const MainNavbar = ({}: Props) => {
                   </Menu.Item>
                 </Menu.Dropdown>
               </Menu>
-            </div>
+            </Flex>
           </Flex>
         </nav>
       </Container>
