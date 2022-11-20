@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -20,6 +21,7 @@ public class Customer extends User {
   private int moneyInWallet;
 
   @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "cart_id")
   private Cart cart;
 
   @OneToMany(cascade = CascadeType.ALL)
