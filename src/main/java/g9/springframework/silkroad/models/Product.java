@@ -6,7 +6,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
 public class Product {
 
   @Id
@@ -14,7 +21,7 @@ public class Product {
   private Long id;
   private String name;
   private String description;
-  private float price;
+  private double price;
   private String imageUrl;
   private int stock;
   private int deliveryTime;
@@ -22,76 +29,22 @@ public class Product {
   @ManyToOne
   private Category category;
 
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
+  public Product(String name, String description, double price, String imageUrl, int stock, int deliveryTime) {
     this.name = name;
-  }
-
-  public String getDescription() {
-    return description;
-  }
-
-  public void setDescription(String description) {
     this.description = description;
-  }
-
-  public float getPrice() {
-    return price;
-  }
-
-  public void setPrice(float price) {
     this.price = price;
-  }
-
-  public String getImage() {
-    return imageUrl;
-  }
-
-  public void setImage(String imageUrl) {
     this.imageUrl = imageUrl;
-  }
-
-  public int getStock() {
-    return stock;
-  }
-
-  public void setStock(int stock) {
     this.stock = stock;
-  }
-
-  public int getDeliveryTime() {
-    return deliveryTime;
-  }
-
-  public void setDeliveryTime(int deliveryTime) {
     this.deliveryTime = deliveryTime;
   }
 
-  public String getImageUrl() {
-    return imageUrl;
-  }
-
-  public void setImageUrl(String imageUrl) {
+  public Product(String name, String description, double price, String imageUrl, int deliveryTime) {
+    this.name = name;
+    this.description = description;
+    this.price = price;
     this.imageUrl = imageUrl;
-  }
-
-  public Category getCategory() {
-    return category;
-  }
-
-  public void setCategory(Category category) {
-    this.category = category;
+    this.stock = 1;
+    this.deliveryTime = deliveryTime;
   }
 
 }
