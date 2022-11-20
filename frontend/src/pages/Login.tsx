@@ -1,21 +1,25 @@
-import { Center, Divider, Flex, Title } from "@mantine/core";
-import { ReactComponent as CartLogo } from "../assets/cart.svg";
+import { Center, Container } from "@mantine/core";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import LoginForm from "../components/forms/LoginForm";
+import { useLoginStore } from "../store/loginStore";
 
 const Login = () => {
-  return (
-    <Flex id="login-page" direction={"row"} align="center">
-      <div id="login-left">
-        <Title size={"h1"} weight="bold" align="left" color={"deepBlue"}>
-          Silkroad
-        </Title>
-        <CartLogo className="svg-logo" height={500} />
-      </div>
+  const { isLogged } = useLoginStore();
+  const navigate = useNavigate();
 
-      <Center>
+  useEffect(() => {
+    if (isLogged) {
+      navigate("/app");
+    }
+  }, [isLogged]);
+
+  return (
+    <Container h={"100vh"} bg="gray.1" fluid>
+      <Center h={"90vh"} miw="30vw">
         <LoginForm />
       </Center>
-    </Flex>
+    </Container>
   );
 };
 
