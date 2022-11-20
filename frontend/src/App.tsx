@@ -4,6 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import Login from "./pages/Login";
 import { QueryClient, QueryClientProvider } from "react-query";
 import Home from "./pages/Home";
+import Landing from "./pages/Landing";
 
 const queryClient = new QueryClient();
 
@@ -62,7 +63,8 @@ export default function App() {
         <QueryClientProvider client={queryClient}>
           <Routes>
             <Route path="/login" element={<Login />} />
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Landing />} />
+            <Route path="/app" element={<Home />} />
           </Routes>
         </QueryClientProvider>
       </MantineProvider>
