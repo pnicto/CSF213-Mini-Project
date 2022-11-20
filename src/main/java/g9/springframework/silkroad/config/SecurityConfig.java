@@ -2,6 +2,7 @@ package g9.springframework.silkroad.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -45,6 +46,7 @@ public class SecurityConfig {
         .authorizeRequests(auth -> {
           auth.mvcMatchers("/api/v1/auth/**").permitAll();
           auth.mvcMatchers("/api/v1/customers/**").hasAuthority("SCOPE_CUSTOMER");
+          auth.mvcMatchers(HttpMethod.GET, "/api/v1/products/**").hasAuthority("SCOPE_CUSTOMER");
           auth.mvcMatchers("/api/v1/managers/**").hasAuthority("SCOPE_ADMIN");
           auth.anyRequest().authenticated();
         })
