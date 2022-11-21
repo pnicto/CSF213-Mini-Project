@@ -42,7 +42,7 @@ const MainNavbar = ({ navbarElements = ["cart", "my profile"] }: Props) => {
                   {ele}
                 </Anchor>
               ))}
-              <Menu position="bottom" trigger="hover" shadow={"lg"}>
+              <Menu position="bottom" shadow={"lg"}>
                 <Menu.Target>
                   <ActionIcon
                     color={"deepBlue"}
