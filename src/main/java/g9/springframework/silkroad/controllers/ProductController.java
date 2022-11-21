@@ -1,9 +1,5 @@
 package g9.springframework.silkroad.controllers;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,22 +8,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 import g9.springframework.silkroad.models.Product;
 import g9.springframework.silkroad.repositories.ProductRepository;
+import lombok.AllArgsConstructor;
 
 @RestController
 @RequestMapping("api/v1/products")
+@AllArgsConstructor
 public class ProductController {
   private final ProductRepository productRepository;
 
-  @Autowired
-  public ProductController(ProductRepository productRepository) {
-    this.productRepository = productRepository;
-  }
-
   @GetMapping
-  public List<Product> getAllProducts() {
-    List<Product> allProductList = new ArrayList<Product>();
-    productRepository.findAll().iterator().forEachRemaining(allProductList::add);
-    return allProductList;
+  public Iterable<Product> getAllProducts() {
+    return productRepository.findAll();
   }
 
   @PostMapping

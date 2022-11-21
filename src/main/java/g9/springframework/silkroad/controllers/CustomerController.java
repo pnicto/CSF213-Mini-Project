@@ -1,8 +1,5 @@
 package g9.springframework.silkroad.controllers;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,10 +23,8 @@ public class CustomerController {
   }
 
   @GetMapping
-  List<Customer> getAllCustomers() {
-    List<Customer> allCustomerList = new ArrayList<Customer>();
-    customerRepository.findAll().iterator().forEachRemaining(allCustomerList::add);
-    return allCustomerList;
+  Iterable<Customer> getAllCustomers() {
+    return customerRepository.findAll();
   }
 
   @PostMapping
