@@ -14,4 +14,8 @@ import lombok.AllArgsConstructor;
 public class CategoryController {
   private final CategoryRepository categoryRepository;
 
+  @GetMapping
+  Iterable<Category> getAllCategories() {
+    return categoryRepository.findAll();
+  }
 }
