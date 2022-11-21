@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import Home from "./pages/Home";
 import Landing from "./pages/Landing";
 import MainNavbar from "./components/MainNavbar";
+import { NotificationsProvider } from "@mantine/notifications";
 
 const queryClient = new QueryClient();
 
@@ -62,13 +63,15 @@ export default function App() {
             primaryColor: "deepBlue",
           }}
         >
-          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/" element={<Landing />} />
-            <Route path="/app" element={<MainNavbar />}>
-              <Route index element={<Home />} />
-            </Route>
-          </Routes>
+          <NotificationsProvider autoClose={4000}>
+            <Routes>
+              <Route path="/login" element={<Login />} />
+              <Route path="/" element={<Landing />} />
+              <Route path="/app" element={<MainNavbar />}>
+                <Route index element={<Home />} />
+              </Route>
+            </Routes>
+          </NotificationsProvider>
         </MantineProvider>
       </BrowserRouter>
     </QueryClientProvider>
