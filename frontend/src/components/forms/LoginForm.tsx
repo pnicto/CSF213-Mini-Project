@@ -5,10 +5,12 @@ import {
   Group,
   Text,
   TextInput,
-  Title
+  Title,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import axios from "axios";
+import { showNotification } from "@mantine/notifications";
+import { IconCheck, IconX } from "@tabler/icons";
+import axios, { AxiosError } from "axios";
 import { useState } from "react";
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router-dom";
@@ -46,7 +48,21 @@ const LoginForm = () => {
     {
       onSuccess: (data) => {
         loginStore.setAccessToken(data.data.accessToken);
+        showNotification({
+          message: "Login successful",
+          color: "green",
+          icon: <IconCheck />,
+        });
         navigate("/");
+      },
+      onError: (data: AxiosError) => {
+        console.log(data.message);
+        showNotification({
+          title: "Login failed",
+          message: data.message,
+          color: "red",
+          icon: <IconX />,
+        });
       },
     }
   );
