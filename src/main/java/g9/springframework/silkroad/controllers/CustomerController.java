@@ -1,39 +1,22 @@
 package g9.springframework.silkroad.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import g9.springframework.silkroad.models.Customer;
 import g9.springframework.silkroad.repositories.CustomerRepository;
+import lombok.AllArgsConstructor;
 
 @RestController
 @RequestMapping("api/v1/customers")
+@AllArgsConstructor
 public class CustomerController {
   private final CustomerRepository customerRepository;
-
-  @Autowired
-  public CustomerController(CustomerRepository customerRepository) {
-    this.customerRepository = customerRepository;
-  }
 
   @GetMapping
   Iterable<Customer> getAllCustomers() {
     return customerRepository.findAll();
   }
 
-  @PostMapping
-  Customer createNewCustomer(@RequestBody Customer newCustomer) {
-    return customerRepository.save(newCustomer);
-  }
-
-  @DeleteMapping("/{customerId}")
-  void updateCustomer(@PathVariable("customerId") String customerId) {
-    customerRepository.deleteById(Long.parseLong(customerId));
-  }
 }
