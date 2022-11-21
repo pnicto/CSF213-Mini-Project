@@ -11,7 +11,7 @@ import { Link, Outlet, useNavigate } from "react-router-dom";
 import { useLoginStore } from "../store/loginStore";
 
 type Props = {
-  navbarElements: string[];
+  navbarElements?: string[];
 };
 
 const MainNavbar = ({ navbarElements = ["cart", "my profile"] }: Props) => {
