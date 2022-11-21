@@ -24,3 +24,9 @@ export interface Product {
   isAvailable: boolean;
   deliveryTime: number;
 }
+
+export interface Category {
+  id: number;
+  name: string;
+  products: Product[];
+}
