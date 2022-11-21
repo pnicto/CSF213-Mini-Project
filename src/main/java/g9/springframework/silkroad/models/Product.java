@@ -1,6 +1,7 @@
 package g9.springframework.silkroad.models;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -26,34 +27,36 @@ public class Product {
   @Expose
   private String name;
   @Expose
+  @Column(columnDefinition = "TEXT")
   private String description;
   @Expose
   private double price;
   @Expose
   private String imageUrl;
-  private int stock;
+  private Boolean inStock;
   private int deliveryTime;
 
   @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH })
   @JoinColumn(name = "category_id")
   private Category category;
 
-  public Product(String name, String description, double price, String imageUrl, int deliveryTime) {
+  public Product(String name, String description, double price, String imageUrl, int deliveryTime, Category category) {
     this.name = name;
     this.description = description;
     this.price = price;
     this.imageUrl = imageUrl;
-    this.stock = 1;
+    this.inStock = true;
     this.deliveryTime = deliveryTime;
+    this.category = category;
   }
 
-  public Product(String name, String description, double price, String imageUrl, int stock, int deliveryTime,
+  public Product(String name, String description, double price, String imageUrl, Boolean inStock, int deliveryTime,
       Category category) {
     this.name = name;
     this.description = description;
     this.price = price;
     this.imageUrl = imageUrl;
-    this.stock = stock;
+    this.inStock = inStock;
     this.deliveryTime = deliveryTime;
     this.category = category;
   }
