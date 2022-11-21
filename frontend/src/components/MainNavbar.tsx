@@ -30,20 +30,18 @@ const MainNavbar = ({ navbarElements = ["cart", "my profile"] }: Props) => {
             </div>
 
             <Flex dir="row" justify={"space-around"} align="center" miw={"20%"}>
-              {navbarElements.map((ele, idx) => {
-                return (
-                  <Anchor
-                    fw="bold"
-                    key={idx}
-                    component={Link}
-                    to={`/${ele}`}
-                    tt="capitalize"
-                    size="lg"
-                  >
-                    {ele}
-                  </Anchor>
-                );
-              })}
+              {navbarElements.map((ele, idx) => (
+                <Anchor
+                  fw="bold"
+                  key={idx}
+                  component={Link}
+                  to={`/${ele}`}
+                  tt="capitalize"
+                  size="lg"
+                >
+                  {ele}
+                </Anchor>
+              ))}
               <Menu position="bottom" trigger="hover" shadow={"lg"}>
                 <Menu.Target>
                   <ActionIcon
