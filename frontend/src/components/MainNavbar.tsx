@@ -7,7 +7,7 @@ import {
   Title,
 } from "@mantine/core";
 import { IconDots, IconLogout } from "@tabler/icons";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import { useLoginStore } from "../store/loginStore";
 
 type Props = {
@@ -16,6 +16,7 @@ type Props = {
 
 const MainNavbar = ({ navbarElements = ["cart", "my profile"] }: Props) => {
   const loginStore = useLoginStore();
+  const navigate = useNavigate();
 
   return (
     <>
@@ -62,6 +63,7 @@ const MainNavbar = ({ navbarElements = ["cart", "my profile"] }: Props) => {
                     title="more options menu"
                     onClick={() => {
                       loginStore.logoutUser();
+                      navigate("/login");
                     }}
                   >
                     Log out
