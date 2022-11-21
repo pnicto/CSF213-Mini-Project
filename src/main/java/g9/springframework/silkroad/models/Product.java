@@ -34,7 +34,7 @@ public class Product {
   private double price;
   @Expose
   private String imageUrl;
-  private Boolean inStock;
+  private Boolean isAvailable;
   private int deliveryTime;
 
   @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH })
@@ -47,18 +47,18 @@ public class Product {
     this.description = description;
     this.price = price;
     this.imageUrl = imageUrl;
-    this.inStock = true;
+    this.isAvailable = true;
     this.deliveryTime = deliveryTime;
     this.category = category;
   }
 
-  public Product(String name, String description, double price, String imageUrl, Boolean inStock, int deliveryTime,
+  public Product(String name, String description, double price, String imageUrl, Boolean isAvailable, int deliveryTime,
       Category category) {
     this.name = name;
     this.description = description;
     this.price = price;
     this.imageUrl = imageUrl;
-    this.inStock = inStock;
+    this.isAvailable = isAvailable;
     this.deliveryTime = deliveryTime;
     this.category = category;
   }
