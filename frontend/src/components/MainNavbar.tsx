@@ -24,9 +24,11 @@ const MainNavbar = ({ navbarElements = ["cart", "my profile"] }: Props) => {
         <nav>
           <Flex justify={"space-between"} p={"xs"}>
             <div>
-              <Title size="h1" weight="bold" color="deepBlue" order={1}>
-                Silkroad
-              </Title>
+              <Anchor component={Link} to="/app">
+                <Title size="h1" weight="bold" color="deepBlue" order={1}>
+                  Silkroad
+                </Title>
+              </Anchor>
             </div>
 
             <Flex dir="row" justify={"space-around"} align="center" miw={"20%"}>
