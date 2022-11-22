@@ -1,6 +1,9 @@
 package g9.springframework.silkroad.controllers;
 
+import java.util.Optional;
+
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +22,12 @@ public class ProductController {
   @GetMapping
   public Iterable<Product> getAllProducts() {
     return productRepository.findAll();
+  }
+
+  @GetMapping("/{id}")
+  public Optional<Product> getProduct(@PathVariable("id") Long id) {
+    System.out.println("Being called here");
+    return productRepository.findById(id);
   }
 
   @PostMapping
