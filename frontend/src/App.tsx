@@ -2,12 +2,13 @@ import { MantineProvider, Navbar } from "@mantine/core";
 import { Route, Routes } from "react-router-dom";
 import { BrowserRouter } from "react-router-dom";
 import Login from "./pages/Login";
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Home from "./pages/Home";
 import Landing from "./pages/Landing";
 import MainNavbar from "./components/MainNavbar";
 import { NotificationsProvider } from "@mantine/notifications";
 import ProductDetails from "./pages/ProductDetails";
+import Cart from "./pages/Cart";
 
 const queryClient = new QueryClient();
 
@@ -71,6 +72,7 @@ export default function App() {
               <Route path="/app" element={<MainNavbar />}>
                 <Route index element={<Home />} />
                 <Route path="product/:productId" element={<ProductDetails />} />
+                <Route path="cart" element={<Cart />} />
               </Route>
             </Routes>
           </NotificationsProvider>
