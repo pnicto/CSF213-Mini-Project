@@ -1,6 +1,8 @@
-type Props = {};
+import { useParams } from "react-router-dom";
 
-const ProductDetails = ({}: Props) => {
+const ProductDetails = () => {
+  const { productId } = useParams<{ productId?: string }>();
+
   return <div>ProductDetails</div>;
 };
 
