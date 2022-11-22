@@ -2,7 +2,7 @@ import { MantineProvider, Navbar } from "@mantine/core";
 import { Route, Routes } from "react-router-dom";
 import { BrowserRouter } from "react-router-dom";
 import Login from "./pages/Login";
-import { QueryClient, QueryClientProvider } from "react-query";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Home from "./pages/Home";
 import Landing from "./pages/Landing";
 import MainNavbar from "./components/MainNavbar";

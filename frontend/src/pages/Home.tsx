@@ -9,7 +9,7 @@ import {
 } from "@mantine/core";
 import axios from "axios";
 import { useEffect } from "react";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import ProductCard from "../components/ProductCard";
 import { useLoginStore } from "../store/loginStore";
@@ -24,10 +24,10 @@ const Home = () => {
   axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
 
   // Queries for data
-  const productsQuery = useQuery("products", () =>
+  const productsQuery = useQuery(["products"], () =>
     axios.get<Product[]>(`${import.meta.env.VITE_APP_BACKEND_URL}/products`)
   );
-  const categoriesQuery = useQuery("categories", () =>
+  const categoriesQuery = useQuery(["categories"], () =>
     axios.get<Category[]>(`${import.meta.env.VITE_APP_BACKEND_URL}/categories`)
   );
 

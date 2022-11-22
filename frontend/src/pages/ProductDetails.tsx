@@ -12,7 +12,7 @@ import {
 } from "@mantine/core";
 import axios from "axios";
 import { useState } from "react";
-import { useQuery } from "react-query";
+import { useQuery } from '@tanstack/react-query';
 import { useParams } from "react-router-dom";
 import { useLoginStore } from "../store/loginStore";
 import { Product } from "../types/interfaces";

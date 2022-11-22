@@ -12,7 +12,7 @@ import { showNotification } from "@mantine/notifications";
 import { IconCheck, IconX } from "@tabler/icons";
 import axios, { AxiosError } from "axios";
 import { useState } from "react";
-import { useMutation } from "react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { useLoginStore } from "../../store/loginStore";
 import { RegisterUserRequestBody } from "../../types/interfaces";
