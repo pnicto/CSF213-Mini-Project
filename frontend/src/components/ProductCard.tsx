@@ -15,7 +15,7 @@ const ProductCard = ({ product }: Props) => {
       withBorder
       h={"100%"}
       component={Link}
-      to={`/product/${product.id}`}
+      to={`product/${product.id}`}
     >
       <Card.Section withBorder>
         <Image
