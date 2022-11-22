@@ -1,4 +1,12 @@
-import { Container, Grid, List, Skeleton, Title } from "@mantine/core";
+import {
+  Center,
+  Container,
+  Grid,
+  List,
+  Loader,
+  Skeleton,
+  Title,
+} from "@mantine/core";
 import axios from "axios";
 import { useEffect } from "react";
 import { useQuery } from "react-query";
@@ -30,7 +38,11 @@ const Home = () => {
     }
   }, [isLogged]);
 
-  return (
+  return productsQuery.isLoading && categoriesQuery.isLoading ? (
+    <Center h="80vh">
+      <Loader size={"md"} />
+    </Center>
+  ) : (
     <Container fluid>
       <Grid p={0} columns={13}>
         <Grid.Col span={2}>
