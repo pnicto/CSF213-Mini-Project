@@ -7,6 +7,7 @@ import Home from "./pages/Home";
 import Landing from "./pages/Landing";
 import MainNavbar from "./components/MainNavbar";
 import { NotificationsProvider } from "@mantine/notifications";
+import ProductDetails from "./pages/ProductDetails";
 
 const queryClient = new QueryClient();
 
@@ -69,6 +70,7 @@ export default function App() {
               <Route path="/" element={<Landing />} />
               <Route path="/app" element={<MainNavbar />}>
                 <Route index element={<Home />} />
+                <Route path="product/:productId" element={<ProductDetails />} />
               </Route>
             </Routes>
           </NotificationsProvider>
