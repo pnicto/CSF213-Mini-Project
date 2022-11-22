@@ -37,7 +37,7 @@ const MainNavbar = ({ navbarElements = ["cart", "my profile"] }: Props) => {
                   fw="bold"
                   key={idx}
                   component={Link}
-                  to={`/${ele}`}
+                  to={`/app/${ele}`}
                   tt="capitalize"
                   size="lg"
                 >
