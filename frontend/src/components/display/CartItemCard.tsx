@@ -1,26 +1,32 @@
 import {
-  ActionIcon, Container, Flex, Image, Paper, Stack, Text, Title
+  ActionIcon,
+  Container,
+  Flex,
+  Image,
+  Paper,
+  Stack,
+  Text,
+  Title,
 } from "@mantine/core";
 import { IconTrash } from "@tabler/icons";
 import { Link } from "react-router-dom";
-import { Product } from "../../types/interfaces";
+import { CartItem } from "../../types/interfaces";
 
 type Props = {
-  product: Product;
-  quantity: number;
+  cartItem: CartItem;
 };
 
-const CartItemCard = ({ product, quantity }: Props) => {
-  const { id, name, imageUrl, price } = product;
+const CartItemCard = ({ cartItem }: Props) => {
+  const { product, quantity } = cartItem;
+  const { name, price, imageUrl } = product;
 
   return (
     <Paper
       withBorder
       shadow={"md"}
-      key={id}
       p={"xl"}
       component={Link}
-      to={`/app/product/${id}`}
+      to={`/app/product/${product.id}`}
     >
       <Flex direction={"row"} justify="space-between" align={"center"}>
         <Image
