@@ -20,7 +20,7 @@ public class CartItem {
   @GeneratedValue(strategy = GenerationType.SEQUENCE)
   private Long id;
 
-  @OneToOne(cascade = CascadeType.ALL)
+  @OneToOne(cascade = { CascadeType.DETACH, CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
   private Product product;
   private Integer quantity;
 
