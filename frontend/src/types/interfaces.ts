@@ -5,6 +5,11 @@ export interface LoginStore {
   logoutUser: () => void;
 }
 
+export interface NotificationStore {
+  successNotification: (message: string, title?: string) => void;
+  errorNotification: (message: string, title?: string) => void;
+}
+
 export interface LoginUserRequestBody {
   email: string;
   password: string;
@@ -30,3 +35,4 @@ export interface Category {
   name: string;
   products: Product[];
 }
+
