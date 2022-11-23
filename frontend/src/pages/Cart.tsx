@@ -7,7 +7,7 @@ import {
   Stack,
   Title,
 } from "@mantine/core";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import CartItemCard from "../components/display/CartItemCard";
 import { useNotificationStore } from "../store/notificationStore";
@@ -15,21 +15,24 @@ import { CustomerCart } from "../types/interfaces";
 
 const Cart = () => {
   const notificationStore = useNotificationStore();
+
   const { data: cartData, isLoading } = useQuery(["cart"], () =>
     axios.get<CustomerCart>(
       `${import.meta.env.VITE_APP_BACKEND_URL}/customers/cart`
     )
   );
+  const queryClient = useQueryClient();
 
   const clearCartMutation = useMutation(
     () => {
-      return axios.delete(
+      return axios.delete<CustomerCart>(
         `${import.meta.env.VITE_APP_BACKEND_URL}/customers/cart/clear`
       );
     },
     {
       onSuccess: (data) => {
         notificationStore.successNotification("Cleared cart successfully");
+        queryClient.setQueryData(["cart"], data);
       },
 
       onError: (data: AxiosError) => {
