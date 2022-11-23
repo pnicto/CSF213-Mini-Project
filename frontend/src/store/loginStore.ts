@@ -1,7 +1,7 @@
 import create from "zustand";
-import { LoginState } from "../types/interfaces";
+import { LoginStore } from "../types/interfaces";
 
-export const useLoginStore = create<LoginState>()((set) => ({
+export const useLoginStore = create<LoginStore>()((set) => ({
   accessToken: null,
   isLogged: false,
   setAccessToken: (accessToken: string) =>
