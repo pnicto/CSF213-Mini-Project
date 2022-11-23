@@ -3,6 +3,7 @@ package g9.springframework.silkroad.controllers;
 import java.security.Principal;
 import java.util.Optional;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,6 +14,7 @@ import g9.springframework.silkroad.models.Cart;
 import g9.springframework.silkroad.models.CartItem;
 import g9.springframework.silkroad.models.Customer;
 import g9.springframework.silkroad.models.Product;
+import g9.springframework.silkroad.repositories.CartRepository;
 import g9.springframework.silkroad.repositories.CustomerRepository;
 import g9.springframework.silkroad.repositories.ProductRepository;
 import lombok.AllArgsConstructor;
@@ -23,6 +25,7 @@ import lombok.AllArgsConstructor;
 public class CartController {
   private final CustomerRepository customerRepository;
   private final ProductRepository productRepository;
+  private final CartRepository cartRepository;
 
   @GetMapping
   Cart getCustomerCart(Principal principal) {
@@ -46,6 +49,22 @@ public class CartController {
       cart.addProductToCart(new CartItem(pOptional.get(), requestBody.quantity()));
       customerRepository.save(cOptional.get());
       return cart;
+    } else {
+      throw new IllegalStateException("Customer not found");
+    }
+  }
+
+  @DeleteMapping("clear")
+  Cart clearCart(Principal principal) {
+    System.out.println("KMS");
+    Optional<Customer> cOptional = customerRepository.findByEmail(principal.getName());
+    if (cOptional.isPresent()) {
+      Customer customer = cOptional.get();
+      Cart customerCart = customer.getCart();
+      customer.setCart(new Cart());
+      cartRepository.deleteById(customerCart.getId());
+      return customerRepository.save(customer).getCart();
+
     } else {
       throw new IllegalStateException("Customer not found");
     }
