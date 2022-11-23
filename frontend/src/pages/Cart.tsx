@@ -60,6 +60,11 @@ const Cart = () => {
         </Group>
 
         <Stack>
+          {cartItems.length === 0 && (
+            <Center>
+              <Title color={"blue.3"}>Cart is empty</Title>
+            </Center>
+          )}
           {cartItems.map((cartItem) => {
             const { product, quantity, id } = cartItem;
 
