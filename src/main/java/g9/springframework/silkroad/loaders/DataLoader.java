@@ -8,6 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import g9.springframework.silkroad.models.Admin;
+import g9.springframework.silkroad.models.CartItem;
 import g9.springframework.silkroad.models.Category;
 import g9.springframework.silkroad.models.Customer;
 import g9.springframework.silkroad.models.Manager;
@@ -358,6 +359,9 @@ public class DataLoader implements ApplicationRunner {
     categoryRepository.save(BreakfastAndCereal);
     categoryRepository.save(Candy);
     categoryRepository.save(FrozenFoods);
+
+    john.getCart().addProductToCart(new CartItem(PantryArray[0], 3));
+    john.getCart().addProductToCart(new CartItem(DeliArray[0], 1));
 
     customerRepository.save(john);
     customerRepository.save(steve);
