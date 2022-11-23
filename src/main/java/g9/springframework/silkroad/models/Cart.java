@@ -29,7 +29,7 @@ public class Cart {
   public Cart() {
     this.cartItems = new ArrayList<>();
     this.totalPrice = 0;
-    this.totalQuantity= 0;
+    this.totalQuantity = 0;
   }
 
   public void addProductToCart(CartItem cartItem) {
