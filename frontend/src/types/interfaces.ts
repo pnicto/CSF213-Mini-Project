@@ -1,4 +1,4 @@
-export interface LoginState {
+export interface LoginStore {
   accessToken: string | null;
   isLogged: boolean;
   setAccessToken: (accessToken: string) => void;
