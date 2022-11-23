@@ -10,18 +10,26 @@ import {
   Text,
   Title,
 } from "@mantine/core";
-import axios from "axios";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import axios, { AxiosError } from "axios";
 import { useState } from "react";
-import { useQuery } from '@tanstack/react-query';
 import { useParams } from "react-router-dom";
 import { useLoginStore } from "../store/loginStore";
-import { Product } from "../types/interfaces";
+import { useNotificationStore } from "../store/notificationStore";
+import { CustomerCart, Product } from "../types/interfaces";
+
+interface CartItemRequest {
+  product: Product;
+  quantity: number;
+}
 
 const ProductDetails = () => {
   const { productId } = useParams<{ productId?: string }>();
   const [quantity, setQuantity] = useState(1);
 
   const { accessToken } = useLoginStore();
+  const notificationStore = useNotificationStore();
+
   axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
 
   const { data: productData, isLoading } = useQuery(
@@ -30,6 +38,27 @@ const ProductDetails = () => {
       axios.get<Product>(
         `${import.meta.env.VITE_APP_BACKEND_URL}/products/${productId}`
       )
+  );
+
+  const addProductToCartMutation = useMutation(
+    (requestBody: CartItemRequest) => {
+      return axios.patch<CustomerCart>(
+        `${import.meta.env.VITE_APP_BACKEND_URL}/customers/cart`,
+        requestBody
+      );
+    },
+    {
+      onSuccess: (data) => {
+        notificationStore.successNotification("Successfully added to cart");
+      },
+
+      onError: (data: AxiosError) => {
+        notificationStore.errorNotification(
+          data.message,
+          "Adding to cart failed"
+        );
+      },
+    }
   );
 
   if (isLoading) {
@@ -82,8 +111,16 @@ const ProductDetails = () => {
                 value={quantity}
                 onChange={(value) => setQuantity(value as number)}
               />
-              {/* TODO:onClick for add to cart */}
-              <Button>Add to cart</Button>
+              <Button
+                onClick={() => {
+                  addProductToCartMutation.mutate({
+                    product: productData!.data,
+                    quantity,
+                  });
+                }}
+              >
+                Add to cart
+              </Button>
             </Stack>
           </Grid.Col>
         </Grid>
