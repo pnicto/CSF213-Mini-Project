@@ -8,9 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -23,31 +21,27 @@ public class Cart {
   @GeneratedValue(strategy = GenerationType.SEQUENCE)
   private Long id;
 
-  @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH })
-  @JoinTable(name = "cart_products", joinColumns = @JoinColumn(name = "cart_id"), inverseJoinColumns = @JoinColumn(name = "product_id"))
-
-  private List<Product> products;
+  @OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH })
+  private List<CartItem> cartItems;
   private double totalPrice;
-
-  public Cart(List<Product> products) {
-    this.products = products;
-    this.totalPrice = 0;
-  }
+  private Integer totalQuantity;
 
   public Cart() {
-    this.products = new ArrayList<>();
+    this.cartItems = new ArrayList<>();
     this.totalPrice = 0;
   }
 
-  public void addProductToCart(Product product) {
-    this.products.add(product);
-    this.totalPrice += product.getPrice();
+  public void addProductToCart(CartItem cartItem) {
+    this.cartItems.add(cartItem);
+    this.totalPrice += cartItem.getProduct().getPrice();
+    this.totalQuantity += cartItem.getQuantity();
   }
 
-  public void addProductsToCart(List<Product> products) {
-    this.products.addAll(products);
-    products.forEach((product) -> {
-      this.totalPrice += product.getPrice();
+  public void addProductsToCart(List<CartItem> cartItems) {
+    this.cartItems.addAll(cartItems);
+    cartItems.forEach((cartItem) -> {
+      this.totalPrice += cartItem.getProduct().getPrice();
+      this.totalQuantity += cartItem.getQuantity();
     });
   }
 }
