@@ -31,13 +31,6 @@ const Home = () => {
     axios.get<Category[]>(`${import.meta.env.VITE_APP_BACKEND_URL}/categories`)
   );
 
-  // Navigate to login route if the user is not logged in
-  useEffect(() => {
-    if (!isLogged) {
-      navigate("/login");
-    }
-  }, [isLogged]);
-
   return productsQuery.isLoading && categoriesQuery.isLoading ? (
     <Center h="80vh">
       <Loader size={"md"} />
