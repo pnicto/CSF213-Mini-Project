@@ -1,12 +1,7 @@
 import {
-  Paper,
-  Flex,
-  Container,
-  Stack,
-  Title,
-  Image,
-  Text,
+  ActionIcon, Container, Flex, Image, Paper, Stack, Text, Title
 } from "@mantine/core";
+import { IconTrash } from "@tabler/icons";
 import { Link } from "react-router-dom";
 import { Product } from "../../types/interfaces";
 
@@ -56,6 +51,9 @@ const CartItemCard = ({ product, quantity }: Props) => {
             </div>
           </Stack>
         </Container>
+        <ActionIcon color={"red"} size="lg">
+          <IconTrash size={32} />
+        </ActionIcon>
       </Flex>
     </Paper>
   );
