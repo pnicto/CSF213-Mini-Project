@@ -21,7 +21,7 @@ public class Cart {
   @GeneratedValue(strategy = GenerationType.SEQUENCE)
   private Long id;
 
-  @OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH })
+  @OneToMany(cascade = CascadeType.ALL)
   private List<CartItem> cartItems;
   private double totalPrice;
   private Integer totalQuantity;
