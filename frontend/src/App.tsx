@@ -9,6 +9,7 @@ import MainNavbar from "./components/MainNavbar";
 import { NotificationsProvider } from "@mantine/notifications";
 import ProductDetails from "./pages/ProductDetails";
 import Cart from "./pages/Cart";
+import ProtectedRoute from "./components/auth/ProtectedRoute";
 
 const queryClient = new QueryClient();
 
@@ -69,10 +70,16 @@ export default function App() {
             <Routes>
               <Route path="/login" element={<Login />} />
               <Route path="/" element={<Landing />} />
-              <Route path="/app" element={<MainNavbar />}>
-                <Route index element={<Home />} />
-                <Route path="product/:productId" element={<ProductDetails />} />
-                <Route path="cart" element={<Cart />} />
+
+              <Route element={<ProtectedRoute />}>
+                <Route path="/app" element={<MainNavbar />}>
+                  <Route index element={<Home />} />
+                  <Route
+                    path="product/:productId"
+                    element={<ProductDetails />}
+                  />
+                  <Route path="cart" element={<Cart />} />
+                </Route>
               </Route>
             </Routes>
           </NotificationsProvider>
