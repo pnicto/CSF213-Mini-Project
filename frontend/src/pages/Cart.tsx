@@ -68,13 +68,9 @@ const Cart = () => {
               <Title color={"blue.3"}>Cart is empty</Title>
             </Center>
           )}
-          {cartItems.map((cartItem) => {
-            const { product, quantity, id } = cartItem;
-
-            return (
-              <CartItemCard product={product} quantity={quantity} key={id} />
-            );
-          })}
+          {cartItems.map((cartItem) => (
+            <CartItemCard cartItem={cartItem} key={cartItem.id} />
+          ))}
         </Stack>
         <Group mt={"lg"} position="right">
           <Button
