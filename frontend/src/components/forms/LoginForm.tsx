@@ -8,18 +8,20 @@ import {
   Title,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { showNotification } from "@mantine/notifications";
-import { IconCheck, IconX } from "@tabler/icons";
+import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { useState } from "react";
-import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { useLoginStore } from "../../store/loginStore";
+import { useNotificationStore } from "../../store/notificationStore";
 import { RegisterUserRequestBody } from "../../types/interfaces";
 
 const LoginForm = () => {
   const [pageMode, setPageMode] = useState<"Login" | "Register">("Login");
+
   const loginStore = useLoginStore();
+  const notificationStore = useNotificationStore();
+
   const navigate = useNavigate();
 
   const form = useForm({
@@ -38,31 +40,24 @@ const LoginForm = () => {
   });
 
   const performAuth = useMutation(
-    (requestBody: RegisterUserRequestBody) =>
-      axios.post(
+    (requestBody: RegisterUserRequestBody) => {
+      delete axios.defaults.headers.common["Authorization"];
+
+      return axios.post(
         `${
           import.meta.env.VITE_APP_BACKEND_URL
         }/auth/${pageMode.toLowerCase()}`,
         requestBody
-      ),
+      );
+    },
     {
       onSuccess: (data) => {
         loginStore.setAccessToken(data.data.accessToken);
-        showNotification({
-          message: "Login successful",
-          color: "green",
-          icon: <IconCheck />,
-        });
+        notificationStore.successNotification("Login Successful");
         navigate("/");
       },
       onError: (data: AxiosError) => {
-        console.log(data.message);
-        showNotification({
-          title: "Login failed",
-          message: data.message,
-          color: "red",
-          icon: <IconX />,
-        });
+        notificationStore.errorNotification(data.message, "Login failed");
       },
     }
   );
