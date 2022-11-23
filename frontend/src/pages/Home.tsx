@@ -3,15 +3,12 @@ import {
   Container,
   Grid,
   List,
-  Loader,
-  Skeleton,
-  Title,
+  Loader, Title
 } from "@mantine/core";
-import axios from "axios";
-import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import ProductCard from "../components/ProductCard";
+import ProductCard from "../components/display/ProductCard";
 import { useLoginStore } from "../store/loginStore";
 import { Category, Product } from "../types/interfaces";
 
