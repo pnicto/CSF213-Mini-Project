@@ -7,16 +7,38 @@ import {
   Stack,
   Title,
 } from "@mantine/core";
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import axios, { AxiosError } from "axios";
 import CartItemCard from "../components/display/CartItemCard";
+import { useNotificationStore } from "../store/notificationStore";
 import { CustomerCart } from "../types/interfaces";
 
 const Cart = () => {
+  const notificationStore = useNotificationStore();
   const { data: cartData, isLoading } = useQuery(["cart"], () =>
     axios.get<CustomerCart>(
       `${import.meta.env.VITE_APP_BACKEND_URL}/customers/cart`
     )
+  );
+
+  const clearCartMutation = useMutation(
+    () => {
+      return axios.delete(
+        `${import.meta.env.VITE_APP_BACKEND_URL}/customers/cart/clear`
+      );
+    },
+    {
+      onSuccess: (data) => {
+        notificationStore.successNotification("Cleared cart successfully");
+      },
+
+      onError: (data: AxiosError) => {
+        notificationStore.errorNotification(
+          data.message,
+          "Clearing cart failed"
+        );
+      },
+    }
   );
 
   if (isLoading) {
@@ -47,7 +69,14 @@ const Cart = () => {
           })}
         </Stack>
         <Group mt={"lg"} position="right">
-          <Button color={"red"}>Clear cart</Button>
+          <Button
+            color={"red"}
+            onClick={() => {
+              clearCartMutation.mutate();
+            }}
+          >
+            Clear cart
+          </Button>
           <Button color={"green"}>Checkout</Button>
         </Group>
       </Container>
