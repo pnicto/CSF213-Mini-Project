@@ -20,7 +20,7 @@ const Cart = () => {
   } else {
     const { cartItems, totalPrice, totalQuantity } = cartData!.data;
     return (
-      <Container>
+      <Container mb={"xl"}>
         <Group position="apart" mb={"md"}>
           <Title>Your cart</Title>
           <div>
