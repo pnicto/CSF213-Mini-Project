@@ -36,6 +36,13 @@ export interface Category {
   products: Product[];
 }
 
+export interface CustomerCart {
+  id: number;
+  cartItems: CartItem[];
+  totalPrice: number;
+  totalQuantity: number;
+}
+
 export interface CartItem {
   id: number;
   product: Product;
