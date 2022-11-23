@@ -1,4 +1,12 @@
-import { Center, Container, Group, Loader, Stack, Title } from "@mantine/core";
+import {
+  Button,
+  Center,
+  Container,
+  Group,
+  Loader,
+  Stack,
+  Title,
+} from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import CartItemCard from "../components/display/CartItemCard";
@@ -38,6 +46,10 @@ const Cart = () => {
             );
           })}
         </Stack>
+        <Group mt={"lg"} position="right">
+          <Button color={"red"}>Clear cart</Button>
+          <Button color={"green"}>Checkout</Button>
+        </Group>
       </Container>
     );
   }
