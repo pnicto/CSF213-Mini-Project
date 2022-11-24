@@ -51,6 +51,16 @@ const Cart = () => {
 
   const handleCheckout = (totalPrice: number) => {
     profileDataQuery.refetch();
+
+    if (
+      profileDataQuery.data &&
+      profileDataQuery.data.data.moneyInWallet < totalPrice
+    ) {
+      notificationStore.errorNotification(
+        "Insufficient money in wallet",
+        "Placing order failed!"
+      );
+    } else {
       openConfirmModal({
         title: "Confirm order?",
         labels: {
@@ -65,6 +75,7 @@ const Cart = () => {
           color: "red",
         },
       });
+    }
   };
 
   if (cartDataQuery.isLoading) {
