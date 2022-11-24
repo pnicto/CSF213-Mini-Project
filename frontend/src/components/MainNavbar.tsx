@@ -20,7 +20,15 @@ const MainNavbar = ({ navbarElements = ["cart", "my profile"] }: Props) => {
 
   return (
     <>
-      <Container fluid mb={"sm"} bg="blue.1" mah={"10vh"}>
+      <Container
+        fluid
+        mb={"sm"}
+        bg="blue.1"
+        mah={"10vh"}
+        pos={"sticky"}
+        top={0}
+        style={{ zIndex: 1 }}
+      >
         <nav>
           <Flex justify={"space-between"} p={"xs"}>
             <div>
