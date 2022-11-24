@@ -6,11 +6,14 @@ import {
   Paper,
   Stack,
   Text,
-  Title,
+  Title
 } from "@mantine/core";
 import { IconTrash } from "@tabler/icons";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import axios, { AxiosError } from "axios";
 import { Link } from "react-router-dom";
-import { CartItem } from "../../types/interfaces";
+import { useNotificationStore } from "../../store/notificationStore";
+import { CartItem, CustomerCart } from "../../types/interfaces";
 
 type Props = {
   cartItem: CartItem;
@@ -19,6 +22,26 @@ type Props = {
 const CartItemCard = ({ cartItem }: Props) => {
   const { product, quantity } = cartItem;
   const { name, price, imageUrl } = product;
+  const notificationStore = useNotificationStore();
+  const queryClient = useQueryClient();
+
+  const deleteCartItemMutation = useMutation(
+    () => {
+      return axios.delete<CustomerCart>(
+        `${import.meta.env.VITE_APP_BACKEND_URL}/customers/cart/${cartItem.id}`
+      );
+    },
+    {
+      onSuccess: (data) => {
+        notificationStore.successNotification("Deleted item successfully");
+        queryClient.setQueryData(["cart"], data);
+      },
+
+      onError: (data: AxiosError) => {
+        notificationStore.errorNotification(data.message, "Cannot delete item");
+      },
+    }
+  );
 
   return (
     <Paper
@@ -57,7 +80,13 @@ const CartItemCard = ({ cartItem }: Props) => {
             </div>
           </Stack>
         </Container>
-        <ActionIcon color={"red"} size="lg">
+        <ActionIcon
+          color={"red"}
+          size="lg"
+          onClick={() => {
+            deleteCartItemMutation.mutate();
+          }}
+        >
           <IconTrash size={32} />
         </ActionIcon>
       </Flex>
