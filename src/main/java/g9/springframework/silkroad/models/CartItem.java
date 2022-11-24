@@ -7,6 +7,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
+import com.google.gson.annotations.Expose;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,7 +23,9 @@ public class CartItem {
   private Long id;
 
   @OneToOne(cascade = { CascadeType.DETACH, CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH })
+  @Expose
   private Product product;
+  @Expose
   private Integer quantity;
 
   public CartItem(Product product, Integer quantity) {
