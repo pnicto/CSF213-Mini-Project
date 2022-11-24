@@ -1,4 +1,5 @@
 import { MantineProvider } from "@mantine/core";
+import { ModalsProvider } from "@mantine/modals";
 import { NotificationsProvider } from "@mantine/notifications";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -66,21 +67,22 @@ export default function App() {
           }}
         >
           <NotificationsProvider autoClose={4000}>
-            <Routes>
-              <Route path="/login" element={<Login />} />
-              <Route path="/" element={<Landing />} />
-
-              <Route element={<ProtectedRoute />}>
-                <Route path="/app" element={<MainNavbar />}>
-                  <Route index element={<Home />} />
-                  <Route
-                    path="product/:productId"
-                    element={<ProductDetails />}
-                  />
-                  <Route path="cart" element={<Cart />} />
+            <ModalsProvider>
+              <Routes>
+                <Route path="/login" element={<Login />} />
+                <Route path="/" element={<Landing />} />
+                <Route element={<ProtectedRoute />}>
+                  <Route path="/app" element={<MainNavbar />}>
+                    <Route index element={<Home />} />
+                    <Route
+                      path="product/:productId"
+                      element={<ProductDetails />}
+                    />
+                    <Route path="cart" element={<Cart />} />
+                  </Route>
                 </Route>
-              </Route>
-            </Routes>
+              </Routes>
+            </ModalsProvider>
           </NotificationsProvider>
         </MantineProvider>
       </BrowserRouter>
