@@ -7,6 +7,7 @@ import {
   Stack,
   Title,
 } from "@mantine/core";
+import { openConfirmModal } from "@mantine/modals";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import CartItemCard from "../components/display/CartItemCard";
@@ -81,7 +82,27 @@ const Cart = () => {
           >
             Clear cart
           </Button>
-          <Button color={"green"}>Checkout</Button>
+          <Button
+            color={"green"}
+            onClick={() => {
+              openConfirmModal({
+                title: "Confirm order?",
+                labels: {
+                  confirm: "Yes",
+                  cancel: "No",
+                },
+                centered: true,
+                confirmProps: {
+                  color: "green",
+                },
+                cancelProps: {
+                  color: "red",
+                },
+              });
+            }}
+          >
+            Checkout
+          </Button>
         </Group>
       </Container>
     );
