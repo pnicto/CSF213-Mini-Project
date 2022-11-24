@@ -367,7 +367,7 @@ public class DataLoader implements ApplicationRunner {
     john.getCart().addProductToCart(new CartItem(DeliArray[0], 1));
 
     List<Order> orders = new ArrayList<>();
-    orders.add(new Order(john.getCart().getCartItems()));
+    orders.add(new Order(john.getCart().getCartItems(), john.getCart().getTotalPrice()));
 
     john.setOrders(orders);
     customerRepository.save(john);
