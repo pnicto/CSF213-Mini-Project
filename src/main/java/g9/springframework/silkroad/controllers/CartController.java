@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import g9.springframework.silkroad.models.Cart;
 import g9.springframework.silkroad.models.CartItem;
 import g9.springframework.silkroad.models.Customer;
+import g9.springframework.silkroad.models.Order;
 import g9.springframework.silkroad.models.Product;
 import g9.springframework.silkroad.repositories.CartItemRepository;
 import g9.springframework.silkroad.repositories.CartRepository;
@@ -37,6 +39,24 @@ public class CartController {
       return cOptional.get().getCart();
     } else {
       throw new IllegalStateException("Customer does not exist");
+    }
+  }
+
+  @PostMapping("/checkout")
+  Order checkoutCart(Principal principal) {
+    Optional<Customer> cOptional = customerRepository.findByEmail(principal.getName());
+    if (cOptional.isPresent()) {
+      Customer customer = cOptional.get();
+      Cart cart = customer.getCart();
+      Order order = new Order(cart.getCartItems(), cart.getTotalPrice());
+      customer.setMoneyInWallet(customer.getMoneyInWallet() - cart.getTotalPrice());
+      customer.getOrders().add(order);
+      customer.setCart(new Cart());
+      cartRepository.deleteById(cart.getId());
+      customerRepository.save(customer);
+      return order;
+    } else {
+      throw new IllegalStateException("Customer not found");
     }
   }
 
