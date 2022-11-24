@@ -41,10 +41,11 @@ const Home = () => {
       <Loader size={"md"} />
     </Center>
   ) : (
-    <Container fluid>
-      <Grid p={0} columns={13}>
+    <Container fluid px={0} py={8} mt={-12}>
+      <Grid p={0} columns={13} mih={"92vh"}>
         <Grid.Col
           span={2}
+          bg={"blue.0"}
           style={{
             borderRight: "solid 1px #9DA5C0",
           }}
