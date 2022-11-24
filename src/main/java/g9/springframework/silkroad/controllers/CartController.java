@@ -32,10 +32,8 @@ public class CartController {
 
   @GetMapping
   Cart getCustomerCart(Principal principal) {
-    System.out.println(principal.getName());
     Optional<Customer> cOptional = customerRepository.findByEmail(principal.getName());
     if (cOptional.isPresent()) {
-      System.out.println(cOptional.get());
       return cOptional.get().getCart();
     } else {
       throw new IllegalStateException("Customer does not exist");
