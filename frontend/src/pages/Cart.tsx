@@ -12,7 +12,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import CartItemCard from "../components/display/CartItemCard";
 import { useNotificationStore } from "../store/notificationStore";
-import { CustomerCart } from "../types/interfaces";
+import { Customer, CustomerCart } from "../types/interfaces";
 
 const Cart = () => {
   const notificationStore = useNotificationStore();
@@ -25,9 +25,7 @@ const Cart = () => {
   const profileDataQuery = useQuery(
     ["customerProfile"],
     () =>
-      axios.get<CustomerCart>(
-        `${import.meta.env.VITE_APP_BACKEND_URL}/customers`
-      ),
+      axios.get<Customer>(`${import.meta.env.VITE_APP_BACKEND_URL}/customers`),
     {
       enabled: false,
     }
