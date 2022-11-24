@@ -49,6 +49,27 @@ const Cart = () => {
     }
   );
 
+  const checkoutMutation = useMutation(
+    () => {
+      return axios.post<CustomerCart>(
+        `${import.meta.env.VITE_APP_BACKEND_URL}/customers/cart/checkout`
+      );
+    },
+    {
+      onSuccess: (data) => {
+        cartDataQuery.refetch();
+        notificationStore.successNotification("Order placed successfully!");
+      },
+
+      onError: (data: AxiosError) => {
+        notificationStore.errorNotification(
+          data.message,
+          "Placing order failed"
+        );
+      },
+    }
+  );
+
   const handleCheckout = (totalPrice: number) => {
     profileDataQuery.refetch();
 
@@ -82,6 +103,9 @@ const Cart = () => {
             <Title order={4}>Total price: &#8377;{totalPrice}</Title>
           </>
         ),
+        onConfirm: () => {
+          checkoutMutation.mutate();
+        },
       });
     }
   };
