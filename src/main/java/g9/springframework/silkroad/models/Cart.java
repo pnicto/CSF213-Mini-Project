@@ -34,7 +34,7 @@ public class Cart {
 
   public void addProductToCart(CartItem cartItem) {
     this.cartItems.add(cartItem);
-    this.totalPrice += cartItem.getProduct().getPrice();
+    this.totalPrice += cartItem.getProduct().getPrice() * cartItem.getQuantity();
     this.totalQuantity += cartItem.getQuantity();
   }
 
