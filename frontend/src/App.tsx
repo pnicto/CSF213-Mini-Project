@@ -1,15 +1,14 @@
-import { MantineProvider, Navbar } from "@mantine/core";
-import { Route, Routes } from "react-router-dom";
-import { BrowserRouter } from "react-router-dom";
-import Login from "./pages/Login";
+import { MantineProvider } from "@mantine/core";
+import { NotificationsProvider } from "@mantine/notifications";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import ProtectedRoute from "./components/auth/ProtectedRoute";
+import MainNavbar from "./components/MainNavbar";
+import Cart from "./pages/Cart";
 import Home from "./pages/Home";
 import Landing from "./pages/Landing";
-import MainNavbar from "./components/MainNavbar";
-import { NotificationsProvider } from "@mantine/notifications";
+import Login from "./pages/Login";
 import ProductDetails from "./pages/ProductDetails";
-import Cart from "./pages/Cart";
-import ProtectedRoute from "./components/auth/ProtectedRoute";
 
 const queryClient = new QueryClient();
 
