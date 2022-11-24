@@ -33,12 +33,12 @@ public class Order {
   @CreationTimestamp
   private LocalDateTime createdAt;
 
-  public Order(List<Product> products) {
+  public Order(List<CartItem> cartItems) {
     var gson = new GsonBuilder()
         .setPrettyPrinting()
         .excludeFieldsWithoutExposeAnnotation().create();
 
-    this.products = gson.toJson(products);
+    this.products = gson.toJson(cartItems);
   }
 
 }
