@@ -59,7 +59,6 @@ public class CartController {
 
   @DeleteMapping("clear")
   Cart clearCart(Principal principal) {
-    System.out.println("KMS");
     Optional<Customer> cOptional = customerRepository.findByEmail(principal.getName());
     if (cOptional.isPresent()) {
       Customer customer = cOptional.get();
