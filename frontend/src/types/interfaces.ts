@@ -48,3 +48,21 @@ export interface CartItem {
   product: Product;
   quantity: number;
 }
+
+export interface Customer {
+  id: number;
+  name: string;
+  email: string;
+  role: string;
+  phoneNumber: string;
+  createdAt: Date;
+  moneyInWallet: number;
+  cart: CustomerCart;
+  orders: Order[];
+}
+
+export interface Order {
+  id: number;
+  products: string;
+  createdAt: Date;
+}
