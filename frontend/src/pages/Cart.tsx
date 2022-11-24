@@ -17,7 +17,7 @@ import { CustomerCart } from "../types/interfaces";
 const Cart = () => {
   const notificationStore = useNotificationStore();
 
-  const { data: cartData, isLoading } = useQuery(["cart"], () =>
+  const cartDataQuery = useQuery(["cart"], () =>
     axios.get<CustomerCart>(
       `${import.meta.env.VITE_APP_BACKEND_URL}/customers/cart`
     )
@@ -45,14 +45,14 @@ const Cart = () => {
     }
   );
 
-  if (isLoading) {
+  if (cartDataQuery.isLoading) {
     return (
       <Center h={"80vh"}>
         <Loader size={"md"} />
       </Center>
     );
   } else {
-    const { cartItems, totalPrice, totalQuantity } = cartData!.data;
+    const { cartItems, totalPrice, totalQuantity } = cartDataQuery.data!.data;
     return (
       <Container mb={"xl"}>
         <Group position="apart" mb={"md"}>
