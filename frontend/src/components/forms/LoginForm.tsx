@@ -62,6 +62,7 @@ const LoginForm = () => {
             "Login to continue"
           );
           setPageMode("Login");
+          form.reset();
         }
       },
       onError: (data: AxiosError) => {
@@ -127,6 +128,7 @@ const LoginForm = () => {
               First time? Click{" "}
               <Anchor
                 onClick={() => {
+                  form.reset();
                   setPageMode("Register");
                 }}
               >
@@ -139,6 +141,7 @@ const LoginForm = () => {
               Already a registered user? Click{" "}
               <Anchor
                 onClick={() => {
+                  form.reset();
                   setPageMode("Login");
                 }}
               >
