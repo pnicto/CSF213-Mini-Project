@@ -19,11 +19,9 @@ public class TokenService {
 
   public String generateToken(Authentication authentication) {
     Instant now = Instant.now();
-    System.out.println(authentication.getAuthorities());
     String scope = authentication.getAuthorities().stream()
         .map(GrantedAuthority::getAuthority)
         .collect(Collectors.joining(" "));
-    System.out.println("Scope " + scope);
 
     JwtClaimsSet claims = JwtClaimsSet.builder()
         .issuedAt(now)
