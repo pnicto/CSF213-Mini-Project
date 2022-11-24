@@ -45,4 +45,10 @@ public class Cart {
       this.totalQuantity += cartItem.getQuantity();
     });
   }
+
+  public void deleteItemFromCart(CartItem cartItem) {
+    this.totalQuantity -= cartItem.getQuantity();
+    this.totalPrice -= cartItem.getProduct().getPrice() * cartItem.getQuantity();
+    this.cartItems.removeIf(item -> item.getId() == cartItem.getId());
+  }
 }
