@@ -7,9 +7,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import g9.springframework.silkroad.models.Category;
 import g9.springframework.silkroad.models.Product;
+import g9.springframework.silkroad.repositories.CategoryRepository;
 import g9.springframework.silkroad.repositories.ProductRepository;
 import lombok.AllArgsConstructor;
 
@@ -18,15 +21,24 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class ProductController {
   private final ProductRepository productRepository;
+  private final CategoryRepository categoryRepository;
 
   @GetMapping
-  public Iterable<Product> getAllProducts() {
-    return productRepository.findAll();
+  public Iterable<Product> getAllProducts(@RequestParam(value = "name") Long categoryId) {
+    if (categoryId == 0) {
+      return productRepository.findAll();
+    } else {
+      Optional<Category> categoryOpt = categoryRepository.findById((categoryId));
+      if (categoryOpt.isPresent()) {
+        return categoryOpt.get().getProducts();
+      } else {
+        throw new IllegalStateException("Category " + categoryId + " does not exist");
+      }
+    }
   }
 
   @GetMapping("/{id}")
   public Optional<Product> getProduct(@PathVariable("id") Long id) {
-    System.out.println("Being called here");
     return productRepository.findById(id);
   }
 
