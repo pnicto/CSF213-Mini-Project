@@ -149,6 +149,7 @@ const Cart = () => {
           </Button>
           <Button
             color={"green"}
+            disabled={cartItems.length === 0}
             onClick={() => {
               handleCheckout(totalPrice);
             }}
