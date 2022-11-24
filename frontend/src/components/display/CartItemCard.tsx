@@ -1,12 +1,13 @@
 import {
   ActionIcon,
+  Anchor,
   Container,
   Flex,
   Image,
   Paper,
   Stack,
   Text,
-  Title
+  Title,
 } from "@mantine/core";
 import { IconTrash } from "@tabler/icons";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -44,13 +45,7 @@ const CartItemCard = ({ cartItem }: Props) => {
   );
 
   return (
-    <Paper
-      withBorder
-      shadow={"md"}
-      p={"xl"}
-      component={Link}
-      to={`/app/product/${product.id}`}
-    >
+    <Paper withBorder shadow={"md"} p={"xl"}>
       <Flex direction={"row"} justify="space-between" align={"center"}>
         <Image
           alt={name}
@@ -62,7 +57,9 @@ const CartItemCard = ({ cartItem }: Props) => {
         />
         <Container maw={"40%"}>
           <Stack>
-            <Title order={4}>{name}</Title>
+            <Anchor component={Link} to={`/app/product/${product.id}`}>
+              <Title order={4}>{name}</Title>
+            </Anchor>
             <div>
               <Text>&#8377; {price}</Text>
               <div>
