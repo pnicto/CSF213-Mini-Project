@@ -59,7 +59,7 @@ const Home = () => {
                   setActiveCategory(null);
                 }}
               >
-                <Anchor color={"deepBlue.4"}>All categories</Anchor>
+                <Anchor color={"deepBlue.4"}>All products</Anchor>
               </List.Item>
               {categoriesQuery.data?.data.map((category) => (
                 <List.Item
