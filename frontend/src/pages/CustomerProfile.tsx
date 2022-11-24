@@ -77,7 +77,10 @@ const CustomerProfile = () => {
           </Button>
         </Stack>
       </Grid.Col>
-      <Grid.Col span={10}></Grid.Col>
+      <Grid.Col span={10}>
+        {activeOption === "profile" && <UserProfile />}
+        {activeOption === "orderHistory" && <OrderHistory />}
+      </Grid.Col>
     </Grid>
   );
 };
