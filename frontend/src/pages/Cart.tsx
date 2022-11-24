@@ -22,13 +22,8 @@ const Cart = () => {
       `${import.meta.env.VITE_APP_BACKEND_URL}/customers/cart`
     )
   );
-  const profileDataQuery = useQuery(
-    ["customerProfile"],
-    () =>
-      axios.get<Customer>(`${import.meta.env.VITE_APP_BACKEND_URL}/customers`),
-    {
-      enabled: false,
-    }
+  const profileDataQuery = useQuery(["customerProfile"], () =>
+    axios.get<Customer>(`${import.meta.env.VITE_APP_BACKEND_URL}/customers`)
   );
 
   const queryClient = useQueryClient();
@@ -53,6 +48,24 @@ const Cart = () => {
       },
     }
   );
+
+  const handleCheckout = (totalPrice: number) => {
+    profileDataQuery.refetch();
+      openConfirmModal({
+        title: "Confirm order?",
+        labels: {
+          confirm: "Yes",
+          cancel: "No",
+        },
+        centered: true,
+        confirmProps: {
+          color: "green",
+        },
+        cancelProps: {
+          color: "red",
+        },
+      });
+  };
 
   if (cartDataQuery.isLoading) {
     return (
@@ -92,24 +105,9 @@ const Cart = () => {
             Clear cart
           </Button>
           <Button
-            loading={profileDataQuery.isFetching}
             color={"green"}
             onClick={() => {
-              profileDataQuery.refetch();
-              openConfirmModal({
-                title: "Confirm order?",
-                labels: {
-                  confirm: "Yes",
-                  cancel: "No",
-                },
-                centered: true,
-                confirmProps: {
-                  color: "green",
-                },
-                cancelProps: {
-                  color: "red",
-                },
-              });
+              handleCheckout(totalPrice);
             }}
           >
             Checkout
