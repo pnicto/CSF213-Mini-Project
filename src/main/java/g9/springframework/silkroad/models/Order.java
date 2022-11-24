@@ -29,15 +29,16 @@ public class Order {
   private Long id;
   @Column(columnDefinition = "TEXT")
   private String products;
+  private double totalPrice;
 
   @CreationTimestamp
   private LocalDateTime createdAt;
 
-  public Order(List<CartItem> cartItems) {
+  public Order(List<CartItem> cartItems, double totalPrice) {
     var gson = new GsonBuilder()
         .setPrettyPrinting()
         .excludeFieldsWithoutExposeAnnotation().create();
-
+    this.totalPrice = totalPrice;
     this.products = gson.toJson(cartItems);
   }
 
