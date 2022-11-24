@@ -22,6 +22,17 @@ const Cart = () => {
       `${import.meta.env.VITE_APP_BACKEND_URL}/customers/cart`
     )
   );
+  const profileDataQuery = useQuery(
+    ["customerProfile"],
+    () =>
+      axios.get<CustomerCart>(
+        `${import.meta.env.VITE_APP_BACKEND_URL}/customers`
+      ),
+    {
+      enabled: false,
+    }
+  );
+
   const queryClient = useQueryClient();
 
   const clearCartMutation = useMutation(
@@ -83,8 +94,10 @@ const Cart = () => {
             Clear cart
           </Button>
           <Button
+            loading={profileDataQuery.isFetching}
             color={"green"}
             onClick={() => {
+              profileDataQuery.refetch();
               openConfirmModal({
                 title: "Confirm order?",
                 labels: {
