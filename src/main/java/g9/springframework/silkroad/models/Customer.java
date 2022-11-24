@@ -18,7 +18,7 @@ import lombok.Setter;
 @Entity
 @NoArgsConstructor
 public class Customer extends User {
-  private int moneyInWallet;
+  private double moneyInWallet;
 
   @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "cart_id")
