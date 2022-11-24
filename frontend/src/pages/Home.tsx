@@ -1,21 +1,13 @@
-import {
-  Center,
-  Container,
-  Grid,
-  List,
-  Loader, Title
-} from "@mantine/core";
+import { Center, Container, Grid, List, Loader, Title } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import ProductCard from "../components/display/ProductCard";
 import { useLoginStore } from "../store/loginStore";
 import { Category, Product } from "../types/interfaces";
 
 const Home = () => {
   // Hooks
-  const { isLogged, accessToken } = useLoginStore();
-  const navigate = useNavigate();
+  const { accessToken } = useLoginStore();
 
   // Axios default header setting
   axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
