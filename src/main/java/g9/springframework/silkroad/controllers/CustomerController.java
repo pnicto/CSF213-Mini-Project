@@ -1,5 +1,8 @@
 package g9.springframework.silkroad.controllers;
 
+import java.security.Principal;
+import java.util.Optional;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,8 +18,12 @@ public class CustomerController {
   private final CustomerRepository customerRepository;
 
   @GetMapping
-  Iterable<Customer> getAllCustomers() {
-    return customerRepository.findAll();
+  Customer getCustomer(Principal principal) {
+    Optional<Customer> cOptional = customerRepository.findByEmail(principal.getName());
+    if (cOptional.isPresent()) {
+      return cOptional.get();
+    } else {
+      throw new IllegalStateException("Customer not found");
+    }
   }
-
 }
