@@ -52,12 +52,20 @@ const LoginForm = () => {
     },
     {
       onSuccess: (data) => {
-        loginStore.setAccessToken(data.data.accessToken);
-        notificationStore.successNotification("Login Successful");
-        navigate("/");
+        if (pageMode === "Login") {
+          loginStore.setAccessToken(data.data.accessToken);
+          notificationStore.successNotification("Login Successful");
+          navigate("/");
+        } else {
+          notificationStore.successNotification(
+            "Registration successful",
+            "Login to continue"
+          );
+          setPageMode("Login");
+        }
       },
       onError: (data: AxiosError) => {
-        notificationStore.errorNotification(data.message, "Login failed");
+        notificationStore.errorNotification(data.message, `${pageMode} failed`);
       },
     }
   );
