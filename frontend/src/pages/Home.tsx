@@ -1,15 +1,8 @@
-import {
-  Anchor,
-  Center,
-  Container,
-  Grid,
-  List,
-  Loader,
-  Title,
-} from "@mantine/core";
+import { Anchor, Container, Grid, List, Title } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useState } from "react";
+import LoadingSpinner from "../components/display/LoadingSpinner";
 import ProductCard from "../components/display/ProductCard";
 import { useLoginStore } from "../store/loginStore";
 import { Category, Product } from "../types/interfaces";
@@ -25,6 +18,7 @@ const Home = () => {
   // Queries for data
   const productsQuery = useQuery(["products", activeCategory], () =>
     axios.get<Product[]>(
+      // If not category is selected set the request param to 0 to get all products
       `${import.meta.env.VITE_APP_BACKEND_URL}/products?name=${
         activeCategory ? activeCategory.id : 0
       }`
@@ -35,13 +29,10 @@ const Home = () => {
     axios.get<Category[]>(`${import.meta.env.VITE_APP_BACKEND_URL}/categories`)
   );
 
-  return (productsQuery.isLoading && categoriesQuery.isLoading) ||
-    productsQuery.isFetching ? (
-    <Center h="80vh">
-      <Loader size={"md"} />
-    </Center>
+  return productsQuery.isLoading && categoriesQuery.isLoading ? (
+    <LoadingSpinner />
   ) : (
-    <Container fluid px={0} py={8} mt={-12}>
+    <Container fluid>
       <Grid p={0} columns={13} mih={"92vh"}>
         <Grid.Col
           span={2}
@@ -80,13 +71,22 @@ const Home = () => {
             {activeCategory ? activeCategory.name : "All products: "}
           </Title>
           <Grid columns={4} gutter={"lg"} mx={"xs"}>
-            {productsQuery.data?.data.map((product) => {
-              return (
-                <Grid.Col key={product.id} span={1}>
-                  <ProductCard key={product.id} product={product} />
+            {
+              // Display loading spinner if the data is being re-fetched
+              productsQuery.isFetching ? (
+                <Grid.Col span={4}>
+                  <LoadingSpinner />
                 </Grid.Col>
-              );
-            })}
+              ) : (
+                productsQuery.data?.data.map((product) => {
+                  return (
+                    <Grid.Col key={product.id} span={1}>
+                      <ProductCard key={product.id} product={product} />
+                    </Grid.Col>
+                  );
+                })
+              )
+            }
           </Grid>
         </Grid.Col>
       </Grid>
