@@ -1,8 +1,9 @@
 import {
   ActionIcon,
   Anchor,
+  Center,
   Container,
-  Flex,
+  Grid,
   Image,
   Paper,
   Stack,
@@ -46,47 +47,54 @@ const CartItemCard = ({ cartItem }: Props) => {
 
   return (
     <Paper withBorder shadow={"md"} p={"xl"}>
-      <Flex direction={"row"} justify="space-between" align={"center"}>
-        <Image
-          alt={name}
-          src={imageUrl}
-          height={150}
-          width={150}
-          fit="contain"
-          m={"lg"}
-        />
-        <Container maw={"40%"}>
-          <Stack>
-            <Anchor component={Link} to={`/app/product/${product.id}`}>
-              <Title order={4}>{name}</Title>
-            </Anchor>
-            <div>
-              <Text>&#8377; {price}</Text>
+      <Grid columns={7} m={0}>
+        <Grid.Col span={2}>
+          <Image
+            alt={name}
+            src={imageUrl}
+            height={150}
+            fit="contain"
+            m={"lg"}
+          />
+        </Grid.Col>
+        <Grid.Col span={4}>
+          <Container>
+            <Stack>
+              <Anchor component={Link} to={`/app/product/${product.id}`}>
+                <Title order={4}>{name}</Title>
+              </Anchor>
               <div>
-                <Text span>Quantity: </Text>
-                <Text span color={"blue"}>
-                  {quantity}
-                </Text>
+                <Text>&#8377; {price}</Text>
+                <div>
+                  <Text span>Quantity: </Text>
+                  <Text span color={"blue"}>
+                    {quantity}
+                  </Text>
+                </div>
+                <div>
+                  <Text span>Total price: </Text>
+                  <Text span color={"blue"}>
+                    {(quantity * price).toFixed(2)}
+                  </Text>
+                </div>
               </div>
-              <div>
-                <Text span>Total price: </Text>
-                <Text span color={"blue"}>
-                  {(quantity * price).toFixed(2)}
-                </Text>
-              </div>
-            </div>
-          </Stack>
-        </Container>
-        <ActionIcon
-          color={"red"}
-          size="lg"
-          onClick={() => {
-            deleteCartItemMutation.mutate();
-          }}
-        >
-          <IconTrash size={32} />
-        </ActionIcon>
-      </Flex>
+            </Stack>
+          </Container>
+        </Grid.Col>
+        <Grid.Col span={1}>
+          <Center h={"100%"}>
+            <ActionIcon
+              color={"red"}
+              size={"lg"}
+              onClick={() => {
+                deleteCartItemMutation.mutate();
+              }}
+            >
+              <IconTrash size={32} />
+            </ActionIcon>
+          </Center>
+        </Grid.Col>
+      </Grid>
     </Paper>
   );
 };
