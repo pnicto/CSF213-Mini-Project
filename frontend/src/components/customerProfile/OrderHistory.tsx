@@ -1,14 +1,10 @@
 import { Container, Stack } from "@mantine/core";
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import { Customer } from "../../types/interfaces";
+import { useProfileDataQuery } from "../../hooks/useProfileDataQuery";
 import LoadingSpinner from "../display/LoadingSpinner";
 import OrderItemsContainer from "../display/orders/OrderItemsContainer";
 
 const OrderHistory = () => {
-  const profileDataQuery = useQuery(["customerProfile"], () =>
-    axios.get<Customer>(`${import.meta.env.VITE_APP_BACKEND_URL}/customers`)
-  );
+  const profileDataQuery = useProfileDataQuery();
 
   if (profileDataQuery.isLoading) {
     return <LoadingSpinner />;

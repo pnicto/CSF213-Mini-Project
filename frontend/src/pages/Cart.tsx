@@ -7,6 +7,7 @@ import LoadingSpinner from "../components/display/LoadingSpinner";
 import { useNotificationStore } from "../store/notificationStore";
 import { Customer, CustomerCart } from "../types/interfaces";
 import { ReactComponent as EmptyCart } from "../assets/empty_cart.svg";
+import { useProfileDataQuery } from "../hooks/useProfileDataQuery";
 
 const Cart = () => {
   const notificationStore = useNotificationStore();
@@ -16,9 +17,7 @@ const Cart = () => {
       `${import.meta.env.VITE_APP_BACKEND_URL}/customers/cart`
     )
   );
-  const profileDataQuery = useQuery(["customerProfile"], () =>
-    axios.get<Customer>(`${import.meta.env.VITE_APP_BACKEND_URL}/customers`)
-  );
+  const profileDataQuery = useProfileDataQuery();
 
   const queryClient = useQueryClient();
 

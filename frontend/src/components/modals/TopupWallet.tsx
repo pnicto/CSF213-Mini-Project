@@ -3,15 +3,14 @@ import { closeAllModals } from "@mantine/modals";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { useState } from "react";
+import { useProfileDataQuery } from "../../hooks/useProfileDataQuery";
 import { useNotificationStore } from "../../store/notificationStore";
 
 const TopupWallet = () => {
   const notificationStore = useNotificationStore();
   const [amount, setAmount] = useState(100);
 
-  const profileDataQuery = useQuery(["customerProfile"], () =>
-    axios.get(`${import.meta.env.VITE_APP_BACKEND_URL}/customers`)
-  );
+  const profileDataQuery = useProfileDataQuery();
 
   const topupWalletMutation = useMutation(
     (requestBody: { amount: number }) => {

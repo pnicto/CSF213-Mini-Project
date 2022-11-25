@@ -13,15 +13,13 @@ import {
 import { useForm } from "@mantine/form";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
+import { useProfileDataQuery } from "../../hooks/useProfileDataQuery";
 import { useNotificationStore } from "../../store/notificationStore";
 import { Customer } from "../../types/interfaces";
 
 const CustomerProfile = () => {
   const notificationStore = useNotificationStore();
-
-  const profileDataQuery = useQuery(["customerProfile"], () =>
-    axios.get<Customer>(`${import.meta.env.VITE_APP_BACKEND_URL}/customers`)
-  );
+  const profileDataQuery = useProfileDataQuery();
 
   if (profileDataQuery.isLoading) {
     return (
