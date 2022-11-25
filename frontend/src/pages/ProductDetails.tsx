@@ -94,7 +94,7 @@ const ProductDetails = () => {
                   {isAvailable ? "In stock" : "Out of stock"}
                 </Badge>
               </div>
-              <Title>&#8377; {price}</Title>
+              <Title>&#8377; {price.toFixed(2)}</Title>
               <Text>{description}</Text>
 
               <NumberInput

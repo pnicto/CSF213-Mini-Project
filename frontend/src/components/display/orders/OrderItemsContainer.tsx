@@ -19,7 +19,7 @@ const OrderItemsContainer = ({ order }: Props) => {
           <strong>Ordered at:</strong> {orderDate.toLocaleString()}
         </Text>
         <Text size={"lg"}>
-          <strong>Total price:</strong> &#8377;{order.totalPrice}
+          <strong>Total price:</strong> &#8377;{order.totalPrice.toFixed(2)}
         </Text>
       </Flex>
       <Container p={"xl"} fluid>

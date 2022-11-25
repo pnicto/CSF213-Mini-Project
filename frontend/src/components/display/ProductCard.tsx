@@ -27,7 +27,7 @@ const ProductCard = ({ product }: Props) => {
         />
       </Card.Section>
       <Group position="apart" mt="md" mb="xs">
-        <Text weight={300}>&#8377; {price}</Text>
+        <Text weight={300}>&#8377; {price.toFixed(2)}</Text>
         {isAvailable ? (
           <Badge color="green" variant="light">
             In stock
