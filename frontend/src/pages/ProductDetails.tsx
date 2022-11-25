@@ -4,7 +4,6 @@ import {
   Center,
   Grid,
   Image,
-  Loader,
   NumberInput,
   Stack,
   Text,
@@ -14,7 +13,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { useLoginStore } from "../store/loginStore";
+import LoadingSpinner from "../components/display/LoadingSpinner";
 import { useNotificationStore } from "../store/notificationStore";
 import { CustomerCart, Product } from "../types/interfaces";
 
@@ -24,13 +23,11 @@ interface CartItemRequest {
 }
 
 const ProductDetails = () => {
+  // Get route params
   const { productId } = useParams<{ productId?: string }>();
   const [quantity, setQuantity] = useState(1);
 
-  const { accessToken } = useLoginStore();
   const notificationStore = useNotificationStore();
-
-  axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
 
   const { data: productData, isLoading } = useQuery(
     ["products", productId],
@@ -48,7 +45,7 @@ const ProductDetails = () => {
       );
     },
     {
-      onSuccess: (data) => {
+      onSuccess: () => {
         notificationStore.successNotification("Successfully added to cart");
       },
 
@@ -62,11 +59,7 @@ const ProductDetails = () => {
   );
 
   if (isLoading) {
-    return (
-      <Center h={"80vh"}>
-        <Loader size={"md"} />
-      </Center>
-    );
+    return <LoadingSpinner />;
   } else {
     const { name, description, imageUrl, isAvailable, price } =
       productData!.data;
