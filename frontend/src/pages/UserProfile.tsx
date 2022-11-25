@@ -6,6 +6,7 @@ import { useState } from "react";
 import CustomerProfile from "../components/customerProfile/CustomerProfile";
 import OrderHistory from "../components/customerProfile/OrderHistory";
 import ChangePassword from "../components/modals/ChangePassword";
+import TopupWallet from "../components/modals/TopupWallet";
 import { Customer } from "../types/interfaces";
 
 const UserProfile = () => {
@@ -54,7 +55,12 @@ const UserProfile = () => {
             Order history
           </Button>
           <Button
-            onClick={() => {}}
+            onClick={() => {
+              openModal({
+                title: "Topup wallet",
+                children: <TopupWallet />,
+              });
+            }}
             variant="outline"
             fullWidth
             size="md"
