@@ -64,6 +64,7 @@ const UserProfile = () => {
             openModal({
               title: "Change password",
               children: <ChangePassword />,
+              centered: true,
             });
           }}
           variant="outline"
