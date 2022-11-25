@@ -1,6 +1,6 @@
 import { Button, NumberInput, Stack } from "@mantine/core";
 import { closeAllModals } from "@mantine/modals";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { useState } from "react";
 import { useProfileDataQuery } from "../../hooks/useProfileDataQuery";
@@ -20,8 +20,9 @@ const TopupWallet = () => {
       );
     },
     {
-      onSuccess: (data) => {
+      onSuccess: () => {
         profileDataQuery.refetch();
+        closeAllModals();
         notificationStore.successNotification("Amount added successfully");
       },
       onError: (data: AxiosError) => {
@@ -39,7 +40,6 @@ const TopupWallet = () => {
         onSubmit={(event) => {
           event.preventDefault();
           topupWalletMutation.mutate({ amount });
-          closeAllModals();
         }}
       >
         <Stack>
