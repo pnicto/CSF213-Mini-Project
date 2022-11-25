@@ -1,5 +1,6 @@
 import { Flex, Paper, Text } from "@mantine/core";
 import { Order } from "../../../types/interfaces";
+import OrderItemCard from "./OrderItemCard";
 
 type Props = {
   order: Order;
@@ -21,6 +22,9 @@ const OrderItemsContainer = ({ order }: Props) => {
           <strong>Total price:</strong> &#8377;{order.totalPrice}
         </Text>
       </Flex>
+      {order.orderItems.map((orderItem) => (
+        <OrderItemCard key={orderItem.id} orderItem={orderItem} />
+      ))}
     </Paper>
   );
 };
