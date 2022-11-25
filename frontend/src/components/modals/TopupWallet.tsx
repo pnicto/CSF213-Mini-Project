@@ -1,4 +1,5 @@
 import { Button, NumberInput, Stack } from "@mantine/core";
+import { closeAllModals } from "@mantine/modals";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { useState } from "react";
@@ -38,8 +39,8 @@ const TopupWallet = () => {
       <form
         onSubmit={(event) => {
           event.preventDefault();
-          console.log(amount);
           topupWalletMutation.mutate({ amount });
+          closeAllModals();
         }}
       >
         <Stack>
