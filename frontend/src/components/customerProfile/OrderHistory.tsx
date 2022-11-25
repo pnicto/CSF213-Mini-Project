@@ -1,4 +1,4 @@
-import { Stack } from "@mantine/core";
+import { Container, Stack } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Customer } from "../../types/interfaces";
@@ -18,11 +18,13 @@ const OrderHistory = () => {
 
   return (
     <>
-      <Stack>
-        {orders.map((order) => (
-          <OrderItemsContainer key={order.id} order={order} />
-        ))}
-      </Stack>
+      <Container>
+        <Stack>
+          {orders.map((order) => (
+            <OrderItemsContainer key={order.id} order={order} />
+          ))}
+        </Stack>
+      </Container>
     </>
   );
 };
