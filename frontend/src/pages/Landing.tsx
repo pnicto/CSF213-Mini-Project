@@ -6,7 +6,6 @@ import { useLoginStore } from "../store/loginStore";
 
 const Landing = () => {
   const navigate = useNavigate();
-
   const { isLogged } = useLoginStore();
 
   useEffect(() => {
