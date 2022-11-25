@@ -66,3 +66,12 @@ export interface Order {
   products: string;
   createdAt: Date;
 }
+
+export interface OrderItem {
+  id: number;
+  name: string;
+  description: string;
+  quantity: number;
+  imageUrl: string;
+  price: number;
+}
