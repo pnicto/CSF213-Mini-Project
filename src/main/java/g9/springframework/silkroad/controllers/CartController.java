@@ -76,14 +76,14 @@ public class CartController {
   }
 
   @DeleteMapping("clear")
-  Cart clearCart(Principal principal) {
+  Customer clearCart(Principal principal) {
     Optional<Customer> cOptional = customerRepository.findByEmail(principal.getName());
     if (cOptional.isPresent()) {
       Customer customer = cOptional.get();
       Cart customerCart = customer.getCart();
       customer.setCart(new Cart());
       cartRepository.deleteById(customerCart.getId());
-      return customerRepository.save(customer).getCart();
+      return customerRepository.save(customer);
 
     } else {
       throw new IllegalStateException("Customer not found");
@@ -91,7 +91,7 @@ public class CartController {
   }
 
   @DeleteMapping("{cartItemId}")
-  Cart deleteProductFromCart(@PathVariable("cartItemId") String cartItemId, Principal principal) {
+  Customer deleteProductFromCart(@PathVariable("cartItemId") String cartItemId, Principal principal) {
     Optional<Customer> cOptional = customerRepository.findByEmail(principal.getName());
     if (cOptional.isPresent()) {
       Customer customer = cOptional.get();
@@ -100,7 +100,7 @@ public class CartController {
       customerCart.deleteItemFromCart(cartItem.get());
       cartItemRepository.delete(cartItem.get());
       customer.setCart(customerCart);
-      return customerRepository.save(customer).getCart();
+      return customerRepository.save(customer);
 
     } else {
       throw new IllegalStateException("Customer not found");
