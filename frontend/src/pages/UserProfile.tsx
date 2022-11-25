@@ -1,4 +1,4 @@
-import { Button, Center, Grid, Loader, Stack } from "@mantine/core";
+import { Button, Center, Group, Loader } from "@mantine/core";
 import { openModal } from "@mantine/modals";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
@@ -27,67 +27,59 @@ const UserProfile = () => {
   }
 
   return (
-    <Grid mih={"92vh"} m={0} columns={10}>
-      <Grid.Col span={2}>
-        <Stack mx={"lg"}>
-          <Button
-            onClick={() => {
-              setActiveOption("profile");
-            }}
-            variant="outline"
-            fullWidth
-            size="md"
-            type="button"
-          >
-            Profile
-          </Button>
-          <Button
-            onClick={() => {
-              setActiveOption("orderHistory");
-            }}
-            variant="outline"
-            fullWidth
-            size="md"
-            type="button"
-          >
-            Order history
-          </Button>
-          <Button
-            onClick={() => {
-              openModal({
-                title: "Topup wallet",
-                children: <TopupWallet />,
-                centered: true,
-              });
-            }}
-            variant="outline"
-            fullWidth
-            size="md"
-            type="button"
-          >
-            Top-up wallet
-          </Button>
-          <Button
-            onClick={() => {
-              openModal({
-                title: "Change password",
-                children: <ChangePassword />,
-              });
-            }}
-            variant="outline"
-            fullWidth
-            size="md"
-            type="button"
-          >
-            Change password
-          </Button>
-        </Stack>
-      </Grid.Col>
-      <Grid.Col span={8}>
-        {activeOption === "profile" && <CustomerProfile />}
-        {activeOption === "orderHistory" && <OrderHistory />}
-      </Grid.Col>
-    </Grid>
+    <>
+      <Group position={"center"} m={"lg"}>
+        <Button
+          onClick={() => {
+            setActiveOption("profile");
+          }}
+          variant="outline"
+          size="md"
+          type="button"
+        >
+          Profile
+        </Button>
+        <Button
+          onClick={() => {
+            setActiveOption("orderHistory");
+          }}
+          variant="outline"
+          size="md"
+          type="button"
+        >
+          Order history
+        </Button>
+        <Button
+          onClick={() => {
+            openModal({
+              title: "Topup wallet",
+              children: <TopupWallet />,
+              centered: true,
+            });
+          }}
+          variant="outline"
+          size="md"
+          type="button"
+        >
+          Top-up wallet
+        </Button>
+        <Button
+          onClick={() => {
+            openModal({
+              title: "Change password",
+              children: <ChangePassword />,
+            });
+          }}
+          variant="outline"
+          size="md"
+          type="button"
+        >
+          Change password
+        </Button>
+      </Group>
+      {activeOption === "profile" && <CustomerProfile />}
+      {activeOption === "orderHistory" && <OrderHistory />}
+    </>
   );
 };
 
