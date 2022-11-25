@@ -1,6 +1,6 @@
 import { Card, Group, Image, Text, Badge } from "@mantine/core";
 import { Link } from "react-router-dom";
-import { Product } from "../types/interfaces";
+import { Product } from "../../types/interfaces";
 
 type Props = {
   product: Product;
