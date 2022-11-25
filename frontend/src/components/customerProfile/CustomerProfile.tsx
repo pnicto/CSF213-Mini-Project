@@ -64,51 +64,63 @@ const CustomerProfile = () => {
   );
 
   return (
-    <Container py={"md"} px={"xl"}>
-      <Paper withBorder shadow={"lg"} p={"xl"}>
+    <Container p={"xl"} maw="50%">
+      <Paper withBorder shadow={"xl"} p={"xl"} m={"xl"}>
         <Title
           order={2}
           transform="capitalize"
           color={"deepBlue"}
           align="center"
+          mb={"md"}
         >
           Profile Details
         </Title>
         <Stack>
-          <Text>
+          <Text size={"lg"}>
+            <strong>Name:</strong> {profileDataQuery.data!.data.name}
+          </Text>
+          <Text size={"lg"}>
+            <strong>Phone number:</strong>{" "}
+            {profileDataQuery.data!.data.phoneNumber}
+          </Text>
+          <Text size={"lg"}>
             <strong>Email:</strong> {profileDataQuery.data!.data.email}
           </Text>
-          <Text>
+          <Text size={"lg"}>
             <strong>Account Balance:</strong> &#8377;
             {profileDataQuery.data!.data.moneyInWallet}
+          </Text>
+          <Text size={"lg"} fw={700}>
+            Update Profile:
           </Text>
           <form
             onSubmit={form.onSubmit((values) => {
               updateProfile.mutate(values);
             })}
           >
-            <Text size={"lg"} fw={700}>
-              Update Profile:
-            </Text>
             <Stack>
               <TextInput
                 withAsterisk
                 required
                 label="Name"
-                placeholder="John"
+                placeholder="New name"
                 {...form.getInputProps("name")}
                 type={"text"}
+                size={"md"}
               />
               <TextInput
                 withAsterisk
                 required
                 label="Phone Number"
-                placeholder="944143256"
+                placeholder="New phone number"
                 {...form.getInputProps("phoneNumber")}
                 type={"text"}
+                size={"md"}
               />
-              <Group>
-                <Button type="submit">Update Details</Button>
+              <Group position={"center"}>
+                <Button type="submit" size="sm">
+                  Update Details
+                </Button>
               </Group>
             </Stack>
           </form>
