@@ -107,7 +107,7 @@ const Cart = () => {
         <Group position="apart" mb={"md"}>
           <Title>Your cart</Title>
           <div>
-            <Title order={3}>Total price: &#8377;{totalPrice.toFixed(2)}</Title>
+            <Title order={3}>Total price: &#8377;{totalPrice}</Title>
             <Title order={3}>Total quantity: {totalQuantity}</Title>
           </div>
         </Group>
