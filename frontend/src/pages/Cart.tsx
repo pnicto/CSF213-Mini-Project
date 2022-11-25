@@ -86,7 +86,7 @@ const Cart = () => {
             <Title order={4}>
               Wallet balance: {profileDataQuery.data?.data.moneyInWallet}
             </Title>
-            <Title order={4}>Total price: &#8377;{totalPrice}</Title>
+            <Title order={4}>Total price: &#8377;{totalPrice.toFixed(2)}</Title>
           </>
         ),
         onConfirm: () => {

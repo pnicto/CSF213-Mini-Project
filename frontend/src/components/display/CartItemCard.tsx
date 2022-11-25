@@ -64,7 +64,7 @@ const CartItemCard = ({ cartItem }: Props) => {
                 <Title order={4}>{name}</Title>
               </Anchor>
               <div>
-                <Text>&#8377; {price}</Text>
+                <Text>&#8377; {price.toFixed(2)}</Text>
                 <div>
                   <Text span>Quantity: </Text>
                   <Text span color={"blue"}>
