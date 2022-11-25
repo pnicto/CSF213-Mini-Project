@@ -11,7 +11,7 @@ import {
   Title,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { useProfileDataQuery } from "../../hooks/useProfileDataQuery";
 import { useNotificationStore } from "../../store/notificationStore";
@@ -55,7 +55,7 @@ const CustomerProfile = () => {
       );
     },
     {
-      onSuccess: (data) => {
+      onSuccess: () => {
         notificationStore.successNotification("Profile Update Successful");
         profileDataQuery.refetch();
       },
