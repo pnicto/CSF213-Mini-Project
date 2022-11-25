@@ -2,6 +2,7 @@ import { Center, Loader } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Customer } from "../../types/interfaces";
+import OrderItemsContainer from "../display/orders/OrderItemsContainer";
 
 const OrderHistory = () => {
   const profileDataQuery = useQuery(["customerProfile"], () =>
@@ -16,9 +17,13 @@ const OrderHistory = () => {
     );
   }
 
+  const { orders } = profileDataQuery.data!.data;
+
   return (
     <>
-      <div>Order history</div>
+      {orders.map((order) => (
+        <OrderItemsContainer key={order.id} order={order} />
+      ))}
     </>
   );
 };
