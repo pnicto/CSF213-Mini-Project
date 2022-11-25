@@ -20,7 +20,7 @@ const Landing = () => {
         <Title size="h1" weight="bold" color="deepBlue" pb="xl">
           Silkroad
         </Title>
-        <CartLogo className="svg-logo" height={550} />
+        <CartLogo height={550} />
         <Group position="center">
           <Button
             type="button"
