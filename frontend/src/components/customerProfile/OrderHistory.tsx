@@ -1,7 +1,8 @@
-import { Center, Loader, Stack } from "@mantine/core";
+import { Stack } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Customer } from "../../types/interfaces";
+import LoadingSpinner from "../display/LoadingSpinner";
 import OrderItemsContainer from "../display/orders/OrderItemsContainer";
 
 const OrderHistory = () => {
@@ -10,11 +11,7 @@ const OrderHistory = () => {
   );
 
   if (profileDataQuery.isLoading) {
-    return (
-      <Center h={"80vh"}>
-        <Loader size={"md"} />
-      </Center>
-    );
+    return <LoadingSpinner />;
   }
 
   const { orders } = profileDataQuery.data!.data;
