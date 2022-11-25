@@ -7,7 +7,7 @@ import {
   Stack,
   Text,
   TextInput,
-  Title
+  Title,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -29,7 +29,6 @@ const CustomerProfile = () => {
       </Center>
     );
   }
-  console.log(profileDataQuery.data?.data);
 
   const form = useForm({
     initialValues: {
