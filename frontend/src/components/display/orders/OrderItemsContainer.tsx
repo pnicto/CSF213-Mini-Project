@@ -1,4 +1,4 @@
-import { Flex, Paper, Text } from "@mantine/core";
+import { Container, Flex, Grid, Paper, Text } from "@mantine/core";
 import { Order } from "../../../types/interfaces";
 import OrderItemCard from "./OrderItemCard";
 
@@ -10,7 +10,7 @@ const OrderItemsContainer = ({ order }: Props) => {
   const orderDate = new Date(order.createdAt);
 
   return (
-    <Paper withBorder shadow={"lg"} p={"xl"}>
+    <Paper withBorder shadow={"lg"} mr={"xl"} mb={"md"} py={"xl"}>
       <Flex justify={"space-around"}>
         <Text size={"lg"}>
           <strong>Id:</strong> #{order.id}
@@ -22,9 +22,13 @@ const OrderItemsContainer = ({ order }: Props) => {
           <strong>Total price:</strong> &#8377;{order.totalPrice}
         </Text>
       </Flex>
-      {order.orderItems.map((orderItem) => (
-        <OrderItemCard key={orderItem.id} orderItem={orderItem} />
-      ))}
+      <Container p={"xl"} fluid>
+        <Grid columns={3}>
+          {order.orderItems.map((orderItem) => (
+            <OrderItemCard key={orderItem.id} orderItem={orderItem} />
+          ))}
+        </Grid>
+      </Container>
     </Paper>
   );
 };
