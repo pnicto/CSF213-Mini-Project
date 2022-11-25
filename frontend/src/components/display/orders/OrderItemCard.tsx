@@ -29,7 +29,7 @@ const OrderItemCard = ({ orderItem }: Props) => {
             <div>
               <Text span>Total price: </Text>
               <Text span color={"blue"}>
-                {quantity * price}
+                {(quantity * price).toFixed(2)}
               </Text>
             </div>
           </div>
