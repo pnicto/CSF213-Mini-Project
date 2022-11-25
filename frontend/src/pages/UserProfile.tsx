@@ -1,18 +1,14 @@
 import { Button, Center, Group, Loader } from "@mantine/core";
 import { openModal } from "@mantine/modals";
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import { useState } from "react";
 import CustomerProfile from "../components/customerProfile/CustomerProfile";
 import OrderHistory from "../components/customerProfile/OrderHistory";
 import ChangePassword from "../components/modals/ChangePassword";
 import TopupWallet from "../components/modals/TopupWallet";
-import { Customer } from "../types/interfaces";
+import { useProfileDataQuery } from "../hooks/useProfileDataQuery";
 
 const UserProfile = () => {
-  const profileDataQuery = useQuery(["customerProfile"], () =>
-    axios.get<Customer>(`${import.meta.env.VITE_APP_BACKEND_URL}/customers`)
-  );
+  const profileDataQuery = useProfileDataQuery();
 
   type profileState = "profile" | "orderHistory";
 
