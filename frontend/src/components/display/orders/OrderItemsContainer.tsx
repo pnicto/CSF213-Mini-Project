@@ -10,7 +10,7 @@ const OrderItemsContainer = ({ order }: Props) => {
   const orderDate = new Date(order.createdAt);
 
   return (
-    <Paper withBorder shadow={"md"} p={"xl"}>
+    <Paper withBorder shadow={"lg"} p={"xl"}>
       <Flex justify={"space-around"}>
         <Text size={"lg"}>
           <strong>Id:</strong> #{order.id}
