@@ -7,7 +7,7 @@ import {
   Stack,
   Text,
   TextInput,
-  Title,
+  Title
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -15,7 +15,7 @@ import axios, { AxiosError } from "axios";
 import { useNotificationStore } from "../../store/notificationStore";
 import { Customer } from "../../types/interfaces";
 
-const UserProfile = () => {
+const CustomerProfile = () => {
   const notificationStore = useNotificationStore();
 
   const profileDataQuery = useQuery(["customerProfile"], () =>
@@ -135,4 +135,4 @@ const UserProfile = () => {
   );
 };
 
-export default UserProfile;
+export default CustomerProfile;
