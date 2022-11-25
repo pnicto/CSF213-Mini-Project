@@ -6,11 +6,11 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import MainNavbar from "./components/MainNavbar";
 import Cart from "./pages/Cart";
-import CustomerProfile from "./pages/CustomerProfile";
 import Home from "./pages/Home";
 import Landing from "./pages/Landing";
 import Login from "./pages/Login";
 import ProductDetails from "./pages/ProductDetails";
+import UserProfile from "./pages/UserProfile";
 
 const queryClient = new QueryClient();
 
@@ -80,7 +80,7 @@ export default function App() {
                       element={<ProductDetails />}
                     />
                     <Route path="cart" element={<Cart />} />
-                    <Route path="my profile" element={<CustomerProfile />} />
+                    <Route path="my profile" element={<UserProfile />} />
                   </Route>
                 </Route>
               </Routes>
