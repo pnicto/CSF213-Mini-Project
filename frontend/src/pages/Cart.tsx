@@ -1,18 +1,12 @@
-import {
-  Button,
-  Center,
-  Container,
-  Group,
-  Loader,
-  Stack,
-  Title,
-} from "@mantine/core";
+import { Button, Center, Container, Group, Stack, Title } from "@mantine/core";
 import { openConfirmModal } from "@mantine/modals";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import CartItemCard from "../components/display/CartItemCard";
+import LoadingSpinner from "../components/display/LoadingSpinner";
 import { useNotificationStore } from "../store/notificationStore";
 import { Customer, CustomerCart } from "../types/interfaces";
+import { ReactComponent as EmptyCart } from "../assets/empty_cart.svg";
 
 const Cart = () => {
   const notificationStore = useNotificationStore();
@@ -39,7 +33,6 @@ const Cart = () => {
         notificationStore.successNotification("Cleared cart successfully");
         queryClient.setQueryData(["cart"], data);
       },
-
       onError: (data: AxiosError) => {
         notificationStore.errorNotification(
           data.message,
@@ -56,11 +49,10 @@ const Cart = () => {
       );
     },
     {
-      onSuccess: (data) => {
+      onSuccess: () => {
         cartDataQuery.refetch();
         notificationStore.successNotification("Order placed successfully!");
       },
-
       onError: (data: AxiosError) => {
         notificationStore.errorNotification(
           data.message,
@@ -111,11 +103,7 @@ const Cart = () => {
   };
 
   if (cartDataQuery.isLoading) {
-    return (
-      <Center h={"80vh"}>
-        <Loader size={"md"} />
-      </Center>
-    );
+    return <LoadingSpinner />;
   } else {
     const { cartItems, totalPrice, totalQuantity } = cartDataQuery.data!.data;
     return (
@@ -130,9 +118,12 @@ const Cart = () => {
 
         <Stack>
           {cartItems.length === 0 && (
-            <Center>
-              <Title color={"blue.3"}>Cart is empty</Title>
-            </Center>
+            <>
+              <Center m={"sm"}>
+                <Title color={"blue.3"}>Cart is empty</Title>
+              </Center>
+              <EmptyCart height={400} />
+            </>
           )}
           {cartItems.map((cartItem) => (
             <CartItemCard cartItem={cartItem} key={cartItem.id} />
@@ -140,6 +131,7 @@ const Cart = () => {
         </Stack>
         <Group mt={"lg"} position="right">
           <Button
+            disabled={cartItems.length === 0}
             color={"red"}
             onClick={() => {
               clearCartMutation.mutate();
