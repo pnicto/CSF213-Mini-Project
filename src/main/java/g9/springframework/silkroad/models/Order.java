@@ -43,8 +43,8 @@ public class Order {
     cartItems.forEach(cartItem -> {
       var product = cartItem.getProduct();
       this.orderItems.add(
-          new OrderItem(product.getName(), product.getDescription(), product.getImageUrl(), product.getPrice(),
-              cartItem.getQuantity()));
+          new OrderItem(product.getName(), product.getImageUrl(), product.getPrice(),
+              cartItem.getQuantity(), product.getId()));
     });
   }
 
