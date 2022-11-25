@@ -1,9 +1,11 @@
 import { Button, Center, Grid, Loader, Stack } from "@mantine/core";
+import { openModal } from "@mantine/modals";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useState } from "react";
 import CustomerProfile from "../components/customerProfile/CustomerProfile";
 import OrderHistory from "../components/customerProfile/OrderHistory";
+import ChangePassword from "../components/modals/ChangePassword";
 import { Customer } from "../types/interfaces";
 
 const UserProfile = () => {
@@ -11,7 +13,7 @@ const UserProfile = () => {
     axios.get<Customer>(`${import.meta.env.VITE_APP_BACKEND_URL}/customers`)
   );
 
-  type profileState = "profile" | "orderHistory" | "wallet" | "updatePassword";
+  type profileState = "profile" | "orderHistory";
 
   const [activeOption, setActiveOption] = useState<profileState>("profile");
 
@@ -52,9 +54,7 @@ const UserProfile = () => {
             Order history
           </Button>
           <Button
-            onClick={() => {
-              setActiveOption("wallet");
-            }}
+            onClick={() => {}}
             variant="outline"
             fullWidth
             size="md"
@@ -65,7 +65,10 @@ const UserProfile = () => {
           </Button>
           <Button
             onClick={() => {
-              setActiveOption("updatePassword");
+              openModal({
+                title: "Change password",
+                children: <ChangePassword />,
+              });
             }}
             variant="outline"
             fullWidth
