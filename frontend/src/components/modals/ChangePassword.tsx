@@ -1,4 +1,4 @@
-import { Button, PasswordInput, Stack } from "@mantine/core";
+import { Button, PasswordInput, Stack, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { closeAllModals } from "@mantine/modals";
 import { useMutation } from "@tanstack/react-query";
@@ -59,19 +59,22 @@ const ChangePassword = ({}: Props) => {
         })}
       >
         <Stack>
-          <PasswordInput
+          <TextInput
+            type={"password"}
             withAsterisk
             placeholder="Old password"
             label="Old password"
             {...passwordForm.getInputProps("oldPassword")}
           />
-          <PasswordInput
+          <TextInput
+            type={"password"}
             withAsterisk
             placeholder="New password"
             label="New password"
             {...passwordForm.getInputProps("newPassword")}
           />
-          <PasswordInput
+          <TextInput
+            type={"password"}
             withAsterisk
             placeholder="Confirm new password"
             label="Confirm new password"
