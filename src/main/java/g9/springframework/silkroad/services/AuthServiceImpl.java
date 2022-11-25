@@ -1,6 +1,6 @@
 package g9.springframework.silkroad.services;
 
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import g9.springframework.silkroad.models.Customer;
@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 @Service
 public class AuthServiceImpl implements AuthService {
   private final CustomerRepository customerRepository;
+  private final PasswordEncoder passwordEncoder;
 
   public Customer register(String name, String email, String password, String phoneNumber) {
     boolean isCustomerExists = customerRepository.findByEmail(email).isPresent();
@@ -19,7 +20,7 @@ public class AuthServiceImpl implements AuthService {
       throw new IllegalStateException("Customer already exists");
     } else {
       return customerRepository
-          .save(new Customer(name, email, new BCryptPasswordEncoder().encode(password), phoneNumber));
+          .save(new Customer(name, email, passwordEncoder.encode(password), phoneNumber));
     }
   }
 
