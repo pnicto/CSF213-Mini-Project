@@ -2,6 +2,7 @@ import {
   Button,
   Center,
   Container,
+  Group,
   Loader,
   Paper,
   Stack,
@@ -71,62 +72,52 @@ const CustomerProfile = () => {
 
   return (
     <Container py={"md"} px={"xl"}>
-      <Paper withBorder shadow={"md"} p={"xl"}>
+      <Paper withBorder shadow={"lg"} p={"xl"}>
         <Title
-          order={1}
+          order={2}
           transform="capitalize"
           color={"deepBlue"}
           align="center"
         >
-          {"Profile Details"}
+          Profile Details
         </Title>
-
         <Stack>
-          <div>
-            <Text size={"lg"} align="left" fw={700} span>
-              {"Email ID: "}
-            </Text>
-            <Text span>{profileDataQuery.data!.data.email}</Text>
-          </div>
-          <div>
-            <Text size={"lg"} align="right" fw={700} span>
-              {"Account Balance: "}
-            </Text>
-            <Text span align="right">
-              ₹{profileDataQuery.data!.data.moneyInWallet}
-            </Text>
-          </div>
-          <Text size={"xl"} fw={700}>
-            {"Update Profile:"}
+          <Text>
+            <strong>Email:</strong> {profileDataQuery.data!.data.email}
+          </Text>
+          <Text>
+            <strong>Account Balance:</strong> &#8377;
+            {profileDataQuery.data!.data.moneyInWallet}
           </Text>
           <form
             onSubmit={form.onSubmit((values) => {
               updateProfile.mutate(values);
             })}
-            id="profile-update-form"
           >
-            <TextInput
-              withAsterisk
-              required
-              label="Name"
-              placeholder="John"
-              {...form.getInputProps("name")}
-              type={"text"}
-              size="md"
-            />
-            <TextInput
-              withAsterisk
-              required
-              label="Phone Number"
-              placeholder="944143256"
-              {...form.getInputProps("phoneNumber")}
-              type={"text"}
-              py="sm"
-              size="md"
-            />
-            <Center>
-              <Button type="submit">{"Update Details"}</Button>
-            </Center>
+            <Text size={"lg"} fw={700}>
+              Update Profile:
+            </Text>
+            <Stack>
+              <TextInput
+                withAsterisk
+                required
+                label="Name"
+                placeholder="John"
+                {...form.getInputProps("name")}
+                type={"text"}
+              />
+              <TextInput
+                withAsterisk
+                required
+                label="Phone Number"
+                placeholder="944143256"
+                {...form.getInputProps("phoneNumber")}
+                type={"text"}
+              />
+              <Group>
+                <Button type="submit">Update Details</Button>
+              </Group>
+            </Stack>
           </form>
         </Stack>
       </Paper>
