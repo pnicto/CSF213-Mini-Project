@@ -1,5 +1,6 @@
 import { Button, PasswordInput, Stack } from "@mantine/core";
 import { useForm } from "@mantine/form";
+import { closeAllModals } from "@mantine/modals";
 import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { useNotificationStore } from "../../store/notificationStore";
@@ -31,7 +32,8 @@ const ChangePassword = ({}: Props) => {
       );
     },
     {
-      onSuccess: (data) => {
+      onSuccess: () => {
+        closeAllModals();
         notificationStore.successNotification("Password changed successfully!");
       },
       onError: (data: AxiosError) => {
