@@ -71,8 +71,8 @@ export interface Order {
 export interface OrderItem {
   id: number;
   name: string;
-  description: string;
   quantity: number;
   imageUrl: string;
   price: number;
+  productId: number;
 }
