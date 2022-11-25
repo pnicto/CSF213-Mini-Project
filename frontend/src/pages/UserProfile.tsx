@@ -6,6 +6,7 @@ import { useState } from "react";
 import CustomerProfile from "../components/customerProfile/CustomerProfile";
 import OrderHistory from "../components/customerProfile/OrderHistory";
 import ChangePassword from "../components/modals/ChangePassword";
+import TopupWallet from "../components/modals/TopupWallet";
 import { Customer } from "../types/interfaces";
 
 const UserProfile = () => {
@@ -36,7 +37,6 @@ const UserProfile = () => {
             variant="outline"
             fullWidth
             size="md"
-            color={"deepBlue"}
             type="button"
           >
             Profile
@@ -48,17 +48,21 @@ const UserProfile = () => {
             variant="outline"
             fullWidth
             size="md"
-            color={"deepBlue"}
             type="button"
           >
             Order history
           </Button>
           <Button
-            onClick={() => {}}
+            onClick={() => {
+              openModal({
+                title: "Topup wallet",
+                children: <TopupWallet />,
+                centered: true,
+              });
+            }}
             variant="outline"
             fullWidth
             size="md"
-            color={"deepBlue"}
             type="button"
           >
             Top-up wallet
@@ -73,7 +77,6 @@ const UserProfile = () => {
             variant="outline"
             fullWidth
             size="md"
-            color={"deepBlue"}
             type="button"
           >
             Change password
