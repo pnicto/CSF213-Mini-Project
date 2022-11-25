@@ -36,7 +36,7 @@ const CartItemCard = ({ cartItem }: Props) => {
     {
       onSuccess: (data) => {
         notificationStore.successNotification("Deleted item successfully");
-        queryClient.setQueryData(["cart"], data);
+        queryClient.setQueryData(["customerProfile"], data);
       },
 
       onError: (data: AxiosError) => {
