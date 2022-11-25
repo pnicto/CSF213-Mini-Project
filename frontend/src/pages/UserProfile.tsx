@@ -2,11 +2,11 @@ import { Button, Center, Grid, Loader, Stack } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useState } from "react";
+import CustomerProfile from "../components/customerProfile/CustomerProfile";
 import OrderHistory from "../components/customerProfile/OrderHistory";
-import UserProfile from "../components/customerProfile/UserProfile";
 import { Customer } from "../types/interfaces";
 
-const CustomerProfile = () => {
+const UserProfile = () => {
   const profileDataQuery = useQuery(["customerProfile"], () =>
     axios.get<Customer>(`${import.meta.env.VITE_APP_BACKEND_URL}/customers`)
   );
@@ -78,11 +78,11 @@ const CustomerProfile = () => {
         </Stack>
       </Grid.Col>
       <Grid.Col span={10}>
-        {activeOption === "profile" && <UserProfile />}
+        {activeOption === "profile" && <CustomerProfile />}
         {activeOption === "orderHistory" && <OrderHistory />}
       </Grid.Col>
     </Grid>
   );
 };
 
-export default CustomerProfile;
+export default UserProfile;
