@@ -1,9 +1,11 @@
 import { Button, Center, Grid, Loader, Stack } from "@mantine/core";
+import { openModal } from "@mantine/modals";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useState } from "react";
 import CustomerProfile from "../components/customerProfile/CustomerProfile";
 import OrderHistory from "../components/customerProfile/OrderHistory";
+import ChangePassword from "../components/modals/ChangePassword";
 import { Customer } from "../types/interfaces";
 
 const UserProfile = () => {
@@ -62,7 +64,12 @@ const UserProfile = () => {
             Top-up wallet
           </Button>
           <Button
-            onClick={() => {}}
+            onClick={() => {
+              openModal({
+                title: "Change password",
+                children: <ChangePassword />,
+              });
+            }}
             variant="outline"
             fullWidth
             size="md"
