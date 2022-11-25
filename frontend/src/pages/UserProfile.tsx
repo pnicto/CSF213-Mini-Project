@@ -27,9 +27,9 @@ const UserProfile = () => {
   }
 
   return (
-    <Grid p={0} mih={"92vh"} px={"md"}>
+    <Grid mih={"92vh"} m={0} columns={10}>
       <Grid.Col span={2}>
-        <Stack>
+        <Stack mx={"lg"}>
           <Button
             onClick={() => {
               setActiveOption("profile");
@@ -83,7 +83,7 @@ const UserProfile = () => {
           </Button>
         </Stack>
       </Grid.Col>
-      <Grid.Col span={10}>
+      <Grid.Col span={8}>
         {activeOption === "profile" && <CustomerProfile />}
         {activeOption === "orderHistory" && <OrderHistory />}
       </Grid.Col>
