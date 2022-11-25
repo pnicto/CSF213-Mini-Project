@@ -32,13 +32,13 @@ public class CustomerController {
   }
 
   @PatchMapping
-  Customer updateCustomer(@RequestBody Customer updatedCustomer) {
-    Optional<Customer> cOptional = customerRepository.findById(updatedCustomer.getId());
+  Customer updateCustomer(@RequestBody Customer updatedCustomer, Principal principal) {
+    Optional<Customer> cOptional = customerRepository.findByEmail(principal.getName());
     if (cOptional.isPresent()) {
       Customer customer = cOptional.get();
       customer.setName(updatedCustomer.getName());
       customer.setPhoneNumber(updatedCustomer.getPhoneNumber());
-      customer.setMoneyInWallet(updatedCustomer.getMoneyInWallet());
+      customer.setMoneyInWallet(customer.getMoneyInWallet() + updatedCustomer.getMoneyInWallet());
       customerRepository.save(customer);
       return customer;
     } else {
@@ -59,8 +59,24 @@ public class CustomerController {
       throw new IllegalStateException("Customer not found");
     }
   }
+
+  @PatchMapping("/topup")
+  Customer updateWallet(@RequestBody WalletBody requestBody, Principal principal) {
+    Optional<Customer> cOptional = customerRepository.findByEmail(principal.getName());
+    if (cOptional.isPresent()) {
+      Customer customer = cOptional.get();
+      customer.setMoneyInWallet(customer.getMoneyInWallet() + requestBody.amount());
+      return customerRepository.save(customer);
+    } else {
+      throw new IllegalStateException("Customer not found");
+    }
+  }
 }
 
 record ChangePasswordBody(
     String oldPassword, String newPassword) {
+}
+
+record WalletBody(
+    Double amount) {
 }
