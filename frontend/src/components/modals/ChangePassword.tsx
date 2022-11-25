@@ -60,23 +60,23 @@ const ChangePassword = ({}: Props) => {
       >
         <Stack>
           <TextInput
+            size={"md"}
             type={"password"}
             withAsterisk
-            placeholder="Old password"
             label="Old password"
             {...passwordForm.getInputProps("oldPassword")}
           />
           <TextInput
+            size={"md"}
             type={"password"}
             withAsterisk
-            placeholder="New password"
             label="New password"
             {...passwordForm.getInputProps("newPassword")}
           />
           <TextInput
+            size={"md"}
             type={"password"}
             withAsterisk
-            placeholder="Confirm new password"
             label="Confirm new password"
             {...passwordForm.getInputProps("confirmNewPassword")}
           />
