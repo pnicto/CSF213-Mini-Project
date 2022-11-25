@@ -57,6 +57,7 @@ const UserProfile = () => {
               openModal({
                 title: "Topup wallet",
                 children: <TopupWallet />,
+                centered: true,
               });
             }}
             variant="outline"
