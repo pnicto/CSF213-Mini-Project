@@ -37,7 +37,6 @@ const UserProfile = () => {
             variant="outline"
             fullWidth
             size="md"
-            color={"deepBlue"}
             type="button"
           >
             Profile
@@ -49,7 +48,6 @@ const UserProfile = () => {
             variant="outline"
             fullWidth
             size="md"
-            color={"deepBlue"}
             type="button"
           >
             Order history
@@ -64,7 +62,6 @@ const UserProfile = () => {
             variant="outline"
             fullWidth
             size="md"
-            color={"deepBlue"}
             type="button"
           >
             Top-up wallet
@@ -79,7 +76,6 @@ const UserProfile = () => {
             variant="outline"
             fullWidth
             size="md"
-            color={"deepBlue"}
             type="button"
           >
             Change password
