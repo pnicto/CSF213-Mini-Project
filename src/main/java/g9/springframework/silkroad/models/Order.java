@@ -1,45 +1,51 @@
 package g9.springframework.silkroad.models;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Column;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import com.google.gson.GsonBuilder;
-
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
 @Table(name = "orders")
-@NoArgsConstructor
 public class Order {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE)
   private Long id;
-  @Column(columnDefinition = "TEXT")
-  private String products;
+  @OneToMany(cascade = CascadeType.ALL)
+  private List<OrderItem> orderItems;
   private double totalPrice;
 
   @CreationTimestamp
   private LocalDateTime createdAt;
 
+  public Order() {
+    this.totalPrice = 0;
+    this.orderItems = new ArrayList<>();
+  }
+
   public Order(List<CartItem> cartItems, double totalPrice) {
-    var gson = new GsonBuilder()
-        .setPrettyPrinting()
-        .excludeFieldsWithoutExposeAnnotation().create();
     this.totalPrice = totalPrice;
-    this.products = gson.toJson(cartItems);
+    this.orderItems = new ArrayList<>();
+    cartItems.forEach(cartItem -> {
+      var product = cartItem.getProduct();
+      this.orderItems.add(
+          new OrderItem(product.getName(), product.getDescription(), product.getImageUrl(), product.getPrice(),
+              cartItem.getQuantity()));
+    });
   }
 
 }
