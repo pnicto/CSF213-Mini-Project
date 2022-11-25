@@ -1,22 +1,17 @@
 import { Button, Center, Container, Group, Stack, Title } from "@mantine/core";
 import { openConfirmModal } from "@mantine/modals";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
+import { ReactComponent as EmptyCart } from "../assets/empty_cart.svg";
 import CartItemCard from "../components/display/CartItemCard";
 import LoadingSpinner from "../components/display/LoadingSpinner";
-import { useNotificationStore } from "../store/notificationStore";
-import { Customer, CustomerCart } from "../types/interfaces";
-import { ReactComponent as EmptyCart } from "../assets/empty_cart.svg";
 import { useProfileDataQuery } from "../hooks/useProfileDataQuery";
+import { useNotificationStore } from "../store/notificationStore";
+import { CustomerCart } from "../types/interfaces";
 
 const Cart = () => {
   const notificationStore = useNotificationStore();
 
-  const cartDataQuery = useQuery(["cart"], () =>
-    axios.get<CustomerCart>(
-      `${import.meta.env.VITE_APP_BACKEND_URL}/customers/cart`
-    )
-  );
   const profileDataQuery = useProfileDataQuery();
 
   const queryClient = useQueryClient();
@@ -30,7 +25,7 @@ const Cart = () => {
     {
       onSuccess: (data) => {
         notificationStore.successNotification("Cleared cart successfully");
-        queryClient.setQueryData(["cart"], data);
+        queryClient.setQueryData(["customerProfile"], data);
       },
       onError: (data: AxiosError) => {
         notificationStore.errorNotification(
@@ -49,7 +44,7 @@ const Cart = () => {
     },
     {
       onSuccess: () => {
-        cartDataQuery.refetch();
+        profileDataQuery.refetch();
         notificationStore.successNotification("Order placed successfully!");
       },
       onError: (data: AxiosError) => {
@@ -101,10 +96,12 @@ const Cart = () => {
     }
   };
 
-  if (cartDataQuery.isLoading) {
+  if (profileDataQuery.isLoading) {
     return <LoadingSpinner />;
   } else {
-    const { cartItems, totalPrice, totalQuantity } = cartDataQuery.data!.data;
+    const { cartItems, totalPrice, totalQuantity } =
+      profileDataQuery.data!.data.cart;
+
     return (
       <Container mb={"xl"}>
         <Group position="apart" mb={"md"}>
