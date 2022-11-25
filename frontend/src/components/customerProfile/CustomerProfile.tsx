@@ -1,9 +1,7 @@
 import {
   Button,
-  Center,
   Container,
   Group,
-  Loader,
   Paper,
   Stack,
   Text,
@@ -16,17 +14,14 @@ import axios, { AxiosError } from "axios";
 import { useProfileDataQuery } from "../../hooks/useProfileDataQuery";
 import { useNotificationStore } from "../../store/notificationStore";
 import { Customer } from "../../types/interfaces";
+import LoadingSpinner from "../display/LoadingSpinner";
 
 const CustomerProfile = () => {
   const notificationStore = useNotificationStore();
   const profileDataQuery = useProfileDataQuery();
 
   if (profileDataQuery.isLoading) {
-    return (
-      <Center h={"80vh"}>
-        <Loader size={"md"} />
-      </Center>
-    );
+    return <LoadingSpinner />;
   }
 
   const form = useForm({
