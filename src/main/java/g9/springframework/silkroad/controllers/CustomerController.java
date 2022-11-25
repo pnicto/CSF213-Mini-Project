@@ -33,11 +33,12 @@ public class CustomerController {
   Customer updateCustomer(@RequestBody Customer updatedCustomer) {
     Optional<Customer> cOptional = customerRepository.findById(updatedCustomer.getId());
     if (cOptional.isPresent()) {
-      cOptional.get().setName(updatedCustomer.getName());
-      cOptional.get().setPhoneNumber(updatedCustomer.getPhoneNumber());
-      cOptional.get().setMoneyInWallet(updatedCustomer.getMoneyInWallet());
-      customerRepository.save(cOptional.get());
-      return cOptional.get();
+      Customer customer = cOptional.get();
+      customer.setName(updatedCustomer.getName());
+      customer.setPhoneNumber(updatedCustomer.getPhoneNumber());
+      customer.setMoneyInWallet(updatedCustomer.getMoneyInWallet());
+      customerRepository.save(customer);
+      return customer;
     } else {
       throw new IllegalStateException("Customer not found");
     }
