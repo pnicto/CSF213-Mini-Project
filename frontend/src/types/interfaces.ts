@@ -63,6 +63,16 @@ export interface Customer {
 
 export interface Order {
   id: number;
-  products: string;
+  orderItems: OrderItem[];
+  totalPrice: number;
   createdAt: Date;
+}
+
+export interface OrderItem {
+  id: number;
+  name: string;
+  quantity: number;
+  imageUrl: string;
+  price: number;
+  productId: number;
 }
