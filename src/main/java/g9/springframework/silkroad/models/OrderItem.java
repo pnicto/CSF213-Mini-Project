@@ -20,17 +20,17 @@ public class OrderItem {
   private Long id;
   private String name;
   @Column(columnDefinition = "TEXT")
-  private String description;
   private Integer quantity;
   private String imageUrl;
   private Double price;
+  private Long productId;
 
-  public OrderItem(String name, String description, String imageUrl, Double price, Integer quantity) {
+  public OrderItem(String name, String imageUrl, Double price, Integer quantity, Long productId) {
     this.name = name;
-    this.description = description;
     this.quantity = quantity;
     this.imageUrl = imageUrl;
     this.price = price;
+    this.productId = productId;
   }
 
 }
