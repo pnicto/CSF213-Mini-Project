@@ -1,4 +1,12 @@
-import { Anchor, Container, Grid, List, Title } from "@mantine/core";
+import {
+  Anchor,
+  Button,
+  Container,
+  Grid,
+  Group,
+  List,
+  Title,
+} from "@mantine/core";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { useState } from "react";
@@ -10,7 +18,7 @@ import { Category, Product } from "../types/interfaces";
 
 const Home = () => {
   // Hooks
-  const { accessToken } = useLoginStore();
+  const { accessToken, authority } = useLoginStore();
   const notificationStore = useNotificationStore();
   const [activeCategory, setActiveCategory] = useState<Category | null>(null);
   // Axios default header setting
@@ -86,9 +94,14 @@ const Home = () => {
           </Container>
         </Grid.Col>
         <Grid.Col span={11}>
-          <Title order={2} mb={"md"} ml={"sm"} color="deepBlue">
-            {activeCategory ? activeCategory.name : "All products: "}
-          </Title>
+          <Group position="apart">
+            <Title order={2} mb={"md"} ml={"sm"} color="deepBlue">
+              {activeCategory ? activeCategory.name : "All products: "}
+            </Title>
+            {authority !== "CUSTOMER" && (
+              <Button type="button">Add a product</Button>
+            )}
+          </Group>
           <Grid columns={4} gutter={"lg"} mx={"xs"}>
             {
               // Display loading spinner if the data is being re-fetched
