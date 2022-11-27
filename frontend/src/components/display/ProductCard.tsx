@@ -8,41 +8,25 @@ import {
   Text,
 } from "@mantine/core";
 import { IconTrash } from "@tabler/icons";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import axios, { AxiosError } from "axios";
+import { UseMutationResult } from "@tanstack/react-query";
+import { AxiosError, AxiosResponse } from "axios";
 import { Link } from "react-router-dom";
 import { useLoginStore } from "../../store/loginStore";
-import { useNotificationStore } from "../../store/notificationStore";
-import { Category, Product } from "../../types/interfaces";
+import { Product } from "../../types/interfaces";
 
 type Props = {
   product: Product;
-  activeCategory: Category | null;
+  deleteProductMutation: UseMutationResult<
+    AxiosResponse<Product[], any>,
+    AxiosError<unknown, any>,
+    number,
+    unknown
+  >;
 };
 
-const ProductCard = ({ product, activeCategory }: Props) => {
+const ProductCard = ({ product, deleteProductMutation }: Props) => {
   const { name, imageUrl, isAvailable, price } = product;
   const { authority } = useLoginStore();
-  const notificationStore = useNotificationStore();
-  const queryClient = useQueryClient();
-
-  const deleteProductMutation = useMutation(
-    () => {
-      return axios.delete<Product[]>(
-        `${import.meta.env.VITE_APP_BACKEND_URL}/products/${product.id}`
-      );
-    },
-    {
-      onSuccess: (data) => {
-        notificationStore.successNotification("Deleted product successfully");
-        queryClient.setQueryData(["products", activeCategory], data);
-      },
-
-      onError: (data: AxiosError) => {
-        notificationStore.errorNotification(data.message, "Cannot delete item");
-      },
-    }
-  );
 
   return (
     <Card shadow={"md"} withBorder h={"100%"}>
@@ -70,7 +54,7 @@ const ProductCard = ({ product, activeCategory }: Props) => {
           <ActionIcon
             color={"red"}
             onClick={() => {
-              deleteProductMutation.mutate();
+              deleteProductMutation.mutate(product.id);
             }}
           >
             <IconTrash />

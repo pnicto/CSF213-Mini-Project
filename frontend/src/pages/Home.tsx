@@ -1,17 +1,18 @@
 import { Anchor, Container, Grid, List, Title } from "@mantine/core";
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import axios, { AxiosError } from "axios";
 import { useState } from "react";
 import LoadingSpinner from "../components/display/LoadingSpinner";
 import ProductCard from "../components/display/ProductCard";
 import { useLoginStore } from "../store/loginStore";
+import { useNotificationStore } from "../store/notificationStore";
 import { Category, Product } from "../types/interfaces";
 
 const Home = () => {
   // Hooks
   const { accessToken } = useLoginStore();
+  const notificationStore = useNotificationStore();
   const [activeCategory, setActiveCategory] = useState<Category | null>(null);
-
   // Axios default header setting
   axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
 
@@ -27,6 +28,24 @@ const Home = () => {
 
   const categoriesQuery = useQuery(["categories"], () =>
     axios.get<Category[]>(`${import.meta.env.VITE_APP_BACKEND_URL}/categories`)
+  );
+
+  const deleteProductMutation = useMutation(
+    (productId: number) => {
+      return axios.delete<Product[]>(
+        `${import.meta.env.VITE_APP_BACKEND_URL}/products/${productId}`
+      );
+    },
+    {
+      onSuccess: () => {
+        notificationStore.successNotification("Deleted product successfully");
+        productsQuery.refetch();
+      },
+
+      onError: (data: AxiosError) => {
+        notificationStore.errorNotification(data.message, "Cannot delete item");
+      },
+    }
   );
 
   return productsQuery.isLoading && categoriesQuery.isLoading ? (
@@ -84,7 +103,7 @@ const Home = () => {
                       <ProductCard
                         key={product.id}
                         product={product}
-                        activeCategory={activeCategory}
+                        deleteProductMutation={deleteProductMutation}
                       />
                     </Grid.Col>
                   );
