@@ -14,7 +14,7 @@ import { AxiosError, AxiosResponse } from "axios";
 import { Link } from "react-router-dom";
 import { useLoginStore } from "../../store/useLoginStore";
 import { Product } from "../../types/interfaces";
-import ProductFrom from "../forms/ProductFrom";
+import ProductFrom from "../forms/AddProductFrom";
 
 type Props = {
   product: Product;
