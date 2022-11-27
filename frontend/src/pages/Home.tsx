@@ -8,23 +8,23 @@ import {
   Title,
 } from "@mantine/core";
 import { openModal } from "@mantine/modals";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
-import { useState } from "react";
 import LoadingSpinner from "../components/display/LoadingSpinner";
 import ProductCard from "../components/display/ProductCard";
 import ProductFrom from "../components/forms/ProductFrom";
 import { useCategoriesQuery } from "../hooks/useCategoriesQuery";
 import { useProductQuery } from "../hooks/useProductsQuery";
+import { useActiveCategoryStore } from "../store/activeCategoryStore";
 import { useLoginStore } from "../store/loginStore";
 import { useNotificationStore } from "../store/notificationStore";
-import { Category, Product } from "../types/interfaces";
+import { Product } from "../types/interfaces";
 
 const Home = () => {
   // Hooks
   const { accessToken, authority } = useLoginStore();
   const notificationStore = useNotificationStore();
-  const [activeCategory, setActiveCategory] = useState<Category | null>(null);
+  const { activeCategory, setActiveCategory } = useActiveCategoryStore();
   // Axios default header setting
   axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
 
@@ -99,7 +99,7 @@ const Home = () => {
                 onClick={() => {
                   openModal({
                     title: "Add new product",
-                    children: <ProductFrom activeCategory={activeCategory} />,
+                    children: <ProductFrom />,
                     centered: true,
                   });
                 }}
