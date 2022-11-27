@@ -12,6 +12,7 @@ import axios, { AxiosError } from "axios";
 import { useState } from "react";
 import { useCategoriesQuery } from "../../hooks/useCategoriesQuery";
 import { useProductQuery } from "../../hooks/useProductsQuery";
+import { useActiveCategoryStore } from "../../store/activeCategoryStore";
 import { useNotificationStore } from "../../store/notificationStore";
 import { Category, Product } from "../../types/interfaces";
 
@@ -25,14 +26,11 @@ interface AddProductRequest {
   category: Category | undefined;
 }
 
-type Props = {
-  activeCategory: Category | null;
-};
-
-const ProductFrom = ({ activeCategory }: Props) => {
+const ProductFrom = () => {
   const [isAvailable, setIsAvailable] = useState(true);
   const notificationStore = useNotificationStore();
   const [selectCategory, setSelectCategory] = useState<string | null>(null);
+  const { activeCategory } = useActiveCategoryStore();
 
   const productForm = useForm({
     initialValues: {
