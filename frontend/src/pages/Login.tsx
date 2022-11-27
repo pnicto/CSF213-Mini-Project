@@ -2,7 +2,7 @@ import { Center, Container } from "@mantine/core";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import LoginForm from "../components/forms/LoginForm";
-import { useLoginStore } from "../store/loginStore";
+import { useLoginStore } from "../store/useLoginStore";
 
 const Login = () => {
   const { isLogged } = useLoginStore();

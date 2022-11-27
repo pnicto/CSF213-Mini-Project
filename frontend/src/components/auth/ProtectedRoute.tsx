@@ -1,5 +1,5 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { useLoginStore } from "../../store/loginStore";
+import { useLoginStore } from "../../store/useLoginStore";
 
 const ProtectedRoute = () => {
   const { isLogged } = useLoginStore();

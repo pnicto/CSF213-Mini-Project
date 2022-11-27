@@ -15,9 +15,9 @@ import ProductCard from "../components/display/ProductCard";
 import ProductFrom from "../components/forms/ProductFrom";
 import { useCategoriesQuery } from "../hooks/useCategoriesQuery";
 import { useProductQuery } from "../hooks/useProductsQuery";
-import { useActiveCategoryStore } from "../store/activeCategoryStore";
-import { useLoginStore } from "../store/loginStore";
-import { useNotificationStore } from "../store/notificationStore";
+import { useActiveCategoryStore } from "../store/useActiveCategoryStore";
+import { useLoginStore } from "../store/useLoginStore";
+import { useNotificationStore } from "../store/useNotificationStore";
 import { Product } from "../types/interfaces";
 
 const Home = () => {

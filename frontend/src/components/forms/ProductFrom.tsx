@@ -12,8 +12,8 @@ import axios, { AxiosError } from "axios";
 import { useState } from "react";
 import { useCategoriesQuery } from "../../hooks/useCategoriesQuery";
 import { useProductQuery } from "../../hooks/useProductsQuery";
-import { useActiveCategoryStore } from "../../store/activeCategoryStore";
-import { useNotificationStore } from "../../store/notificationStore";
+import { useActiveCategoryStore } from "../../store/useActiveCategoryStore";
+import { useNotificationStore } from "../../store/useNotificationStore";
 import { Category, Product } from "../../types/interfaces";
 
 interface AddProductRequest {

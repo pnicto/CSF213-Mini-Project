@@ -14,7 +14,7 @@ import { IconTrash } from "@tabler/icons";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { Link } from "react-router-dom";
-import { useNotificationStore } from "../../store/notificationStore";
+import { useNotificationStore } from "../../store/useNotificationStore";
 import { CartItem, CustomerCart } from "../../types/interfaces";
 
 type Props = {

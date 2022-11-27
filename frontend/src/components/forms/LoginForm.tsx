@@ -12,8 +12,8 @@ import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useLoginStore } from "../../store/loginStore";
-import { useNotificationStore } from "../../store/notificationStore";
+import { useLoginStore } from "../../store/useLoginStore";
+import { useNotificationStore } from "../../store/useNotificationStore";
 import { LoginResponse, RegisterUserRequestBody } from "../../types/interfaces";
 
 const LoginForm = () => {

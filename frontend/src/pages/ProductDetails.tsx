@@ -14,7 +14,7 @@ import axios, { AxiosError } from "axios";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import LoadingSpinner from "../components/display/LoadingSpinner";
-import { useNotificationStore } from "../store/notificationStore";
+import { useNotificationStore } from "../store/useNotificationStore";
 import { CustomerCart, Product } from "../types/interfaces";
 
 interface CartItemRequest {

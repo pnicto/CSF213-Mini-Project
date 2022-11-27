@@ -8,7 +8,7 @@ import {
 } from "@mantine/core";
 import { IconDots, IconLogout } from "@tabler/icons";
 import { Link, Outlet, useNavigate } from "react-router-dom";
-import { useLoginStore } from "../store/loginStore";
+import { useLoginStore } from "../store/useLoginStore";
 
 type Props = {
   navbarElements?: string[];

@@ -12,7 +12,7 @@ import { useForm } from "@mantine/form";
 import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { useProfileDataQuery } from "../../hooks/useProfileDataQuery";
-import { useNotificationStore } from "../../store/notificationStore";
+import { useNotificationStore } from "../../store/useNotificationStore";
 import { Customer } from "../../types/interfaces";
 import LoadingSpinner from "../display/LoadingSpinner";
 

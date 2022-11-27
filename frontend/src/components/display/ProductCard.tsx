@@ -12,7 +12,7 @@ import { IconTrash } from "@tabler/icons";
 import { UseMutationResult } from "@tanstack/react-query";
 import { AxiosError, AxiosResponse } from "axios";
 import { Link } from "react-router-dom";
-import { useLoginStore } from "../../store/loginStore";
+import { useLoginStore } from "../../store/useLoginStore";
 import { Product } from "../../types/interfaces";
 import ProductFrom from "../forms/ProductFrom";
 

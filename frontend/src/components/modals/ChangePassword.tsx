@@ -3,7 +3,7 @@ import { useForm } from "@mantine/form";
 import { closeAllModals } from "@mantine/modals";
 import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
-import { useNotificationStore } from "../../store/notificationStore";
+import { useNotificationStore } from "../../store/useNotificationStore";
 
 type Props = {};
 

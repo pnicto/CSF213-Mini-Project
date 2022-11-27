@@ -6,7 +6,7 @@ import { ReactComponent as EmptyCart } from "../assets/empty_cart.svg";
 import CartItemCard from "../components/display/CartItemCard";
 import LoadingSpinner from "../components/display/LoadingSpinner";
 import { useProfileDataQuery } from "../hooks/useProfileDataQuery";
-import { useNotificationStore } from "../store/notificationStore";
+import { useNotificationStore } from "../store/useNotificationStore";
 import { CustomerCart } from "../types/interfaces";
 
 const Cart = () => {
