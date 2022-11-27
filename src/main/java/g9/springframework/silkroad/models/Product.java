@@ -37,7 +37,7 @@ public class Product {
   private Boolean isAvailable;
   private int deliveryTime;
 
-  @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH })
+  @ManyToOne(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH })
   @JoinColumn(name = "category_id")
   @JsonBackReference
   private Category category;
