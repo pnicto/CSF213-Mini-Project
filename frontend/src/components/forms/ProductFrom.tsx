@@ -4,7 +4,7 @@ import {
   Select,
   Switch,
   Textarea,
-  TextInput
+  TextInput,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useMutation } from "@tanstack/react-query";
@@ -22,6 +22,7 @@ interface AddProductRequest {
   deliveryTime: number;
   imageUrl: string;
   isAvailable: boolean;
+  category: Category | undefined;
 }
 
 type Props = {
@@ -83,6 +84,9 @@ const ProductFrom = ({ activeCategory }: Props) => {
         addProductMutation.mutate({
           ...values,
           isAvailable,
+          category: categoriesQuery.data!.data.find(
+            (category) => category.name === selectCategory
+          ),
         })
       )}
     >
