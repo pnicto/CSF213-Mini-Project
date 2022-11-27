@@ -3,11 +3,15 @@ import {
   NumberInput,
   Switch,
   Textarea,
-  TextInput
+  TextInput,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
+import { useMutation } from "@tanstack/react-query";
+import axios, { AxiosError } from "axios";
 import { useState } from "react";
-import { Category } from "../../types/interfaces";
+import { useProductQuery } from "../../hooks/useProductsQuery";
+import { useNotificationStore } from "../../store/notificationStore";
+import { Category, Product } from "../../types/interfaces";
 
 interface AddProductRequest {
   name: string;
@@ -23,6 +27,7 @@ type Props = {
 };
 const ProductFrom = ({ activeCategory }: Props) => {
   const [isAvailable, setIsAvailable] = useState(true);
+  const notificationStore = useNotificationStore();
 
   const productForm = useForm({
     initialValues: {
@@ -36,9 +41,36 @@ const ProductFrom = ({ activeCategory }: Props) => {
       price: (value: number) => (value > 0 ? null : "Price cannot be negative"),
     },
   });
+  const productsQuery = useProductQuery(activeCategory);
+
+  const addProductMutation = useMutation(
+    (requestBody: AddProductRequest) => {
+      return axios.post<Product[]>(
+        `${import.meta.env.VITE_APP_BACKEND_URL}/products/`,
+        requestBody
+      );
+    },
+    {
+      onSuccess: () => {
+        productsQuery.refetch();
+        notificationStore.successNotification("Added product successfully");
+      },
+
+      onError: (data: AxiosError) => {
+        notificationStore.errorNotification(data.message, "Cannot add product");
+      },
+    }
+  );
 
   return (
-    <form onSubmit={productForm.onSubmit((values) => {})}>
+    <form
+      onSubmit={productForm.onSubmit((values) =>
+        addProductMutation.mutate({
+          ...values,
+          isAvailable,
+        })
+      )}
+    >
       <TextInput
         withAsterisk
         required
