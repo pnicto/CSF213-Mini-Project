@@ -14,6 +14,7 @@ import axios, { AxiosError } from "axios";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import LoadingSpinner from "../components/display/LoadingSpinner";
+import { useLoginStore } from "../store/useLoginStore";
 import { useNotificationStore } from "../store/useNotificationStore";
 import { CustomerCart, Product } from "../types/interfaces";
 
@@ -26,7 +27,7 @@ const ProductDetails = () => {
   // Get route params
   const { productId } = useParams<{ productId?: string }>();
   const [quantity, setQuantity] = useState(1);
-
+  const { authority } = useLoginStore();
   const notificationStore = useNotificationStore();
 
   const { data: productData, isLoading } = useQuery(
@@ -104,16 +105,18 @@ const ProductDetails = () => {
                 value={quantity}
                 onChange={(value) => setQuantity(value as number)}
               />
-              <Button
-                onClick={() => {
-                  addProductToCartMutation.mutate({
-                    product: productData!.data,
-                    quantity,
-                  });
-                }}
-              >
-                Add to cart
-              </Button>
+              {authority === "CUSTOMER" && (
+                <Button
+                  onClick={() => {
+                    addProductToCartMutation.mutate({
+                      product: productData!.data,
+                      quantity,
+                    });
+                  }}
+                >
+                  Add to cart
+                </Button>
+              )}
             </Stack>
           </Grid.Col>
         </Grid>
