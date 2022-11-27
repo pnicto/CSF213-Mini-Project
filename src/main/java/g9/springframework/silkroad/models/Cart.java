@@ -1,6 +1,7 @@
 package g9.springframework.silkroad.models;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -33,7 +34,15 @@ public class Cart {
   }
 
   public void addProductToCart(CartItem cartItem) {
-    this.cartItems.add(cartItem);
+    if (this.itemExists(cartItem)) {
+      this.cartItems.forEach(item -> {
+        if (item.getProduct().getId() == cartItem.getProduct().getId()) {
+          item.setQuantity(item.getQuantity() + cartItem.getQuantity());
+        }
+      });
+    } else {
+      this.cartItems.add(cartItem);
+    }
     this.totalPrice += cartItem.getProduct().getPrice() * cartItem.getQuantity();
     this.totalQuantity += cartItem.getQuantity();
   }
@@ -50,5 +59,16 @@ public class Cart {
     this.totalQuantity -= cartItem.getQuantity();
     this.totalPrice -= cartItem.getProduct().getPrice() * cartItem.getQuantity();
     this.cartItems.removeIf(item -> item.getId() == cartItem.getId());
+  }
+
+  public boolean itemExists(CartItem cartItem) {
+    Iterator<CartItem> cIterator = this.cartItems.iterator();
+    while (cIterator.hasNext()) {
+      var item = cIterator.next();
+      if (item.getProduct().getId() == cartItem.getProduct().getId()) {
+        return true;
+      }
+    }
+    return false;
   }
 }
