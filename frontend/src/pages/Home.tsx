@@ -81,7 +81,11 @@ const Home = () => {
                 productsQuery.data?.data.map((product) => {
                   return (
                     <Grid.Col key={product.id} span={1}>
-                      <ProductCard key={product.id} product={product} />
+                      <ProductCard
+                        key={product.id}
+                        product={product}
+                        activeCategory={activeCategory}
+                      />
                     </Grid.Col>
                   );
                 })
