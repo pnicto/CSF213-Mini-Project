@@ -7,12 +7,14 @@ import {
   Image,
   Text,
 } from "@mantine/core";
+import { openModal } from "@mantine/modals";
 import { IconTrash } from "@tabler/icons";
 import { UseMutationResult } from "@tanstack/react-query";
 import { AxiosError, AxiosResponse } from "axios";
 import { Link } from "react-router-dom";
 import { useLoginStore } from "../../store/loginStore";
 import { Product } from "../../types/interfaces";
+import ProductFrom from "../forms/ProductFrom";
 
 type Props = {
   product: Product;
@@ -61,9 +63,24 @@ const ProductCard = ({ product, deleteProductMutation }: Props) => {
           </ActionIcon>
         )}
       </Group>
-      <Anchor component={Link} to={`product/${product.id}`}>
-        <Text weight={400}>{name}</Text>
-      </Anchor>
+      {authority === "CUSTOMER" && (
+        <Anchor component={Link} to={`product/${product.id}`}>
+          <Text weight={400}>{name}</Text>
+        </Anchor>
+      )}
+
+      {authority !== "CUSTOMER" && (
+        <Anchor
+          onClick={() => {
+            openModal({
+              title: "Edit product",
+              children: <ProductFrom />,
+            });
+          }}
+        >
+          <Text weight={400}>{name}</Text>
+        </Anchor>
+      )}
     </Card>
   );
 };
