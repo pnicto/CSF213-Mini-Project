@@ -1,8 +1,12 @@
+export type Authority = "ADMIN" | "CUSTOMER" | "MANAGER";
+
 export interface LoginStore {
   accessToken: string | null;
   isLogged: boolean;
+  authority: Authority | null;
   setAccessToken: (accessToken: string) => void;
   logoutUser: () => void;
+  setAuthority: (authority: Authority) => void;
 }
 
 export interface NotificationStore {
