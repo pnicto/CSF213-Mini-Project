@@ -4,9 +4,10 @@ import {
   Select,
   Switch,
   Textarea,
-  TextInput
+  TextInput,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
+import { closeAllModals } from "@mantine/modals";
 import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { useState } from "react";
@@ -56,6 +57,7 @@ const ProductFrom = () => {
     {
       onSuccess: () => {
         productsQuery.refetch();
+        closeAllModals();
         notificationStore.successNotification("Added product successfully");
       },
 
