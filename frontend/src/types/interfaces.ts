@@ -14,6 +14,11 @@ export interface LoginResponse {
   accessToken: string;
 }
 
+export interface ActiveCategoryStore {
+  activeCategory: Category | null;
+  setActiveCategory: (activeCategory: Category | null) => void;
+}
+
 export interface NotificationStore {
   successNotification: (message: string, title?: string) => void;
   errorNotification: (message: string, title?: string) => void;
