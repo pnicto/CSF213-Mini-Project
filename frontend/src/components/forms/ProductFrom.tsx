@@ -70,8 +70,7 @@ const ProductFrom = ({ activeCategory }: Props) => {
   );
 
   if (categoriesQuery.isLoading) {
-    return;
-    <></>;
+    return <></>;
   }
 
   const categories = categoriesQuery.data!.data.map((category) => {
