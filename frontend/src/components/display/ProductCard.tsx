@@ -1,5 +1,7 @@
-import { Card, Group, Image, Text, Badge } from "@mantine/core";
+import { ActionIcon, Badge, Card, Group, Image, Text } from "@mantine/core";
+import { IconTrash } from "@tabler/icons";
 import { Link } from "react-router-dom";
+import { useLoginStore } from "../../store/loginStore";
 import { Product } from "../../types/interfaces";
 
 type Props = {
@@ -8,6 +10,7 @@ type Props = {
 
 const ProductCard = ({ product }: Props) => {
   const { name, imageUrl, isAvailable, price } = product;
+  const { authority } = useLoginStore();
 
   return (
     <Card
@@ -36,6 +39,11 @@ const ProductCard = ({ product }: Props) => {
           <Badge color="red" variant="light">
             Out of stock
           </Badge>
+        )}
+        {authority !== "CUSTOMER" && (
+          <ActionIcon color={"red"} onClick={() => {}}>
+            <IconTrash />
+          </ActionIcon>
         )}
       </Group>
       <Text weight={400}>{name}</Text>
