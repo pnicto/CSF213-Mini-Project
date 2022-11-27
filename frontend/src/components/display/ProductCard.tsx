@@ -1,25 +1,51 @@
-import { ActionIcon, Badge, Card, Group, Image, Text } from "@mantine/core";
+import {
+  ActionIcon,
+  Anchor,
+  Badge,
+  Card,
+  Group,
+  Image,
+  Text,
+} from "@mantine/core";
 import { IconTrash } from "@tabler/icons";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import axios, { AxiosError } from "axios";
 import { Link } from "react-router-dom";
 import { useLoginStore } from "../../store/loginStore";
-import { Product } from "../../types/interfaces";
+import { useNotificationStore } from "../../store/notificationStore";
+import { Category, Product } from "../../types/interfaces";
 
 type Props = {
   product: Product;
+  activeCategory: Category | null;
 };
 
-const ProductCard = ({ product }: Props) => {
+const ProductCard = ({ product, activeCategory }: Props) => {
   const { name, imageUrl, isAvailable, price } = product;
   const { authority } = useLoginStore();
+  const notificationStore = useNotificationStore();
+  const queryClient = useQueryClient();
+
+  const deleteProductMutation = useMutation(
+    () => {
+      return axios.delete<Product[]>(
+        `${import.meta.env.VITE_APP_BACKEND_URL}/products/${product.id}`
+      );
+    },
+    {
+      onSuccess: (data) => {
+        notificationStore.successNotification("Deleted product successfully");
+        queryClient.setQueryData(["products", activeCategory], data);
+      },
+
+      onError: (data: AxiosError) => {
+        notificationStore.errorNotification(data.message, "Cannot delete item");
+      },
+    }
+  );
 
   return (
-    <Card
-      shadow={"md"}
-      withBorder
-      h={"100%"}
-      component={Link}
-      to={`product/${product.id}`}
-    >
+    <Card shadow={"md"} withBorder h={"100%"}>
       <Card.Section withBorder>
         <Image
           src={imageUrl}
@@ -41,12 +67,19 @@ const ProductCard = ({ product }: Props) => {
           </Badge>
         )}
         {authority !== "CUSTOMER" && (
-          <ActionIcon color={"red"} onClick={() => {}}>
+          <ActionIcon
+            color={"red"}
+            onClick={() => {
+              deleteProductMutation.mutate();
+            }}
+          >
             <IconTrash />
           </ActionIcon>
         )}
       </Group>
-      <Text weight={400}>{name}</Text>
+      <Anchor component={Link} to={`product/${product.id}`}>
+        <Text weight={400}>{name}</Text>
+      </Anchor>
     </Card>
   );
 };
