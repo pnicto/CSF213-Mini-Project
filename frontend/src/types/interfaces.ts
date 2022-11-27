@@ -9,6 +9,11 @@ export interface LoginStore {
   setAuthority: (authority: Authority) => void;
 }
 
+export interface LoginResponse {
+  scope: Authority;
+  accessToken: string;
+}
+
 export interface NotificationStore {
   successNotification: (message: string, title?: string) => void;
   errorNotification: (message: string, title?: string) => void;
