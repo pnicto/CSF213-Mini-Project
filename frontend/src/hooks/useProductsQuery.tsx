@@ -1,12 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { Category, Product } from "../types/interfaces";
+import { useActiveCategoryStore } from "../store/useActiveCategoryStore";
+import { Product } from "../types/interfaces";
 
-export const useProductQuery = (
-  activeCategory: Category | null,
-  enabled: boolean = true
-) =>
-  useQuery(
+export const useProductQuery = (enabled: boolean = true) => {
+  const { activeCategory } = useActiveCategoryStore();
+  return useQuery(
     ["products", activeCategory],
     () =>
       axios.get<Product[]>(
@@ -19,3 +18,4 @@ export const useProductQuery = (
       enabled,
     }
   );
+};
