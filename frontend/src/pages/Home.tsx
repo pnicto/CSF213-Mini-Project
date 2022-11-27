@@ -29,7 +29,7 @@ const Home = () => {
   axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
 
   // Queries for data
-  const productsQuery = useProductQuery(activeCategory);
+  const productsQuery = useProductQuery();
 
   const categoriesQuery = useCategoriesQuery();
 

@@ -4,7 +4,7 @@ import {
   Select,
   Switch,
   Textarea,
-  TextInput,
+  TextInput
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useMutation } from "@tanstack/react-query";
@@ -12,7 +12,6 @@ import axios, { AxiosError } from "axios";
 import { useState } from "react";
 import { useCategoriesQuery } from "../../hooks/useCategoriesQuery";
 import { useProductQuery } from "../../hooks/useProductsQuery";
-import { useActiveCategoryStore } from "../../store/useActiveCategoryStore";
 import { useNotificationStore } from "../../store/useNotificationStore";
 import { Category, Product } from "../../types/interfaces";
 
@@ -30,7 +29,6 @@ const ProductFrom = () => {
   const [isAvailable, setIsAvailable] = useState(true);
   const notificationStore = useNotificationStore();
   const [selectCategory, setSelectCategory] = useState<string | null>(null);
-  const { activeCategory } = useActiveCategoryStore();
 
   const productForm = useForm({
     initialValues: {
@@ -45,7 +43,7 @@ const ProductFrom = () => {
     },
   });
 
-  const productsQuery = useProductQuery(activeCategory, false);
+  const productsQuery = useProductQuery(false);
   const categoriesQuery = useCategoriesQuery();
 
   const addProductMutation = useMutation(
