@@ -19,7 +19,7 @@ const Home = () => {
   // Queries for data
   const productsQuery = useQuery(["products", activeCategory], () =>
     axios.get<Product[]>(
-      // If not category is selected set the request param to 0 to get all products
+      // If no category is selected set the request param to 0 to get all products
       `${import.meta.env.VITE_APP_BACKEND_URL}/products?name=${
         activeCategory ? activeCategory.id : 0
       }`
