@@ -1,14 +1,16 @@
 import {
   Button,
   NumberInput,
+  Select,
   Switch,
   Textarea,
-  TextInput,
+  TextInput
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { useState } from "react";
+import { useCategoriesQuery } from "../../hooks/useCategoriesQuery";
 import { useProductQuery } from "../../hooks/useProductsQuery";
 import { useNotificationStore } from "../../store/notificationStore";
 import { Category, Product } from "../../types/interfaces";
@@ -25,9 +27,11 @@ interface AddProductRequest {
 type Props = {
   activeCategory: Category | null;
 };
+
 const ProductFrom = ({ activeCategory }: Props) => {
   const [isAvailable, setIsAvailable] = useState(true);
   const notificationStore = useNotificationStore();
+  const [selectCategory, setSelectCategory] = useState<string | null>(null);
 
   const productForm = useForm({
     initialValues: {
@@ -41,7 +45,9 @@ const ProductFrom = ({ activeCategory }: Props) => {
       price: (value: number) => (value > 0 ? null : "Price cannot be negative"),
     },
   });
-  const productsQuery = useProductQuery(activeCategory);
+
+  const productsQuery = useProductQuery(activeCategory, false);
+  const categoriesQuery = useCategoriesQuery();
 
   const addProductMutation = useMutation(
     (requestBody: AddProductRequest) => {
@@ -61,6 +67,15 @@ const ProductFrom = ({ activeCategory }: Props) => {
       },
     }
   );
+
+  if (categoriesQuery.isLoading) {
+    return;
+    <></>;
+  }
+
+  const categories = categoriesQuery.data!.data.map((category) => {
+    return category.name;
+  });
 
   return (
     <form
@@ -97,6 +112,15 @@ const ProductFrom = ({ activeCategory }: Props) => {
         required
         label="Delivery time in days"
         {...productForm.getInputProps("deliveryTime")}
+      />
+      <Select
+        label="Category"
+        placeholder="Pick one"
+        searchable
+        value={selectCategory}
+        onChange={setSelectCategory}
+        data={categories}
+        maxDropdownHeight={250}
       />
       <TextInput
         withAsterisk
