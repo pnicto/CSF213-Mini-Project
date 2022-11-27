@@ -14,6 +14,8 @@ import { useState } from "react";
 import LoadingSpinner from "../components/display/LoadingSpinner";
 import ProductCard from "../components/display/ProductCard";
 import ProductFrom from "../components/forms/ProductFrom";
+import { useCategoriesQuery } from "../hooks/useCategoriesQuery";
+import { useProductQuery } from "../hooks/useProductsQuery";
 import { useLoginStore } from "../store/loginStore";
 import { useNotificationStore } from "../store/notificationStore";
 import { Category, Product } from "../types/interfaces";
@@ -27,18 +29,9 @@ const Home = () => {
   axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
 
   // Queries for data
-  const productsQuery = useQuery(["products", activeCategory], () =>
-    axios.get<Product[]>(
-      // If no category is selected set the request param to 0 to get all products
-      `${import.meta.env.VITE_APP_BACKEND_URL}/products?name=${
-        activeCategory ? activeCategory.id : 0
-      }`
-    )
-  );
+  const productsQuery = useProductQuery(activeCategory);
 
-  const categoriesQuery = useQuery(["categories"], () =>
-    axios.get<Category[]>(`${import.meta.env.VITE_APP_BACKEND_URL}/categories`)
-  );
+  const categoriesQuery = useCategoriesQuery();
 
   const deleteProductMutation = useMutation(
     (productId: number) => {
@@ -106,7 +99,7 @@ const Home = () => {
                 onClick={() => {
                   openModal({
                     title: "Add new product",
-                    children: <ProductFrom />,
+                    children: <ProductFrom activeCategory={activeCategory} />,
                     centered: true,
                   });
                 }}
