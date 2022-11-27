@@ -7,11 +7,13 @@ import {
   List,
   Title,
 } from "@mantine/core";
+import { openModal } from "@mantine/modals";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { useState } from "react";
 import LoadingSpinner from "../components/display/LoadingSpinner";
 import ProductCard from "../components/display/ProductCard";
+import ProductFrom from "../components/forms/ProductFrom";
 import { useLoginStore } from "../store/loginStore";
 import { useNotificationStore } from "../store/notificationStore";
 import { Category, Product } from "../types/interfaces";
@@ -99,7 +101,18 @@ const Home = () => {
               {activeCategory ? activeCategory.name : "All products: "}
             </Title>
             {authority !== "CUSTOMER" && (
-              <Button type="button">Add a product</Button>
+              <Button
+                type="button"
+                onClick={() => {
+                  openModal({
+                    title: "Add new product",
+                    children: <ProductFrom />,
+                    centered: true,
+                  });
+                }}
+              >
+                Add a product
+              </Button>
             )}
           </Group>
           <Grid columns={4} gutter={"lg"} mx={"xs"}>
