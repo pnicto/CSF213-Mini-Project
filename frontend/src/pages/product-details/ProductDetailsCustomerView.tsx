@@ -11,11 +11,13 @@ import {
 import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { useState } from "react";
+import LoadingSpinner from "../../components/display/LoadingSpinner";
+import { useProductQueryWithId } from "../../hooks/useProductsQuery";
 import { useNotificationStore } from "../../store/useNotificationStore";
 import { CustomerCart, Product } from "../../types/interfaces";
 
 type Props = {
-  product: Product;
+  productId: string;
 };
 
 interface CartItemRequest {
@@ -23,9 +25,9 @@ interface CartItemRequest {
   quantity: number;
 }
 
-const ProductDetailsCustomerView = ({ product }: Props) => {
+const ProductDetailsCustomerView = ({ productId }: Props) => {
+  const { data: productData, isLoading } = useProductQueryWithId(productId!);
   const [quantity, setQuantity] = useState(1);
-  const { name, description, imageUrl, isAvailable, price } = product;
   const notificationStore = useNotificationStore();
 
   const addProductToCartMutation = useMutation(
@@ -48,6 +50,13 @@ const ProductDetailsCustomerView = ({ product }: Props) => {
       },
     }
   );
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
+
+  const product = productData!.data;
+  const { name, description, imageUrl, isAvailable, price } = product;
 
   return (
     <>
