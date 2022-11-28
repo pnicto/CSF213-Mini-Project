@@ -19,3 +19,10 @@ export const useProductQuery = (enabled: boolean = true) => {
     }
   );
 };
+
+export const useProductQueryWithId = (productId: string) =>
+  useQuery(["products", productId], () =>
+    axios.get<Product>(
+      `${import.meta.env.VITE_APP_BACKEND_URL}/products/${productId}`
+    )
+  );
