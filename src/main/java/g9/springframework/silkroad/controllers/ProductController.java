@@ -53,7 +53,6 @@ public class ProductController {
   public Product updateProduct(@PathVariable("id") Long id, @RequestBody Product updatedProduct) {
     Optional<Product> pOptional = productRepository.findById(id);
     if (pOptional.isPresent()) {
-      updatedProduct.setCategory(pOptional.get().getCategory());
       return productRepository.save(updatedProduct);
     } else {
       throw new IllegalStateException("Product not found");
