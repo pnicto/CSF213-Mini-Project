@@ -42,6 +42,7 @@ export interface Product {
   imageUrl: string;
   isAvailable: boolean;
   deliveryTime: number;
+  category: { id: number; name: string };
 }
 
 export interface Category {
