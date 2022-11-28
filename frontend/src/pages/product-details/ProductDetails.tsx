@@ -1,34 +1,16 @@
-import {
-  Badge,
-  Button,
-  Center,
-  Grid,
-  Image,
-  NumberInput,
-  Stack,
-  Text,
-  Title,
-} from "@mantine/core";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import axios, { AxiosError } from "axios";
-import { useState } from "react";
+import { Center, Grid } from "@mantine/core";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 import { useParams } from "react-router-dom";
 import LoadingSpinner from "../../components/display/LoadingSpinner";
 import { useLoginStore } from "../../store/useLoginStore";
-import { useNotificationStore } from "../../store/useNotificationStore";
-import { CustomerCart, Product } from "../../types/interfaces";
-
-interface CartItemRequest {
-  product: Product;
-  quantity: number;
-}
+import { Product } from "../../types/interfaces";
+import ProductDetailsCustomerView from "./ProductDetailsCustomerView";
 
 const ProductDetails = () => {
   // Get route params
   const { productId } = useParams<{ productId?: string }>();
-  const [quantity, setQuantity] = useState(1);
   const { authority } = useLoginStore();
-  const notificationStore = useNotificationStore();
 
   const { data: productData, isLoading } = useQuery(
     ["products", productId],
@@ -38,33 +20,9 @@ const ProductDetails = () => {
       )
   );
 
-  const addProductToCartMutation = useMutation(
-    (requestBody: CartItemRequest) => {
-      return axios.patch<CustomerCart>(
-        `${import.meta.env.VITE_APP_BACKEND_URL}/customers/cart`,
-        requestBody
-      );
-    },
-    {
-      onSuccess: () => {
-        notificationStore.successNotification("Successfully added to cart");
-      },
-
-      onError: (data: AxiosError) => {
-        notificationStore.errorNotification(
-          data.message,
-          "Adding to cart failed"
-        );
-      },
-    }
-  );
-
   if (isLoading) {
     return <LoadingSpinner />;
   } else {
-    const { name, description, imageUrl, isAvailable, price } =
-      productData!.data;
-
     return (
       <Center mih={"65vh"}>
         <Grid
@@ -74,51 +32,9 @@ const ProductDetails = () => {
           columns={13}
           maw={"100vw"}
         >
-          <Grid.Col span={3} offset={2}>
-            <Image
-              alt={name}
-              src={imageUrl}
-              withPlaceholder
-              height={500}
-              fit="contain"
-            />
-          </Grid.Col>
-          <Grid.Col span={5} offset={1}>
-            <Stack align={"flex-start"}>
-              <div>
-                <Title>{name}</Title>
-                <Badge
-                  color={`${isAvailable ? "green" : "red"}`}
-                  variant="filled"
-                  size="lg"
-                >
-                  {isAvailable ? "In stock" : "Out of stock"}
-                </Badge>
-              </div>
-              <Title>&#8377; {price.toFixed(2)}</Title>
-              <Text>{description}</Text>
-
-              <NumberInput
-                label="Quantity"
-                defaultValue={1}
-                min={1}
-                value={quantity}
-                onChange={(value) => setQuantity(value as number)}
-              />
-              {authority === "CUSTOMER" && (
-                <Button
-                  onClick={() => {
-                    addProductToCartMutation.mutate({
-                      product: productData!.data,
-                      quantity,
-                    });
-                  }}
-                >
-                  Add to cart
-                </Button>
-              )}
-            </Stack>
-          </Grid.Col>
+          {authority === "CUSTOMER" && (
+            <ProductDetailsCustomerView product={productData!.data} />
+          )}
         </Grid>
       </Center>
     );
