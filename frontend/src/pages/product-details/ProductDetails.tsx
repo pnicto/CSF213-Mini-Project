@@ -25,23 +25,21 @@ const ProductDetails = () => {
     return <LoadingSpinner />;
   } else {
     return (
-      <Center mih={"65vh"}>
-        <Grid
-          style={{
-            overflowY: "hidden",
-          }}
-          columns={13}
-          maw={"100vw"}
-        >
-          {authority === "CUSTOMER" && (
-            <ProductDetailsCustomerView product={productData!.data} />
-          )}
+      <>
+        {authority === "CUSTOMER" && (
+          <Center mih={"65vh"}>
+            <Grid columns={13} maw={"100vw"} m={0}>
+              <ProductDetailsCustomerView product={productData!.data} />
+            </Grid>
+          </Center>
+        )}
 
-          {authority !== "CUSTOMER" && (
+        {authority !== "CUSTOMER" && (
+          <Grid columns={13} m={0}>
             <ProductDetailsAdminManagerView product={productData!.data} />
-          )}
-        </Grid>
-      </Center>
+          </Grid>
+        )}
+      </>
     );
   }
 };
