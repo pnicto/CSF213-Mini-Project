@@ -1,6 +1,10 @@
-type Props = {};
+import { Product } from "../../types/interfaces";
 
-const ProductDetailsAdminManagerView = ({}: Props) => {
+type Props = {
+  product: Product;
+};
+
+const ProductDetailsAdminManagerView = ({ product }: Props) => {
   return <div>ProductDetailsAdminManagerView</div>;
 };
 
