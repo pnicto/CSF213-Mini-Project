@@ -15,11 +15,12 @@ import axios, { AxiosError } from "axios";
 import { useState } from "react";
 import LoadingSpinner from "../../components/display/LoadingSpinner";
 import { useCategoriesQuery } from "../../hooks/useCategoriesQuery";
+import { useProductQueryWithId } from "../../hooks/useProductsQuery";
 import { useNotificationStore } from "../../store/useNotificationStore";
 import { Category, Product } from "../../types/interfaces";
 
 type Props = {
-  product: Product;
+  productId: string;
 };
 
 export interface UpdateProductRequest {
@@ -33,12 +34,20 @@ export interface UpdateProductRequest {
   category: Category;
 }
 
-const ProductDetailsAdminManagerView = ({ product }: Props) => {
+const ProductDetailsAdminManagerView = ({ productId }: Props) => {
+  const categoriesQuery = useCategoriesQuery();
+  const productQuery = useProductQueryWithId(productId!);
+
+  if (categoriesQuery.isLoading || productQuery.isLoading) {
+    return <LoadingSpinner />;
+  }
+
+  const product = productQuery.data!.data;
+
   const { name, description, price, deliveryTime } = product;
   const [isAvailable, setIsAvailable] = useState(product.isAvailable);
   const [imageUrl, setImageUrl] = useState(product.imageUrl);
   const notificationStore = useNotificationStore();
-  const categoriesQuery = useCategoriesQuery();
   const [selectCategory, setSelectCategory] = useState<string | null>(
     product.category.name
   );
@@ -61,8 +70,9 @@ const ProductDetailsAdminManagerView = ({ product }: Props) => {
     },
     {
       onSuccess: () => {
-        notificationStore.successNotification("Product updated successfully");
         categoriesQuery.refetch();
+        productQuery.refetch();
+        notificationStore.successNotification("Product updated successfully");
       },
       onError: (data: AxiosError) => {
         notificationStore.errorNotification(
@@ -72,10 +82,6 @@ const ProductDetailsAdminManagerView = ({ product }: Props) => {
       },
     }
   );
-
-  if (categoriesQuery.isLoading) {
-    return <LoadingSpinner />;
-  }
 
   const categories = categoriesQuery.data!.data.map((category) => {
     return category.name;
