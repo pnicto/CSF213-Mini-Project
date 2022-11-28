@@ -9,7 +9,7 @@ import Cart from "./pages/Cart";
 import Home from "./pages/Home";
 import Landing from "./pages/Landing";
 import Login from "./pages/Login";
-import ProductDetails from "./pages/ProductDetails";
+import ProductDetails from "./pages/product-details/ProductDetails";
 import UserProfile from "./pages/UserProfile";
 
 const queryClient = new QueryClient();
