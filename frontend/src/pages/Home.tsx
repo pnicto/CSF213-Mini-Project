@@ -12,7 +12,7 @@ import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import LoadingSpinner from "../components/display/LoadingSpinner";
 import ProductCard from "../components/display/ProductCard";
-import ProductFrom from "../components/forms/AddProductFrom";
+import ProductFrom from "../components/forms/AddProductForm";
 import { useCategoriesQuery } from "../hooks/useCategoriesQuery";
 import { useProductQuery } from "../hooks/useProductsQuery";
 import { useActiveCategoryStore } from "../store/useActiveCategoryStore";
