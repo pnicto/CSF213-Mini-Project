@@ -3,6 +3,7 @@ import {
   Grid,
   Image,
   NumberInput,
+  Select,
   Stack,
   Switch,
   Textarea,
@@ -12,8 +13,10 @@ import { useForm } from "@mantine/form";
 import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { useState } from "react";
+import LoadingSpinner from "../../components/display/LoadingSpinner";
+import { useCategoriesQuery } from "../../hooks/useCategoriesQuery";
 import { useNotificationStore } from "../../store/useNotificationStore";
-import { Product } from "../../types/interfaces";
+import { Category, Product } from "../../types/interfaces";
 
 type Props = {
   product: Product;
@@ -27,6 +30,7 @@ export interface UpdateProductRequest {
   imageUrl: string;
   isAvailable: boolean;
   deliveryTime: number;
+  category: Category;
 }
 
 const ProductDetailsAdminManagerView = ({ product }: Props) => {
@@ -34,6 +38,10 @@ const ProductDetailsAdminManagerView = ({ product }: Props) => {
   const [isAvailable, setIsAvailable] = useState(product.isAvailable);
   const [imageUrl, setImageUrl] = useState(product.imageUrl);
   const notificationStore = useNotificationStore();
+  const categoriesQuery = useCategoriesQuery();
+  const [selectCategory, setSelectCategory] = useState<string | null>(
+    product.category.name
+  );
 
   const form = useForm({
     initialValues: {
@@ -54,6 +62,7 @@ const ProductDetailsAdminManagerView = ({ product }: Props) => {
     {
       onSuccess: () => {
         notificationStore.successNotification("Product updated successfully");
+        categoriesQuery.refetch();
       },
       onError: (data: AxiosError) => {
         notificationStore.errorNotification(
@@ -63,6 +72,14 @@ const ProductDetailsAdminManagerView = ({ product }: Props) => {
       },
     }
   );
+
+  if (categoriesQuery.isLoading) {
+    return <LoadingSpinner />;
+  }
+
+  const categories = categoriesQuery.data!.data.map((category) => {
+    return category.name;
+  });
 
   return (
     <>
@@ -85,11 +102,16 @@ const ProductDetailsAdminManagerView = ({ product }: Props) => {
       <Grid.Col span={7} offset={1}>
         <form
           onSubmit={form.onSubmit((values) => {
+            const category = categoriesQuery.data!.data.find(
+              (category) => category.name === selectCategory
+            ) as Category;
+
             updateProduct.mutate({
               ...values,
               id: product.id,
               isAvailable,
               imageUrl,
+              category,
             });
           })}
         >
@@ -106,6 +128,23 @@ const ProductDetailsAdminManagerView = ({ product }: Props) => {
               checked={isAvailable}
               onChange={(event) => setIsAvailable(event.currentTarget.checked)}
             />
+            <Textarea
+              withAsterisk
+              w={"70%"}
+              required
+              autosize
+              label="Description"
+              {...form.getInputProps("description")}
+            />
+            <Select
+              label="Category"
+              placeholder="Pick one"
+              searchable
+              value={selectCategory}
+              onChange={setSelectCategory}
+              data={categories}
+              maxDropdownHeight={250}
+            />
             <NumberInput
               withAsterisk
               required
@@ -121,14 +160,6 @@ const ProductDetailsAdminManagerView = ({ product }: Props) => {
               label="Delivery time in days"
               min={1}
               {...form.getInputProps("deliveryTime")}
-            />
-            <Textarea
-              withAsterisk
-              w={"70%"}
-              required
-              autosize
-              label="Description"
-              {...form.getInputProps("description")}
             />
             <Button type="submit">Apply edits</Button>
           </Stack>
