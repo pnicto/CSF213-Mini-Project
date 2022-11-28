@@ -13,10 +13,10 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import LoadingSpinner from "../components/display/LoadingSpinner";
-import { useLoginStore } from "../store/useLoginStore";
-import { useNotificationStore } from "../store/useNotificationStore";
-import { CustomerCart, Product } from "../types/interfaces";
+import LoadingSpinner from "../../components/display/LoadingSpinner";
+import { useLoginStore } from "../../store/useLoginStore";
+import { useNotificationStore } from "../../store/useNotificationStore";
+import { CustomerCart, Product } from "../../types/interfaces";
 
 interface CartItemRequest {
   product: Product;
