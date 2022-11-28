@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import LoadingSpinner from "../../components/display/LoadingSpinner";
 import { useLoginStore } from "../../store/useLoginStore";
 import { Product } from "../../types/interfaces";
+import ProductDetailsAdminManagerView from "./ProductDetailsAdminManagerView";
 import ProductDetailsCustomerView from "./ProductDetailsCustomerView";
 
 const ProductDetails = () => {
@@ -34,6 +35,10 @@ const ProductDetails = () => {
         >
           {authority === "CUSTOMER" && (
             <ProductDetailsCustomerView product={productData!.data} />
+          )}
+
+          {authority !== "CUSTOMER" && (
+            <ProductDetailsAdminManagerView product={productData!.data} />
           )}
         </Grid>
       </Center>
