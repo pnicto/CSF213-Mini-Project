@@ -5,12 +5,12 @@ import LoginForm from "../components/forms/LoginForm";
 import { useLoginStore } from "../store/useLoginStore";
 
 const Login = () => {
-  const { isLogged, authority } = useLoginStore();
+  const { isLogged } = useLoginStore();
   const navigate = useNavigate();
 
   useEffect(() => {
     if (isLogged) {
-      authority === "CUSTOMER" ? navigate("/app") : navigate("/admin/app");
+      navigate("/app");
     }
   }, [isLogged]);
 
