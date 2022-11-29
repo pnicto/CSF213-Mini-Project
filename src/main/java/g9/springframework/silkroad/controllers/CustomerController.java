@@ -4,6 +4,7 @@ import java.security.Principal;
 import java.util.Optional;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -70,6 +71,11 @@ public class CustomerController {
     } else {
       throw new IllegalStateException("Customer not found");
     }
+  }
+
+  @DeleteMapping
+  void deleteCustomer(Principal principal) {
+    customerRepository.deleteByEmail(principal.getName());
   }
 }
 
