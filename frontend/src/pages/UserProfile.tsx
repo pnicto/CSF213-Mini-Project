@@ -22,6 +22,7 @@ const UserProfile = () => {
 
   const [activeOption, setActiveOption] = useState<profileState>("profile");
   const notificationStore = useNotificationStore();
+
   const deleteAccountMutation = useMutation(
     () => axios.delete(`${import.meta.env.VITE_APP_BACKEND_URL}/customers`),
     {
@@ -102,30 +103,32 @@ const UserProfile = () => {
         >
           Change password
         </Button>
-        <Button
-          type="button"
-          size="md"
-          variant="outline"
-          color={"red"}
-          onClick={() => {
-            openConfirmModal({
-              centered: true,
-              title: "Are you sure?",
-              labels: {
-                confirm: "Confirm",
-                cancel: "Cancel",
-              },
-              confirmProps: {
-                color: "red",
-              },
-              onConfirm: () => {
-                deleteAccountMutation.mutate();
-              },
-            });
-          }}
-        >
-          Delete account
-        </Button>
+        {authority === "CUSTOMER" && (
+          <Button
+            type="button"
+            size="md"
+            variant="outline"
+            color={"red"}
+            onClick={() => {
+              openConfirmModal({
+                centered: true,
+                title: "Are you sure?",
+                labels: {
+                  confirm: "Confirm",
+                  cancel: "Cancel",
+                },
+                confirmProps: {
+                  color: "red",
+                },
+                onConfirm: () => {
+                  deleteAccountMutation.mutate();
+                },
+              });
+            }}
+          >
+            Delete account
+          </Button>
+        )}
       </Group>
       {activeOption === "profile" && authority === "CUSTOMER" && (
         <CustomerProfile />
