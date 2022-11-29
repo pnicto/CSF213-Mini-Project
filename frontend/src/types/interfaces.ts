@@ -95,3 +95,12 @@ export interface OrderItem {
   price: number;
   productId: number;
 }
+
+export interface User {
+  id: number;
+  name: string;
+  email: string;
+  role: string;
+  phoneNumber: string;
+  createdAt: Date;
+}
