@@ -3,7 +3,6 @@ package g9.springframework.silkroad.controllers;
 import java.security.Principal;
 import java.util.Optional;
 
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -20,7 +19,6 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class CustomerController {
   private final CustomerRepository customerRepository;
-  private final PasswordEncoder passwordEncoder;
 
   @GetMapping
   Customer getCustomer(Principal principal) {
@@ -47,20 +45,6 @@ public class CustomerController {
     }
   }
 
-  @PatchMapping("/changePassword")
-  Customer changeCustomerPassword(@RequestBody ChangePasswordBody requestBody, Principal principal) {
-    Optional<Customer> cOptional = customerRepository.findByEmail(principal.getName());
-    boolean isCorrectPassword = passwordEncoder.matches(requestBody.oldPassword(), cOptional.get().getPassword());
-
-    if (cOptional.isPresent() && isCorrectPassword) {
-      Customer customer = cOptional.get();
-      customer.setPassword(passwordEncoder.encode(requestBody.newPassword()));
-      return customerRepository.save(customer);
-    } else {
-      throw new IllegalStateException("Customer not found");
-    }
-  }
-
   @PatchMapping("/topup")
   Customer updateWallet(@RequestBody WalletBody requestBody, Principal principal) {
     Optional<Customer> cOptional = customerRepository.findByEmail(principal.getName());
@@ -77,10 +61,6 @@ public class CustomerController {
   void deleteCustomer(Principal principal) {
     customerRepository.deleteByEmail(principal.getName());
   }
-}
-
-record ChangePasswordBody(
-    String oldPassword, String newPassword) {
 }
 
 record WalletBody(
