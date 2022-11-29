@@ -67,6 +67,26 @@ const ProductFrom = () => {
     }
   );
 
+  const createCategoryMutation = useMutation(
+    (requestBody: { name: string }) =>
+      axios.post<Category[]>(
+        `${import.meta.env.VITE_APP_BACKEND_URL}/categories`,
+        requestBody
+      ),
+    {
+      onSuccess: () => {
+        categoriesQuery.refetch();
+        notificationStore.successNotification("Category created successfully");
+      },
+      onError: (data: AxiosError) => {
+        notificationStore.errorNotification(
+          data.message,
+          `Could not create new category`
+        );
+      },
+    }
+  );
+
   if (categoriesQuery.isLoading) {
     return <></>;
   }
@@ -122,6 +142,15 @@ const ProductFrom = () => {
         onChange={setSelectCategory}
         data={categories}
         maxDropdownHeight={250}
+        creatable
+        getCreateLabel={(query) => `+ Create ${query}`}
+        onCreate={(query) => {
+          setSelectCategory(query);
+          createCategoryMutation.mutate({
+            name: query,
+          });
+          return query;
+        }}
       />
       <TextInput
         withAsterisk
