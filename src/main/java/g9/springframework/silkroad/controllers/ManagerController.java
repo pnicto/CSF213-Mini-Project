@@ -3,7 +3,6 @@ package g9.springframework.silkroad.controllers;
 import java.security.Principal;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -15,16 +14,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import g9.springframework.silkroad.models.Manager;
 import g9.springframework.silkroad.repositories.ManagerRepository;
+import lombok.AllArgsConstructor;
 
 @RestController
 @RequestMapping("api/v1/managers")
+@AllArgsConstructor
 public class ManagerController {
   private final ManagerRepository managerRepository;
-
-  @Autowired
-  public ManagerController(ManagerRepository managerRepository) {
-    this.managerRepository = managerRepository;
-  }
 
   @GetMapping
   Manager getCustomer(Principal principal) {
