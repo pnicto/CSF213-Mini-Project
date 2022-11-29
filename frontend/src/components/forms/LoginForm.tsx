@@ -13,6 +13,7 @@ import axios, { AxiosError } from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLoginStore } from "../../store/useLoginStore";
+import { useNavbarStore } from "../../store/useNavbarStore";
 import { useNotificationStore } from "../../store/useNotificationStore";
 import { LoginResponse, RegisterUserRequestBody } from "../../types/interfaces";
 
@@ -21,6 +22,7 @@ const LoginForm = () => {
 
   const loginStore = useLoginStore();
   const notificationStore = useNotificationStore();
+  const navbarStore = useNavbarStore();
 
   const navigate = useNavigate();
 
@@ -53,9 +55,14 @@ const LoginForm = () => {
     {
       onSuccess: (data) => {
         if (pageMode === "Login") {
-          loginStore.setAccessToken(data.data.accessToken);
-          loginStore.setAuthority(data.data.scope);
+          const { accessToken, scope } = data.data;
+          loginStore.setAccessToken(accessToken);
+          loginStore.setAuthority(scope);
           notificationStore.successNotification("Login Successful");
+
+          if (scope !== "CUSTOMER") {
+            navbarStore.setNavbarElements(["dashboard", "my profile"]);
+          }
           navigate("/");
         } else {
           notificationStore.successNotification(

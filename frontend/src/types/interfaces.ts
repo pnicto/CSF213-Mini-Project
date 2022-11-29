@@ -13,6 +13,10 @@ export interface LoginResponse {
   scope: Authority;
   accessToken: string;
 }
+export interface NavbarStore {
+  navbarElements: string[];
+  setNavbarElements: (navbarElements: string[]) => void;
+}
 
 export interface ActiveCategoryStore {
   activeCategory: Category | null;
@@ -90,4 +94,13 @@ export interface OrderItem {
   imageUrl: string;
   price: number;
   productId: number;
+}
+
+export interface User {
+  id: number;
+  name: string;
+  email: string;
+  role: string;
+  phoneNumber: string;
+  createdAt: Date;
 }

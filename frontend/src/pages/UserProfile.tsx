@@ -4,6 +4,7 @@ import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import AdminManagerProfile from "../components/admin_managerProfile/AdminManagerProfile";
 import CustomerProfile from "../components/customerProfile/CustomerProfile";
 import OrderHistory from "../components/customerProfile/OrderHistory";
 import ChangePassword from "../components/modals/ChangePassword";
@@ -17,16 +18,17 @@ const UserProfile = () => {
 
   type profileState = "profile" | "orderHistory";
   const navigate = useNavigate();
-  const loginStore = useLoginStore();
+  const { logoutUser, authority } = useLoginStore();
 
   const [activeOption, setActiveOption] = useState<profileState>("profile");
   const notificationStore = useNotificationStore();
+
   const deleteAccountMutation = useMutation(
     () => axios.delete(`${import.meta.env.VITE_APP_BACKEND_URL}/customers`),
     {
       onSuccess: () => {
         notificationStore.successNotification("Account deleted successfully");
-        loginStore.logoutUser();
+        logoutUser();
         navigate("/");
       },
       onError: (data: AxiosError) => {
@@ -59,30 +61,34 @@ const UserProfile = () => {
         >
           Profile
         </Button>
-        <Button
-          onClick={() => {
-            setActiveOption("orderHistory");
-          }}
-          variant="outline"
-          size="md"
-          type="button"
-        >
-          Order history
-        </Button>
-        <Button
-          onClick={() => {
-            openModal({
-              title: "Topup wallet",
-              children: <TopupWallet />,
-              centered: true,
-            });
-          }}
-          variant="outline"
-          size="md"
-          type="button"
-        >
-          Top-up wallet
-        </Button>
+        {authority === "CUSTOMER" && (
+          <>
+            <Button
+              onClick={() => {
+                setActiveOption("orderHistory");
+              }}
+              variant="outline"
+              size="md"
+              type="button"
+            >
+              Order history
+            </Button>
+            <Button
+              onClick={() => {
+                openModal({
+                  title: "Topup wallet",
+                  children: <TopupWallet />,
+                  centered: true,
+                });
+              }}
+              variant="outline"
+              size="md"
+              type="button"
+            >
+              Top-up wallet
+            </Button>
+          </>
+        )}
         <Button
           onClick={() => {
             openModal({
@@ -97,32 +103,40 @@ const UserProfile = () => {
         >
           Change password
         </Button>
-        <Button
-          type="button"
-          size="md"
-          variant="outline"
-          color={"red"}
-          onClick={() => {
-            openConfirmModal({
-              centered: true,
-              title: "Are you sure?",
-              labels: {
-                confirm: "Confirm",
-                cancel: "Cancel",
-              },
-              confirmProps: {
-                color: "red",
-              },
-              onConfirm: () => {
-                deleteAccountMutation.mutate();
-              },
-            });
-          }}
-        >
-          Delete account
-        </Button>
+        {authority === "CUSTOMER" && (
+          <Button
+            type="button"
+            size="md"
+            variant="outline"
+            color={"red"}
+            onClick={() => {
+              openConfirmModal({
+                centered: true,
+                title: "Are you sure?",
+                labels: {
+                  confirm: "Confirm",
+                  cancel: "Cancel",
+                },
+                confirmProps: {
+                  color: "red",
+                },
+                onConfirm: () => {
+                  deleteAccountMutation.mutate();
+                },
+              });
+            }}
+          >
+            Delete account
+          </Button>
+        )}
       </Group>
-      {activeOption === "profile" && <CustomerProfile />}
+      {activeOption === "profile" && authority === "CUSTOMER" && (
+        <CustomerProfile />
+      )}
+      {activeOption === "profile" &&
+        (authority === "MANAGER" || authority === "ADMIN") && (
+          <AdminManagerProfile />
+        )}
       {activeOption === "orderHistory" && <OrderHistory />}
     </>
   );

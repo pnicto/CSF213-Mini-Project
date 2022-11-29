@@ -9,14 +9,12 @@ import {
 import { IconDots, IconLogout } from "@tabler/icons";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { useLoginStore } from "../store/useLoginStore";
+import { useNavbarStore } from "../store/useNavbarStore";
 
-type Props = {
-  navbarElements?: string[];
-};
-
-const MainNavbar = ({ navbarElements = ["cart", "my profile"] }: Props) => {
+const MainNavbar = () => {
   const loginStore = useLoginStore();
   const navigate = useNavigate();
+  const { navbarElements } = useNavbarStore();
 
   return (
     <>

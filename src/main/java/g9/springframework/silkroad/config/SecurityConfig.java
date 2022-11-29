@@ -55,7 +55,13 @@ public class SecurityConfig {
           auth.mvcMatchers(HttpMethod.PATCH, "/api/v1/products/**").hasAnyAuthority("SCOPE_ADMIN", "SCOPE_MANAGER");
           auth.mvcMatchers(HttpMethod.DELETE, "/api/v1/products/**").hasAnyAuthority("SCOPE_ADMIN", "SCOPE_MANAGER");
 
+          auth.mvcMatchers(HttpMethod.GET, "/api/v1/managers/**").hasAuthority("SCOPE_MANAGER");
+          auth.mvcMatchers(HttpMethod.DELETE, "/api/v1/managers/**").hasAuthority("SCOPE_MANAGER");
+          auth.mvcMatchers(HttpMethod.PATCH, "/api/v1/managers/**").hasAuthority("SCOPE_MANAGER");
+
           auth.mvcMatchers("/api/v1/managers/**").hasAuthority("SCOPE_ADMIN");
+
+          auth.mvcMatchers("/api/v1/admins/**").hasAuthority("SCOPE_ADMIN");
           auth.anyRequest().authenticated();
         })
         .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
