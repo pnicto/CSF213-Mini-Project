@@ -27,7 +27,7 @@ const ChangePassword = ({}: Props) => {
   const updateProfile = useMutation(
     (requestBody: { oldPassword: string; newPassword: string }) => {
       return axios.patch(
-        `${import.meta.env.VITE_APP_BACKEND_URL}/customers/changePassword`,
+        `${import.meta.env.VITE_APP_BACKEND_URL}/users/changePassword`,
         requestBody
       );
     },
