@@ -15,12 +15,11 @@ import axios, { AxiosError } from "axios";
 import { useState } from "react";
 import LoadingSpinner from "../../components/display/LoadingSpinner";
 import { useCategoriesQuery } from "../../hooks/useCategoriesQuery";
-import { useProductQueryWithId } from "../../hooks/useProductsQuery";
 import { useNotificationStore } from "../../store/useNotificationStore";
 import { Category, Product } from "../../types/interfaces";
 
 type Props = {
-  productId: string;
+  product: Product;
 };
 
 export interface UpdateProductRequest {
@@ -34,16 +33,8 @@ export interface UpdateProductRequest {
   category: Category;
 }
 
-const ProductDetailsAdminManagerView = ({ productId }: Props) => {
+const ProductDetailsAdminManagerView = ({ product }: Props) => {
   const categoriesQuery = useCategoriesQuery();
-  const productQuery = useProductQueryWithId(productId!);
-
-  if (categoriesQuery.isLoading || productQuery.isLoading) {
-    return <LoadingSpinner />;
-  }
-
-  const product = productQuery.data!.data;
-
   const { name, description, price, deliveryTime } = product;
   const [isAvailable, setIsAvailable] = useState(product.isAvailable);
   const [imageUrl, setImageUrl] = useState(product.imageUrl);
@@ -71,7 +62,6 @@ const ProductDetailsAdminManagerView = ({ productId }: Props) => {
     {
       onSuccess: () => {
         categoriesQuery.refetch();
-        productQuery.refetch();
         notificationStore.successNotification("Product updated successfully");
       },
       onError: (data: AxiosError) => {
@@ -82,6 +72,30 @@ const ProductDetailsAdminManagerView = ({ productId }: Props) => {
       },
     }
   );
+
+  const createCategoryMutation = useMutation(
+    (requestBody: { name: string }) =>
+      axios.post<Category[]>(
+        `${import.meta.env.VITE_APP_BACKEND_URL}/categories`,
+        requestBody
+      ),
+    {
+      onSuccess: () => {
+        categoriesQuery.refetch();
+        notificationStore.successNotification("Category created successfully");
+      },
+      onError: (data: AxiosError) => {
+        notificationStore.errorNotification(
+          data.message,
+          `Could not create new category`
+        );
+      },
+    }
+  );
+
+  if (categoriesQuery.isLoading) {
+    return <LoadingSpinner />;
+  }
 
   const categories = categoriesQuery.data!.data.map((category) => {
     return category.name;
@@ -150,6 +164,15 @@ const ProductDetailsAdminManagerView = ({ productId }: Props) => {
               onChange={setSelectCategory}
               data={categories}
               maxDropdownHeight={250}
+              creatable
+              getCreateLabel={(query) => `+ Create ${query}`}
+              onCreate={(query) => {
+                setSelectCategory(query);
+                createCategoryMutation.mutate({
+                  name: query,
+                });
+                return query;
+              }}
             />
             <NumberInput
               withAsterisk
