@@ -17,7 +17,7 @@ import { useNotificationStore } from "../../store/useNotificationStore";
 import { CustomerCart, Product } from "../../types/interfaces";
 
 type Props = {
-  productId: string;
+  product: Product;
 };
 
 interface CartItemRequest {
@@ -25,8 +25,7 @@ interface CartItemRequest {
   quantity: number;
 }
 
-const ProductDetailsCustomerView = ({ productId }: Props) => {
-  const { data: productData, isLoading } = useProductQueryWithId(productId!);
+const ProductDetailsCustomerView = ({ product }: Props) => {
   const [quantity, setQuantity] = useState(1);
   const notificationStore = useNotificationStore();
 
@@ -51,11 +50,6 @@ const ProductDetailsCustomerView = ({ productId }: Props) => {
     }
   );
 
-  if (isLoading) {
-    return <LoadingSpinner />;
-  }
-
-  const product = productData!.data;
   const { name, description, imageUrl, isAvailable, price } = product;
 
   return (
