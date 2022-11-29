@@ -1,7 +1,7 @@
 package g9.springframework.silkroad.controllers;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.security.Principal;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,10 +26,13 @@ public class ManagerController {
   }
 
   @GetMapping
-  List<Manager> getAllManagers() {
-    List<Manager> allManagerList = new ArrayList<Manager>();
-    managerRepository.findAll().iterator().forEachRemaining(allManagerList::add);
-    return allManagerList;
+  Manager getCustomer(Principal principal) {
+    Optional<Manager> mOptional = managerRepository.findByEmail(principal.getName());
+    if (mOptional.isPresent()) {
+      return mOptional.get();
+    } else {
+      throw new IllegalStateException("Manager not found");
+    }
   }
 
   @PostMapping
