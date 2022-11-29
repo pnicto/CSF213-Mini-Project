@@ -4,7 +4,7 @@ import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { useState } from "react";
 import { useProfileDataQuery } from "../../hooks/useProfileDataQuery";
-import { useNotificationStore } from "../../store/notificationStore";
+import { useNotificationStore } from "../../store/useNotificationStore";
 
 const TopupWallet = () => {
   const notificationStore = useNotificationStore();

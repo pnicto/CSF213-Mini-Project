@@ -1,6 +1,7 @@
 package g9.springframework.silkroad.controllers;
 
-import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -36,7 +37,10 @@ public class AuthController {
     var authentication = authenticationManager
         .authenticate(new UsernamePasswordAuthenticationToken(request.email(), request.password()));
     String token = tokenService.generateToken(authentication);
-    return ResponseEntity.ok().body(Collections.singletonMap("accessToken", token));
+    Map<String, String> response = new HashMap<>();
+    response.put("accessToken", token);
+    response.put("scope", authentication.getAuthorities().toArray()[0].toString());
+    return ResponseEntity.ok().body(response);
   }
 }
 

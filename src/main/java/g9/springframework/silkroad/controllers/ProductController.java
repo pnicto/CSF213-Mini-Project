@@ -2,7 +2,9 @@ package g9.springframework.silkroad.controllers;
 
 import java.util.Optional;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -45,5 +47,21 @@ public class ProductController {
   @PostMapping
   public Product createNewProduct(@RequestBody Product newProduct) {
     return productRepository.save(newProduct);
+  }
+
+  @PatchMapping("/{id}")
+  public Product updateProduct(@PathVariable("id") Long id, @RequestBody Product updatedProduct) {
+    Optional<Product> pOptional = productRepository.findById(id);
+    if (pOptional.isPresent()) {
+      return productRepository.save(updatedProduct);
+    } else {
+      throw new IllegalStateException("Product not found");
+    }
+  }
+
+  @DeleteMapping("/{id}")
+  public Iterable<Product> deleteProduct(@PathVariable("id") Long id) {
+    productRepository.deleteById(id);
+    return productRepository.findAll();
   }
 }

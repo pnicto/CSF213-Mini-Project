@@ -1,8 +1,22 @@
+export type Authority = "ADMIN" | "CUSTOMER" | "MANAGER";
+
 export interface LoginStore {
   accessToken: string | null;
   isLogged: boolean;
+  authority: Authority | null;
   setAccessToken: (accessToken: string) => void;
   logoutUser: () => void;
+  setAuthority: (authority: Authority) => void;
+}
+
+export interface LoginResponse {
+  scope: Authority;
+  accessToken: string;
+}
+
+export interface ActiveCategoryStore {
+  activeCategory: Category | null;
+  setActiveCategory: (activeCategory: Category | null) => void;
 }
 
 export interface NotificationStore {
@@ -28,6 +42,7 @@ export interface Product {
   imageUrl: string;
   isAvailable: boolean;
   deliveryTime: number;
+  category: { id: number; name: string };
 }
 
 export interface Category {

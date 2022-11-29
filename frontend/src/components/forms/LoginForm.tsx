@@ -12,9 +12,9 @@ import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useLoginStore } from "../../store/loginStore";
-import { useNotificationStore } from "../../store/notificationStore";
-import { RegisterUserRequestBody } from "../../types/interfaces";
+import { useLoginStore } from "../../store/useLoginStore";
+import { useNotificationStore } from "../../store/useNotificationStore";
+import { LoginResponse, RegisterUserRequestBody } from "../../types/interfaces";
 
 const LoginForm = () => {
   const [pageMode, setPageMode] = useState<"Login" | "Register">("Login");
@@ -43,7 +43,7 @@ const LoginForm = () => {
     (requestBody: RegisterUserRequestBody) => {
       delete axios.defaults.headers.common["Authorization"];
 
-      return axios.post(
+      return axios.post<LoginResponse>(
         `${
           import.meta.env.VITE_APP_BACKEND_URL
         }/auth/${pageMode.toLowerCase()}`,
@@ -54,6 +54,7 @@ const LoginForm = () => {
       onSuccess: (data) => {
         if (pageMode === "Login") {
           loginStore.setAccessToken(data.data.accessToken);
+          loginStore.setAuthority(data.data.scope);
           notificationStore.successNotification("Login Successful");
           navigate("/");
         } else {

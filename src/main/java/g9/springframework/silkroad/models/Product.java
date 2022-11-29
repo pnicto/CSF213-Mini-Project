@@ -9,7 +9,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.google.gson.annotations.Expose;
 
 import lombok.Getter;
@@ -37,9 +36,8 @@ public class Product {
   private Boolean isAvailable;
   private int deliveryTime;
 
-  @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH })
+  @ManyToOne(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH })
   @JoinColumn(name = "category_id")
-  @JsonBackReference
   private Category category;
 
   public Product(String name, String description, double price, String imageUrl, int deliveryTime, Category category) {

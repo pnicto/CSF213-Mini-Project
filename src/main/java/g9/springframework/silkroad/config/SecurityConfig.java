@@ -47,7 +47,14 @@ public class SecurityConfig {
         .authorizeRequests(auth -> {
           auth.mvcMatchers("/api/v1/auth/**").permitAll();
           auth.mvcMatchers("/api/v1/customers/**").hasAuthority("SCOPE_CUSTOMER");
-          auth.mvcMatchers(HttpMethod.GET, "/api/v1/products/**").hasAuthority("SCOPE_CUSTOMER");
+
+          // Products routes
+          auth.mvcMatchers(HttpMethod.GET, "/api/v1/products/**")
+              .hasAnyAuthority("SCOPE_CUSTOMER", "SCOPE_ADMIN", "SCOPE_MANAGER");
+          auth.mvcMatchers(HttpMethod.POST, "/api/v1/products/**").hasAnyAuthority("SCOPE_ADMIN", "SCOPE_MANAGER");
+          auth.mvcMatchers(HttpMethod.PATCH, "/api/v1/products/**").hasAnyAuthority("SCOPE_ADMIN", "SCOPE_MANAGER");
+          auth.mvcMatchers(HttpMethod.DELETE, "/api/v1/products/**").hasAnyAuthority("SCOPE_ADMIN", "SCOPE_MANAGER");
+
           auth.mvcMatchers("/api/v1/managers/**").hasAuthority("SCOPE_ADMIN");
           auth.anyRequest().authenticated();
         })

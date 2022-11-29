@@ -1,32 +1,54 @@
-import { Anchor, Container, Grid, List, Title } from "@mantine/core";
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import { useState } from "react";
+import {
+  Anchor,
+  Button,
+  Container,
+  Grid,
+  Group,
+  List,
+  Title,
+} from "@mantine/core";
+import { openModal } from "@mantine/modals";
+import { useMutation } from "@tanstack/react-query";
+import axios, { AxiosError } from "axios";
 import LoadingSpinner from "../components/display/LoadingSpinner";
 import ProductCard from "../components/display/ProductCard";
-import { useLoginStore } from "../store/loginStore";
-import { Category, Product } from "../types/interfaces";
+import ProductFrom from "../components/forms/AddProductForm";
+import { useCategoriesQuery } from "../hooks/useCategoriesQuery";
+import { useProductQuery } from "../hooks/useProductsQuery";
+import { useActiveCategoryStore } from "../store/useActiveCategoryStore";
+import { useLoginStore } from "../store/useLoginStore";
+import { useNotificationStore } from "../store/useNotificationStore";
+import { Product } from "../types/interfaces";
 
 const Home = () => {
   // Hooks
-  const { accessToken } = useLoginStore();
-  const [activeCategory, setActiveCategory] = useState<Category | null>(null);
-
+  const { accessToken, authority } = useLoginStore();
+  const notificationStore = useNotificationStore();
+  const { activeCategory, setActiveCategory } = useActiveCategoryStore();
   // Axios default header setting
   axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
 
   // Queries for data
-  const productsQuery = useQuery(["products", activeCategory], () =>
-    axios.get<Product[]>(
-      // If not category is selected set the request param to 0 to get all products
-      `${import.meta.env.VITE_APP_BACKEND_URL}/products?name=${
-        activeCategory ? activeCategory.id : 0
-      }`
-    )
-  );
+  const productsQuery = useProductQuery();
 
-  const categoriesQuery = useQuery(["categories"], () =>
-    axios.get<Category[]>(`${import.meta.env.VITE_APP_BACKEND_URL}/categories`)
+  const categoriesQuery = useCategoriesQuery();
+
+  const deleteProductMutation = useMutation(
+    (productId: number) => {
+      return axios.delete<Product[]>(
+        `${import.meta.env.VITE_APP_BACKEND_URL}/products/${productId}`
+      );
+    },
+    {
+      onSuccess: () => {
+        notificationStore.successNotification("Deleted product successfully");
+        productsQuery.refetch();
+      },
+
+      onError: (data: AxiosError) => {
+        notificationStore.errorNotification(data.message, "Cannot delete item");
+      },
+    }
   );
 
   return productsQuery.isLoading && categoriesQuery.isLoading ? (
@@ -67,9 +89,25 @@ const Home = () => {
           </Container>
         </Grid.Col>
         <Grid.Col span={11}>
-          <Title order={2} mb={"md"} ml={"sm"} color="deepBlue">
-            {activeCategory ? activeCategory.name : "All products: "}
-          </Title>
+          <Group position="apart">
+            <Title order={2} mb={"md"} ml={"sm"} color="deepBlue">
+              {activeCategory ? activeCategory.name : "All products: "}
+            </Title>
+            {authority !== "CUSTOMER" && (
+              <Button
+                type="button"
+                onClick={() => {
+                  openModal({
+                    title: "Add new product",
+                    children: <ProductFrom />,
+                    centered: true,
+                  });
+                }}
+              >
+                Add a product
+              </Button>
+            )}
+          </Group>
           <Grid columns={4} gutter={"lg"} mx={"xs"}>
             {
               // Display loading spinner if the data is being re-fetched
@@ -81,7 +119,11 @@ const Home = () => {
                 productsQuery.data?.data.map((product) => {
                   return (
                     <Grid.Col key={product.id} span={1}>
-                      <ProductCard key={product.id} product={product} />
+                      <ProductCard
+                        key={product.id}
+                        product={product}
+                        deleteProductMutation={deleteProductMutation}
+                      />
                     </Grid.Col>
                   );
                 })

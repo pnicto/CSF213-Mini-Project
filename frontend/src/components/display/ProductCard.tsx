@@ -1,22 +1,35 @@
-import { Card, Group, Image, Text, Badge } from "@mantine/core";
+import {
+  ActionIcon,
+  Anchor,
+  Badge,
+  Card,
+  Group,
+  Image,
+  Text,
+} from "@mantine/core";
+import { IconTrash } from "@tabler/icons";
+import { UseMutationResult } from "@tanstack/react-query";
+import { AxiosError, AxiosResponse } from "axios";
 import { Link } from "react-router-dom";
+import { useLoginStore } from "../../store/useLoginStore";
 import { Product } from "../../types/interfaces";
 
 type Props = {
   product: Product;
+  deleteProductMutation: UseMutationResult<
+    AxiosResponse<Product[], any>,
+    AxiosError<unknown, any>,
+    number,
+    unknown
+  >;
 };
 
-const ProductCard = ({ product }: Props) => {
+const ProductCard = ({ product, deleteProductMutation }: Props) => {
   const { name, imageUrl, isAvailable, price } = product;
+  const { authority } = useLoginStore();
 
   return (
-    <Card
-      shadow={"md"}
-      withBorder
-      h={"100%"}
-      component={Link}
-      to={`product/${product.id}`}
-    >
+    <Card shadow={"md"} withBorder h={"100%"}>
       <Card.Section withBorder>
         <Image
           src={imageUrl}
@@ -37,8 +50,20 @@ const ProductCard = ({ product }: Props) => {
             Out of stock
           </Badge>
         )}
+        {authority !== "CUSTOMER" && (
+          <ActionIcon
+            color={"red"}
+            onClick={() => {
+              deleteProductMutation.mutate(product.id);
+            }}
+          >
+            <IconTrash />
+          </ActionIcon>
+        )}
       </Group>
-      <Text weight={400}>{name}</Text>
+      <Anchor component={Link} to={`product/${product.id}`}>
+        <Text weight={400}>{name}</Text>
+      </Anchor>
     </Card>
   );
 };

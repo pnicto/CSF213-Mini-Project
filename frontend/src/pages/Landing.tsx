@@ -2,7 +2,7 @@ import { Button, Center, Flex, Group, Title } from "@mantine/core";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ReactComponent as CartLogo } from "../assets/cart.svg";
-import { useLoginStore } from "../store/loginStore";
+import { useLoginStore } from "../store/useLoginStore";
 
 const Landing = () => {
   const navigate = useNavigate();
