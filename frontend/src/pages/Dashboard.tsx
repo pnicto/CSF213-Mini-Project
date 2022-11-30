@@ -6,12 +6,21 @@ import { useLoginStore } from "../store/useLoginStore";
 const Dashboard = () => {
   type dashboardState = "manage managers" | "reports";
   const { authority } = useLoginStore();
-  const [activeOption, setActiveOption] =
-    useState<dashboardState>("manage managers");
+  const [activeOption, setActiveOption] = useState<dashboardState>("reports");
 
   return (
     <>
       <Group position={"center"} m={"lg"}>
+        <Button
+          onClick={() => {
+            setActiveOption("reports");
+          }}
+          variant="outline"
+          size="md"
+          type="button"
+        >
+          Generate reports
+        </Button>
         {authority === "ADMIN" && (
           <Button
             onClick={() => {
@@ -24,18 +33,10 @@ const Dashboard = () => {
             Manage managers
           </Button>
         )}
-        <Button
-          onClick={() => {
-            setActiveOption("reports");
-          }}
-          variant="outline"
-          size="md"
-          type="button"
-        >
-          Generate reports
-        </Button>
       </Group>
-      {activeOption === "manage managers" && <ManageManagers />}
+      {activeOption === "manage managers" && authority === "ADMIN" && (
+        <ManageManagers />
+      )}
     </>
   );
 };
