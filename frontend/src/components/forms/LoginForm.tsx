@@ -62,6 +62,8 @@ const LoginForm = () => {
 
           if (scope !== "CUSTOMER") {
             navbarStore.setNavbarElements(["dashboard", "my profile"]);
+          } else {
+            navbarStore.setNavbarElements(["cart", "my profile"]);
           }
           navigate("/");
         } else {
