@@ -57,7 +57,8 @@ public class ManagerController {
   }
 
   @DeleteMapping("/{managerId}")
-  void deleteManager(@PathVariable("managerId") String managerId) {
-    managerRepository.deleteById(Long.parseLong(managerId));
+  Iterable<Manager> deleteManager(@PathVariable("managerId") Long managerId) {
+    managerRepository.deleteById(managerId);
+    return managerRepository.findAll();
   }
 }
