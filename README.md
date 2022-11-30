@@ -1,21 +1,37 @@
 # CSF213 Mini Project
 
-
-## Mid semester evaluation
+### Mid semester evaluation
 
 Making UML diagrams for backend and frontend.
 
-### TODO
+### End semester evaluation
 
-#### Backend
+Working site
 
-- Figure out how spring boot works and make classes according to that
+## Running the backend
 
-#### Frontend
+Have Java 17, postgresql installed. Create a database named `silkroad` in psql.
 
-- Finalize the figma flow chart.
+1. Clone the git repo
+2. In `src/main/resources/` create a folder named `certs`. Now `cd` into the `certs` folder and run the following commands.
+   ```bash
+   openssl genrsa -out keypair.pem 2048
+   openssl rsa -in keypair.pem -pubout -out public.pem
+   openssl pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in keypair.pem -out private.pem
+   ```
+3. In `src/main/resources/` rename `application.properties.example` to `application.properties`, Open `application.properties` and fill out the blank fields.
+4. In the root directory, run `./mvnw spring-boot:run` or you can use the spring boot dashboard extension in VSCode to run.
 
-### Steps to make UML diagrams with plantuml
+## Running the frontend
+
+Have `yarn`(preferable) or `npm` installed.
+
+1. Clone the git repo.
+2. `cd` into the `frontend` folder.
+3. Run `yarn` to install the dependencies.
+4. Run `yarn dev` to start it.
+
+## Steps to make UML diagrams with plantuml
 
 1. Have [VSCode](https://code.visualstudio.com/).
 2. Install this extension [VSCode plantuml](https://github.com/qjebbs/vscode-plantuml#how-to-install).
@@ -40,7 +56,7 @@ Making UML diagrams for backend and frontend.
 We are using Java 17 so install it.
 
 1. Clone the git repo.
-2. Checkout to the `figuring-out` branch. Use the command center( <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> and search for `Git:Checkout to ...`) in VSCode.
+2. Checkout to a new branch named with the feature you want to work on. Use the command center( <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd> and search for `Git:Checkout to ...`) in VSCode.
 3. Download postgresql.
    #### Linux
 
