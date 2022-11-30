@@ -1,5 +1,6 @@
 import { Button, Group } from "@mantine/core";
 import { useState } from "react";
+import ManageCategories from "../components/dashboard/ManageCategories";
 import ManageManagers from "../components/dashboard/ManageManagers";
 
 const Dashboard = () => {
@@ -43,6 +44,7 @@ const Dashboard = () => {
         </Button>
       </Group>
       {activeOption === "manage managers" && <ManageManagers />}
+      {activeOption === "manage categories" && <ManageCategories />}
     </>
   );
 };
