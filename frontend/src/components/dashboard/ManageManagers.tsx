@@ -7,13 +7,14 @@ import {
   Text,
   Title,
 } from "@mantine/core";
-import { openConfirmModal } from "@mantine/modals";
+import { openConfirmModal, openModal } from "@mantine/modals";
 import { IconTrash, IconUserPlus } from "@tabler/icons";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { useNotificationStore } from "../../store/useNotificationStore";
 import { User } from "../../types/interfaces";
 import LoadingSpinner from "../display/LoadingSpinner";
+import AddManagerForm from "../forms/AddManagerForm";
 
 const ManageManagers = () => {
   const notificationStore = useNotificationStore();
@@ -89,7 +90,17 @@ const ManageManagers = () => {
           <List.Item>
             <Group>
               <Text>Add new manager</Text>
-              <ActionIcon color={"deepBlue"} size={"lg"}>
+              <ActionIcon
+                color={"deepBlue"}
+                size={"lg"}
+                onClick={() => {
+                  openModal({
+                    title: "Add a new manager",
+                    children: <AddManagerForm />,
+                    centered: true,
+                  });
+                }}
+              >
                 <IconUserPlus />
               </ActionIcon>
             </Group>
