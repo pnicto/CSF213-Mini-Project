@@ -20,8 +20,8 @@ const AddManagerForm = () => {
 
   const form = useForm({
     initialValues: {
-      email: "ram@email.com",
-      password: "password",
+      email: "",
+      password: "",
       name: "",
       phoneNumber: "",
     },
