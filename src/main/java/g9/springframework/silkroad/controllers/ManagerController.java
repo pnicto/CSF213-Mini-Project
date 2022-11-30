@@ -3,6 +3,7 @@ package g9.springframework.silkroad.controllers;
 import java.security.Principal;
 import java.util.Optional;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -21,9 +22,10 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class ManagerController {
   private final ManagerRepository managerRepository;
+  private final PasswordEncoder passwordEncoder;
 
   @GetMapping
-  Manager getCustomer(Principal principal) {
+  Manager getManager(Principal principal) {
     Optional<Manager> mOptional = managerRepository.findByEmail(principal.getName());
     if (mOptional.isPresent()) {
       return mOptional.get();
@@ -32,9 +34,17 @@ public class ManagerController {
     }
   }
 
+  @GetMapping("/all")
+  Iterable<Manager> getAllManagers() {
+    return managerRepository.findAll();
+  }
+
   @PostMapping
-  Manager createNewManager(@RequestBody Manager newManager) {
-    return managerRepository.save(newManager);
+  Iterable<Manager> createNewManager(@RequestBody RegistrationRequest newManager) {
+    managerRepository
+        .save(new Manager(newManager.name(), newManager.email(), passwordEncoder.encode(newManager.password()),
+            newManager.phoneNumber()));
+    return managerRepository.findAll();
   }
 
   @PatchMapping
@@ -52,7 +62,15 @@ public class ManagerController {
   }
 
   @DeleteMapping("/{managerId}")
-  void deleteManager(@PathVariable("managerId") String managerId) {
-    managerRepository.deleteById(Long.parseLong(managerId));
+  Iterable<Manager> deleteManager(@PathVariable("managerId") Long managerId) {
+    managerRepository.deleteById(managerId);
+    return managerRepository.findAll();
   }
+}
+
+record RegistrationRequest(
+    String name,
+    String email,
+    String password,
+    String phoneNumber) {
 }

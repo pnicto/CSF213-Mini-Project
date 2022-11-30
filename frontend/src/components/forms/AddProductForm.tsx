@@ -159,7 +159,6 @@ const ProductFrom = () => {
         {...productForm.getInputProps("imageUrl")}
       />
       <Switch
-        required
         label="Is in stock?"
         checked={isAvailable}
         onChange={(event) => setIsAvailable(event.currentTarget.checked)}

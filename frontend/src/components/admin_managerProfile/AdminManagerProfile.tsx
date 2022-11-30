@@ -89,7 +89,6 @@ const AdminManagerProfile = () => {
           </Text>
           <form
             onSubmit={form.onSubmit((values) => {
-              console.log(values);
               updateProfile.mutate(values);
             })}
           >
