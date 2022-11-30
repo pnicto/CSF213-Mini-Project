@@ -58,7 +58,7 @@ const ManageManagers = () => {
           {managersDataQuery.data!.data.length > 0 &&
             managersDataQuery.data!.data.map((manager) => {
               return (
-                <List.Item>
+                <List.Item key={manager.id}>
                   <Group>
                     <Text>{manager.name}</Text>
                     <ActionIcon
