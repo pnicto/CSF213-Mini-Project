@@ -6,6 +6,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import MainNavbar from "./components/MainNavbar";
 import Cart from "./pages/Cart";
+import Dashboard from "./pages/Dashboard";
 import Home from "./pages/Home";
 import Landing from "./pages/Landing";
 import Login from "./pages/Login";
@@ -81,6 +82,7 @@ export default function App() {
                     />
                     <Route path="cart" element={<Cart />} />
                     <Route path="my profile" element={<UserProfile />} />
+                    <Route path="dashboard" element={<Dashboard />} />
                   </Route>
                 </Route>
               </Routes>
