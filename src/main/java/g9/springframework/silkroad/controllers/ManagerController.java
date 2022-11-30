@@ -32,6 +32,11 @@ public class ManagerController {
     }
   }
 
+  @GetMapping("/all")
+  Iterable<Manager> getAllManagers() {
+    return managerRepository.findAll();
+  }
+
   @PostMapping
   Manager createNewManager(@RequestBody Manager newManager) {
     return managerRepository.save(newManager);
