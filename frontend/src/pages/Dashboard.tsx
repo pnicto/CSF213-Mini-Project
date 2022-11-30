@@ -1,10 +1,9 @@
 import { Button, Group } from "@mantine/core";
 import { useState } from "react";
-import ManageCategories from "../components/dashboard/ManageCategories";
 import ManageManagers from "../components/dashboard/ManageManagers";
 
 const Dashboard = () => {
-  type dashboardState = "manage managers" | "manage categories" | "reports";
+  type dashboardState = "manage managers" | "reports";
 
   const [activeOption, setActiveOption] =
     useState<dashboardState>("manage managers");
@@ -24,16 +23,6 @@ const Dashboard = () => {
         </Button>
         <Button
           onClick={() => {
-            setActiveOption("manage categories");
-          }}
-          variant="outline"
-          size="md"
-          type="button"
-        >
-          Manage categories
-        </Button>
-        <Button
-          onClick={() => {
             setActiveOption("reports");
           }}
           variant="outline"
@@ -44,7 +33,6 @@ const Dashboard = () => {
         </Button>
       </Group>
       {activeOption === "manage managers" && <ManageManagers />}
-      {activeOption === "manage categories" && <ManageCategories />}
     </>
   );
 };
