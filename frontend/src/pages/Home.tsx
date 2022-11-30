@@ -54,8 +54,8 @@ const Home = () => {
   return productsQuery.isLoading && categoriesQuery.isLoading ? (
     <LoadingSpinner />
   ) : (
-    <Container fluid>
-      <Grid p={0} columns={13} mih={"92vh"}>
+    <Container fluid p={0}>
+      <Grid p={0} columns={13} mih={"92vh"} m={0}>
         <Grid.Col
           span={2}
           bg={"blue.0"}
