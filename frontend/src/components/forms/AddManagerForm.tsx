@@ -1,7 +1,23 @@
 import { Button, Group, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
+import { closeAllModals } from "@mantine/modals";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import axios, { AxiosError } from "axios";
+import { useNotificationStore } from "../../store/useNotificationStore";
+import { User } from "../../types/interfaces";
+
+interface NewManagerRequestBody {
+  role: string;
+  email: string;
+  password: string;
+  name: string;
+  phoneNumber: string;
+}
 
 const AddManagerForm = () => {
+  const queryClient = useQueryClient();
+  const notificationStore = useNotificationStore();
+
   const form = useForm({
     initialValues: {
       email: "ram@email.com",
@@ -17,8 +33,30 @@ const AddManagerForm = () => {
     },
   });
 
+  const createNewManagerMutation = useMutation(
+    (requestBody: NewManagerRequestBody) =>
+      axios.post<User[]>(
+        `${import.meta.env.VITE_APP_BACKEND_URL}/managers`,
+        requestBody
+      ),
+    {
+      onSuccess: (data) => {
+        notificationStore.successNotification("Added manager successfully");
+        queryClient.setQueryData(["managers"], data);
+        closeAllModals();
+      },
+      onError: (data: AxiosError) => {
+        notificationStore.errorNotification(data.message, "Cannot add manager");
+      },
+    }
+  );
+
   return (
-    <form onSubmit={form.onSubmit((values) => {})}>
+    <form
+      onSubmit={form.onSubmit((values) => {
+        createNewManagerMutation.mutate({ ...values, role: "MANAGER" });
+      })}
+    >
       <TextInput
         withAsterisk
         label="Name"
