@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -30,6 +31,7 @@ public class Category {
   @OneToMany(mappedBy = "category", cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH,
       CascadeType.DETACH })
   @JsonBackReference
+  @OrderBy(value = "name ASC")
   private List<Product> products;
 
   public Category(String name) {
