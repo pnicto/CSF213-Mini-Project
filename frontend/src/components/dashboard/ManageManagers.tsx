@@ -60,7 +60,6 @@ const ManageManagers = () => {
               return (
                 <List.Item key={manager.id}>
                   <Group>
-                    <Text>{manager.name}</Text>
                     <ActionIcon
                       color={"red"}
                       size={"lg"}
@@ -83,6 +82,7 @@ const ManageManagers = () => {
                     >
                       <IconTrash />
                     </ActionIcon>
+                    <Text>{manager.name}</Text>
                   </Group>
                 </List.Item>
               );
