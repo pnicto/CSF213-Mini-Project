@@ -1,5 +1,6 @@
 package g9.springframework.silkroad.controllers;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,7 +19,7 @@ public class CategoryController {
 
   @GetMapping
   Iterable<Category> getAllCategories() {
-    return categoryRepository.findAll();
+    return categoryRepository.findAll(Sort.by(Sort.Direction.ASC, "name"));
   }
 
   @PostMapping
