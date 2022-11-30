@@ -40,7 +40,8 @@ const ProductFrom = () => {
       imageUrl: "",
     },
     validate: {
-      price: (value: number) => (value > 0 ? null : "Price cannot be negative"),
+      price: (value: number) =>
+        value > 0 ? null : "Price cannot be less than 0",
     },
   });
 
