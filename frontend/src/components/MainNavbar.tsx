@@ -73,7 +73,6 @@ const MainNavbar = () => {
               }}
               miw={"40%"}
               radius="xl"
-              selectOnBlur
             />
 
             <Flex dir="row" justify={"space-around"} align="center" miw={"20%"}>
