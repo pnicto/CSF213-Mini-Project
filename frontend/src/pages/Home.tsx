@@ -63,7 +63,14 @@ const Home = () => {
             borderRight: "solid 1px #9DA5C0",
           }}
         >
-          <Container pos={"sticky"} top={"10vh"}>
+          <Container
+            pos={"fixed"}
+            top={"10vh"}
+            h={"92vh"}
+            style={{
+              overflowY: "auto",
+            }}
+          >
             <Title pb="xs" order={2} color={"deepBlue"}>
               Categories
             </Title>
