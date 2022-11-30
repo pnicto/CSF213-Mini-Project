@@ -1,8 +1,6 @@
 package g9.springframework.silkroad.loaders;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -10,11 +8,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import g9.springframework.silkroad.models.Admin;
-import g9.springframework.silkroad.models.CartItem;
 import g9.springframework.silkroad.models.Category;
 import g9.springframework.silkroad.models.Customer;
 import g9.springframework.silkroad.models.Manager;
-import g9.springframework.silkroad.models.Order;
 import g9.springframework.silkroad.models.Product;
 import g9.springframework.silkroad.repositories.AdminRepository;
 import g9.springframework.silkroad.repositories.CategoryRepository;
@@ -363,18 +359,18 @@ public class DataLoader implements ApplicationRunner {
     categoryRepository.save(Candy);
     categoryRepository.save(FrozenFoods);
 
-    john.getCart().addProductToCart(new CartItem(PantryArray[0], 3));
-    john.getCart().addProductToCart(new CartItem(DeliArray[0], 1));
+    // john.getCart().addProductToCart(new CartItem(PantryArray[0], 3));
+    // john.getCart().addProductToCart(new CartItem(DeliArray[0], 1));
 
-    List<Order> orders = new ArrayList<>();
-    orders.add(new Order(john.getCart().getCartItems(), john.getCart().getTotalPrice()));
+    // List<Order> orders = new ArrayList<>();
+    // orders.add(new Order(john.getCart().getCartItems(), john.getCart().getTotalPrice()));
 
-    john.getCart().addProductToCart(new CartItem(PantryArray[1], 3));
-    john.getCart().addProductToCart(new CartItem(DeliArray[2], 1));
+    // john.getCart().addProductToCart(new CartItem(PantryArray[1], 3));
+    // john.getCart().addProductToCart(new CartItem(DeliArray[2], 1));
 
-    orders.add(new Order(john.getCart().getCartItems(), john.getCart().getTotalPrice()));
+    // orders.add(new Order(john.getCart().getCartItems(), john.getCart().getTotalPrice()));
 
-    john.setOrders(orders);
+    // john.setOrders(orders);
     customerRepository.save(john);
     customerRepository.save(steve);
   }
