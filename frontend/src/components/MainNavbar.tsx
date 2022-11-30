@@ -20,7 +20,6 @@ const MainNavbar = () => {
     <>
       <Container
         fluid
-        mb={"sm"}
         bg="blue.1"
         mah={"10vh"}
         pos={"sticky"}
