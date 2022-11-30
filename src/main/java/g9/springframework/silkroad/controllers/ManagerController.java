@@ -23,7 +23,7 @@ public class ManagerController {
   private final ManagerRepository managerRepository;
 
   @GetMapping
-  Manager getCustomer(Principal principal) {
+  Manager getManager(Principal principal) {
     Optional<Manager> mOptional = managerRepository.findByEmail(principal.getName());
     if (mOptional.isPresent()) {
       return mOptional.get();
