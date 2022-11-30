@@ -69,7 +69,11 @@ export default function App() {
           }}
         >
           <NotificationsProvider autoClose={4000}>
-            <ModalsProvider>
+            <ModalsProvider
+              modalProps={{
+                overlayBlur: 5,
+              }}
+            >
               <Routes>
                 <Route path="/login" element={<Login />} />
                 <Route path="/" element={<Landing />} />
