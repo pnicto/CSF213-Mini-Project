@@ -55,7 +55,7 @@ const Home = () => {
     <LoadingSpinner />
   ) : (
     <Container fluid p={0}>
-      <Grid p={0} columns={13} mih={"92vh"} m={0}>
+      <Grid p={0} columns={11} mih={"92vh"} m={0}>
         <Grid.Col
           span={2}
           bg={"blue.0"}
@@ -63,7 +63,7 @@ const Home = () => {
             borderRight: "solid 1px #9DA5C0",
           }}
         >
-          <Container pos={"fixed"}>
+          <Container pos={"sticky"} top={"10vh"}>
             <Title pb="xs" order={2} color={"deepBlue"}>
               Categories
             </Title>
@@ -88,7 +88,7 @@ const Home = () => {
             </List>
           </Container>
         </Grid.Col>
-        <Grid.Col span={11}>
+        <Grid.Col span={9}>
           <Group position="apart">
             <Title order={2} mb={"md"} ml={"sm"} color="deepBlue">
               {activeCategory ? activeCategory.name : "All products: "}
