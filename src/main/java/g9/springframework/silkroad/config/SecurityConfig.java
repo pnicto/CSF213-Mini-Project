@@ -62,6 +62,9 @@ public class SecurityConfig {
           auth.mvcMatchers(HttpMethod.POST, "/api/v1/managers/**").hasAuthority("SCOPE_ADMIN");
 
           auth.mvcMatchers("/api/v1/admins/**").hasAuthority("SCOPE_ADMIN");
+
+          auth.mvcMatchers("/api/v1/reports/**").hasAnyAuthority("SCOPE_ADMIN", "SCOPE_MANAGER");
+
           auth.anyRequest().authenticated();
         })
         .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
