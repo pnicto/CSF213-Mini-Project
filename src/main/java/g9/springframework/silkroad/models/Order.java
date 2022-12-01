@@ -12,8 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.CreationTimestamp;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -29,12 +27,12 @@ public class Order {
   private List<OrderItem> orderItems;
   private double totalPrice;
 
-  @CreationTimestamp
   private LocalDateTime createdAt;
 
   public Order() {
     this.totalPrice = 0;
     this.orderItems = new ArrayList<>();
+    this.createdAt = LocalDateTime.now();
   }
 
   public Order(List<CartItem> cartItems, double totalPrice) {
@@ -46,6 +44,18 @@ public class Order {
           new OrderItem(product.getName(), product.getImageUrl(), product.getPrice(),
               cartItem.getQuantity(), product.getId()));
     });
+  }
+
+  public Order(List<CartItem> cartItems, double totalPrice, LocalDateTime localDateTime) {
+    this.totalPrice = totalPrice;
+    this.orderItems = new ArrayList<>();
+    cartItems.forEach(cartItem -> {
+      var product = cartItem.getProduct();
+      this.orderItems.add(
+          new OrderItem(product.getName(), product.getImageUrl(), product.getPrice(),
+              cartItem.getQuantity(), product.getId()));
+    });
+    this.createdAt = localDateTime;
   }
 
 }
