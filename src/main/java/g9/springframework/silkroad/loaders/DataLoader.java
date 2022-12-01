@@ -1,5 +1,6 @@
 package g9.springframework.silkroad.loaders;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 
 import org.springframework.boot.ApplicationArguments;
@@ -44,6 +45,8 @@ public class DataLoader implements ApplicationRunner {
     var steve = customerRepository
         .save(new Customer("Steve", "steve@email.com", passwordEncoder.encode("pwdpwd"), "666"));
 
+    customerRepository.save(new Customer("Irvin", "irvin@email.com", passwordEncoder.encode("irvin"), "108",
+        LocalDateTime.now().minusMonths(2)));
 
     // Categories and products
     Category BabyBathAndSkinCare = new Category("Baby Bath & Skin Care");
