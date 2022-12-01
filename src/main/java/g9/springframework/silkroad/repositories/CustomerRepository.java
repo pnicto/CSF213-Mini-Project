@@ -1,7 +1,6 @@
 package g9.springframework.silkroad.repositories;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,7 +12,7 @@ import g9.springframework.silkroad.models.Customer;
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
   Optional<Customer> findByEmail(String email);
 
-  List<Customer> findAllByCreatedAtAfter(LocalDateTime date);
+  Integer countByCreatedAtAfter(LocalDateTime date);
 
   void deleteByEmail(String email);
 }
