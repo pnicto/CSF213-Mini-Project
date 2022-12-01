@@ -26,6 +26,7 @@ public class Order {
   @OneToMany(cascade = CascadeType.ALL)
   private List<OrderItem> orderItems;
   private double totalPrice;
+  private Integer totalQuantity;
 
   private LocalDateTime createdAt;
 
@@ -38,8 +39,10 @@ public class Order {
   public Order(List<CartItem> cartItems, double totalPrice) {
     this.totalPrice = totalPrice;
     this.orderItems = new ArrayList<>();
+    this.totalQuantity = 0;
     cartItems.forEach(cartItem -> {
       var product = cartItem.getProduct();
+      this.totalQuantity += cartItem.getQuantity();
       this.orderItems.add(
           new OrderItem(product.getName(), product.getImageUrl(), product.getPrice(),
               cartItem.getQuantity(), product.getId()));
@@ -49,8 +52,10 @@ public class Order {
   public Order(List<CartItem> cartItems, double totalPrice, LocalDateTime localDateTime) {
     this.totalPrice = totalPrice;
     this.orderItems = new ArrayList<>();
+    this.totalQuantity = 0;
     cartItems.forEach(cartItem -> {
       var product = cartItem.getProduct();
+      this.totalQuantity += cartItem.getQuantity();
       this.orderItems.add(
           new OrderItem(product.getName(), product.getImageUrl(), product.getPrice(),
               cartItem.getQuantity(), product.getId()));
