@@ -1,8 +1,6 @@
 package g9.springframework.silkroad.controllers;
 
 import java.security.Principal;
-import java.time.LocalDateTime;
-import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -30,12 +28,6 @@ public class CustomerController {
     } else {
       throw new IllegalStateException("Customer not found");
     }
-  }
-
-  @GetMapping("/recent")
-  Collection<Customer> getCustomersRegisteredLastMonth() {
-    LocalDateTime dateTimeOneMonthAgo = LocalDateTime.now().minusMonths(1);
-    return customerRepository.findAllByCreatedAtAfter(dateTimeOneMonthAgo);
   }
 
   @PatchMapping
