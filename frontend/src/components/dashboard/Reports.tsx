@@ -1,4 +1,4 @@
-import { Container, Paper, Title } from "@mantine/core";
+import { Container, Group, Paper, Text, Title } from "@mantine/core";
 import { useMemo } from "react";
 import { AxisOptions, Chart } from "react-charts";
 import { LastSixMonth, ReportsInterface } from "../../types/interfaces";
@@ -63,7 +63,21 @@ const Reports = ({ data }: Props) => {
   return (
     <>
       <Container>
-        <Title order={2}>Products sold in last 6 months</Title>
+        <Group position="center">
+          <Text>
+            <strong>Total revenue:</strong> &#8377;{" "}
+            {data.totalRevenue.toFixed(2)}
+          </Text>
+          <Text>
+            <strong>Total products sold:</strong> {data.totalProductsSold}
+          </Text>
+          <Text>
+            <strong>Total customers:</strong> {data.totalRegisteredCustomers}
+          </Text>
+        </Group>
+        <Title order={2} mt={"md"}>
+          Products sold in last 6 months
+        </Title>
         <Paper mih={300} shadow={"md"} withBorder>
           <Chart
             options={{
