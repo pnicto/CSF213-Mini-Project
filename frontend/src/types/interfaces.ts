@@ -106,21 +106,15 @@ export interface User {
 }
 
 export interface ReportsInterface {
-  newlyRegisteredCustomersLastSixMonths: LastSixMonths;
+  newlyRegisteredCustomersLastSixMonths: LastSixMonth[];
   totalRevenue: number;
-  totalRevenueLastSixMonths: LastSixMonths;
-  totalProductsSoldLastSixMonths: LastSixMonths;
+  totalRevenueLastSixMonths: LastSixMonth[];
+  totalProductsSoldLastSixMonths: LastSixMonth[];
   totalRegisteredCustomers: number;
   totalProductsSold: number;
 }
 
-export interface LastSixMonths {
-  JUNE: number | null;
-  MAY: number | null;
-  OCTOBER: number | null;
-  now: number | null;
-  AUGUST: number | null;
-  SEPTEMBER: number | null;
-  JULY: number | null;
-  NOVEMBER: number | null;
+export interface LastSixMonth {
+  label: string;
+  value: number | null;
 }
