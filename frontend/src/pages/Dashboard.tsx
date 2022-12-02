@@ -1,6 +1,7 @@
 import { Button, Group } from "@mantine/core";
 import { useState } from "react";
 import ManageManagers from "../components/dashboard/ManageManagers";
+import Reports from "../components/dashboard/Reports";
 import { useLoginStore } from "../store/useLoginStore";
 
 const Dashboard = () => {
@@ -34,6 +35,7 @@ const Dashboard = () => {
           </Button>
         )}
       </Group>
+      {activeOption === "reports" && <Reports />}
       {activeOption === "manage managers" && authority === "ADMIN" && (
         <ManageManagers />
       )}
