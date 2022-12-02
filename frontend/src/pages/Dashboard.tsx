@@ -1,13 +1,27 @@
 import { Button, Group } from "@mantine/core";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 import { useState } from "react";
 import ManageManagers from "../components/dashboard/ManageManagers";
 import Reports from "../components/dashboard/Reports";
+import LoadingSpinner from "../components/display/LoadingSpinner";
 import { useLoginStore } from "../store/useLoginStore";
+import { ReportsInterface } from "../types/interfaces";
 
 const Dashboard = () => {
   type dashboardState = "manage managers" | "reports";
   const { authority } = useLoginStore();
   const [activeOption, setActiveOption] = useState<dashboardState>("reports");
+
+  const reportsQuery = useQuery(["reports"], () =>
+    axios.get<ReportsInterface>(
+      `${import.meta.env.VITE_APP_BACKEND_URL}/reports`
+    )
+  );
+
+  if (reportsQuery.isLoading) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <>
@@ -35,7 +49,7 @@ const Dashboard = () => {
           </Button>
         )}
       </Group>
-      {activeOption === "reports" && <Reports />}
+      {activeOption === "reports" && <Reports data={reportsQuery.data!.data} />}
       {activeOption === "manage managers" && authority === "ADMIN" && (
         <ManageManagers />
       )}
