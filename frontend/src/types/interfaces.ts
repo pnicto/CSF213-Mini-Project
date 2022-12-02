@@ -104,3 +104,23 @@ export interface User {
   phoneNumber: string;
   createdAt: Date;
 }
+
+export interface Reports {
+  newlyRegisteredCustomersLastSixMonths: LastSixMonths;
+  totalRevenue: number;
+  totalRevenueLastSixMonths: LastSixMonths;
+  totalProductsSoldLastSixMonths: LastSixMonths;
+  totalRegisteredCustomers: number;
+  totalProductsSold: number;
+}
+
+export interface LastSixMonths {
+  JUNE: number | null;
+  MAY: number | null;
+  OCTOBER: number | null;
+  now: number | null;
+  AUGUST: number | null;
+  SEPTEMBER: number | null;
+  JULY: number | null;
+  NOVEMBER: number | null;
+}
