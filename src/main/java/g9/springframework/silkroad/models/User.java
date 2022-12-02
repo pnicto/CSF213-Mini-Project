@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -12,10 +13,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -46,7 +47,6 @@ public class User implements UserDetails {
   private Role role;
   private String phoneNumber;
 
-  @CreationTimestamp
   private LocalDateTime createdAt;
 
   public User(String name, String email, String password, Role role, String phoneNumber) {
@@ -55,6 +55,16 @@ public class User implements UserDetails {
     this.password = password;
     this.role = role;
     this.phoneNumber = phoneNumber;
+    this.createdAt = LocalDateTime.now();
+  }
+
+  public User(String name, String email, String password, Role role, String phoneNumber, LocalDateTime createdAt) {
+    this.name = name;
+    this.email = email;
+    this.password = password;
+    this.role = role;
+    this.phoneNumber = phoneNumber;
+    this.createdAt = createdAt;
   }
 
   @Override
