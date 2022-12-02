@@ -22,17 +22,49 @@ public class ReportsController {
 
   @GetMapping
   ResponseEntity<?> getReports() {
-    LocalDateTime dateTimeOneMonthAgo = LocalDateTime.now().minusMonths(1);
+    LocalDateTime dateTimeNow = LocalDateTime.now().withDayOfMonth(1).withHour(0).withMinute(0);
 
     Map<String, Object> response = new HashMap<>();
-    Integer newCustomers = customerRepository.countByCreatedAtAfter(dateTimeOneMonthAgo);
+    Map<String, Object> newlyRegisteredCustomersLastSixMonths = new HashMap<>();
+    Map<String, Object> totalProductsSoldLastSixMonths = new HashMap<>();
+    Map<String, Object> totalRevenueLastSixMonths = new HashMap<>();
+
+    for (int i = 0; i < 7; i++) {
+      var dateTime = dateTimeNow.minusMonths(i);
+      var dateTimeMinusOne = dateTimeNow.minusMonths(i + 1);
+
+      Integer newCustomersLastMonth = customerRepository.countByCreatedAtBetween(dateTimeMinusOne, dateTime);
+      Integer totalProductsSoldLastMonth = orderRepository.getTotalProductsSoldBetween(dateTimeMinusOne, dateTime);
+      Double totalRevenueLastMonth = orderRepository.getTotalRevenueBetween(dateTimeMinusOne, dateTime);
+
+      newlyRegisteredCustomersLastSixMonths.put(dateTimeMinusOne.getMonth().toString(),
+          newCustomersLastMonth);
+      totalProductsSoldLastSixMonths.put(dateTimeMinusOne.getMonth().toString(),
+          totalProductsSoldLastMonth);
+      totalRevenueLastSixMonths.put(dateTimeMinusOne.getMonth().toString(), totalRevenueLastMonth);
+    }
+
+    var productsSoldThisMonth = orderRepository.getTotalProductsSoldBetween(dateTimeNow, LocalDateTime.now());
+    totalProductsSoldLastSixMonths.put("now", productsSoldThisMonth);
+
+    var newCustomersThisMonth = customerRepository.countByCreatedAtBetween(dateTimeNow, LocalDateTime.now());
+    newlyRegisteredCustomersLastSixMonths.put("now", newCustomersThisMonth);
+
+    var totalRevenueThisMonth = orderRepository.getTotalRevenueBetween(dateTimeNow, LocalDateTime.now());
+    totalRevenueLastSixMonths.put("now", totalRevenueThisMonth);
+
     Long totalRegisteredCustomers = customerRepository.count();
     Double totalRevenue = orderRepository.getTotalRevenue();
-    Integer totalProductsSoldInLastMonth = orderRepository.getTotalProductsSold(dateTimeOneMonthAgo);
-    response.put("newCustomers", newCustomers);
+    Integer totalProductsSold = orderRepository.getTotalProductsSold();
+
+    response.put("newlyRegisteredCustomersLastSixMonths", newlyRegisteredCustomersLastSixMonths);
     response.put("totalRegisteredCustomers", totalRegisteredCustomers);
     response.put("totalRevenue", totalRevenue);
-    response.put("totalProductsSoldInLastMonth", totalProductsSoldInLastMonth);
+    response.put("totalRevenueLastSixMonths", totalRevenueLastSixMonths);
+    response.put("totalProductsSold", totalProductsSold);
+    response.put("totalProductsSoldLastSixMonths", totalProductsSoldLastSixMonths);
+
     return ResponseEntity.ok().body(response);
   }
+
 }
