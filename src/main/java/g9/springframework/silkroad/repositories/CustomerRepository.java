@@ -12,7 +12,7 @@ import g9.springframework.silkroad.models.Customer;
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
   Optional<Customer> findByEmail(String email);
 
-  Integer countByCreatedAtAfter(LocalDateTime date);
+  Integer countByCreatedAtBetween(LocalDateTime sLocalDateTime, LocalDateTime enLocalDateTime);
 
   void deleteByEmail(String email);
 }
