@@ -105,7 +105,7 @@ export interface User {
   createdAt: Date;
 }
 
-export interface Reports {
+export interface ReportsInterface {
   newlyRegisteredCustomersLastSixMonths: LastSixMonths;
   totalRevenue: number;
   totalRevenueLastSixMonths: LastSixMonths;
