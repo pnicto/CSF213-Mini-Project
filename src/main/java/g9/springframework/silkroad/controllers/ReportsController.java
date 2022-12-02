@@ -1,7 +1,9 @@
 package g9.springframework.silkroad.controllers;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
@@ -25,33 +27,53 @@ public class ReportsController {
     LocalDateTime dateTimeNow = LocalDateTime.now().withDayOfMonth(1).withHour(0).withMinute(0);
 
     Map<String, Object> response = new HashMap<>();
-    Map<String, Object> newlyRegisteredCustomersLastSixMonths = new HashMap<>();
-    Map<String, Object> totalProductsSoldLastSixMonths = new HashMap<>();
-    Map<String, Object> totalRevenueLastSixMonths = new HashMap<>();
+    List<Object> newlyRegisteredCustomersLastSixMonths = new ArrayList<>();
+    List<Object> totalProductsSoldLastSixMonths = new ArrayList<>();
+    List<Object> totalRevenueLastSixMonths = new ArrayList<>();
 
-    for (int i = 0; i < 7; i++) {
+    for (int i = 6; i >= 0; i--) {
       var dateTime = dateTimeNow.minusMonths(i);
       var dateTimeMinusOne = dateTimeNow.minusMonths(i + 1);
+
+      Map<String, Object> newRegisteredMap = new HashMap<>();
+      Map<String, Object> productsSoldMap = new HashMap<>();
+      Map<String, Object> revenueMap = new HashMap<>();
 
       Integer newCustomersLastMonth = customerRepository.countByCreatedAtBetween(dateTimeMinusOne, dateTime);
       Integer totalProductsSoldLastMonth = orderRepository.getTotalProductsSoldBetween(dateTimeMinusOne, dateTime);
       Double totalRevenueLastMonth = orderRepository.getTotalRevenueBetween(dateTimeMinusOne, dateTime);
 
-      newlyRegisteredCustomersLastSixMonths.put(dateTimeMinusOne.getMonth().toString(),
-          newCustomersLastMonth);
-      totalProductsSoldLastSixMonths.put(dateTimeMinusOne.getMonth().toString(),
-          totalProductsSoldLastMonth);
-      totalRevenueLastSixMonths.put(dateTimeMinusOne.getMonth().toString(), totalRevenueLastMonth);
+      newRegisteredMap.put("label", dateTimeMinusOne.getMonth().toString());
+      newRegisteredMap.put("value", newCustomersLastMonth);
+      newlyRegisteredCustomersLastSixMonths.add(newRegisteredMap);
+
+      productsSoldMap.put("label", dateTimeMinusOne.getMonth().toString());
+      productsSoldMap.put("value", totalProductsSoldLastMonth);
+      totalProductsSoldLastSixMonths.add(productsSoldMap);
+
+      revenueMap.put("label", dateTimeMinusOne.getMonth().toString());
+      revenueMap.put("value", totalRevenueLastMonth);
+      totalRevenueLastSixMonths.add(revenueMap);
     }
 
-    var productsSoldThisMonth = orderRepository.getTotalProductsSoldBetween(dateTimeNow, LocalDateTime.now());
-    totalProductsSoldLastSixMonths.put("now", productsSoldThisMonth);
+    Map<String, Object> newRegisteredMap = new HashMap<>();
+    Map<String, Object> productsSoldMap = new HashMap<>();
+    Map<String, Object> revenueMap = new HashMap<>();
 
     var newCustomersThisMonth = customerRepository.countByCreatedAtBetween(dateTimeNow, LocalDateTime.now());
-    newlyRegisteredCustomersLastSixMonths.put("now", newCustomersThisMonth);
+    newRegisteredMap.put("label", dateTimeNow.getMonth().toString());
+    newRegisteredMap.put("value", newCustomersThisMonth);
+    newlyRegisteredCustomersLastSixMonths.add(newRegisteredMap);
+
+    var productsSoldThisMonth = orderRepository.getTotalProductsSoldBetween(dateTimeNow, LocalDateTime.now());
+    productsSoldMap.put("label", dateTimeNow.getMonth().toString());
+    productsSoldMap.put("value", productsSoldThisMonth);
+    totalProductsSoldLastSixMonths.add(productsSoldMap);
 
     var totalRevenueThisMonth = orderRepository.getTotalRevenueBetween(dateTimeNow, LocalDateTime.now());
-    totalRevenueLastSixMonths.put("now", totalRevenueThisMonth);
+    revenueMap.put("label", dateTimeNow.getMonth().toString());
+    revenueMap.put("value", totalRevenueThisMonth);
+    totalRevenueLastSixMonths.add(revenueMap);
 
     Long totalRegisteredCustomers = customerRepository.count();
     Double totalRevenue = orderRepository.getTotalRevenue();
