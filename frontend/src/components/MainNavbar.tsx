@@ -65,9 +65,7 @@ const MainNavbar = () => {
               value={selectValue}
               onChange={(value) => {
                 setSelectValue(value);
-                if (value === null) {
-                  navigate("/app");
-                } else {
+                if (value !== null) {
                   navigate(`/app/product/${value}`);
                 }
               }}
