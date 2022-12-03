@@ -43,9 +43,6 @@ public class DataLoader implements ApplicationRunner {
     managerRepository
         .save(new Manager("James", "man@email.com", passwordEncoder.encode("badApple"), "420"));
 
-    // Load customer data
-    var john = customerRepository
-        .save(new Customer("John", "john@email.com", passwordEncoder.encode("secret"), "666"));
 
     var steve = customerRepository
         .save(new Customer("Steve", "steve@email.com", passwordEncoder.encode("pwdpwd"), "666"));
