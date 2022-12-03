@@ -93,6 +93,7 @@ const ProductDetailsCustomerView = ({ product }: Props) => {
                 quantity,
               });
             }}
+            disabled={!isAvailable}
           >
             Add to cart
           </Button>

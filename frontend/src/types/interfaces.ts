@@ -104,3 +104,17 @@ export interface User {
   phoneNumber: string;
   createdAt: Date;
 }
+
+export interface ReportsInterface {
+  newlyRegisteredCustomersLastSixMonths: LastSixMonth[];
+  totalRevenue: number;
+  totalRevenueLastSixMonths: LastSixMonth[];
+  totalProductsSoldLastSixMonths: LastSixMonth[];
+  totalRegisteredCustomers: number;
+  totalProductsSold: number;
+}
+
+export interface LastSixMonth {
+  label: string;
+  value: number | null;
+}

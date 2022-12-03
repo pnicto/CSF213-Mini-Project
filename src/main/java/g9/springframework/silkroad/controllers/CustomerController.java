@@ -37,7 +37,6 @@ public class CustomerController {
       Customer customer = cOptional.get();
       customer.setName(updatedCustomer.getName());
       customer.setPhoneNumber(updatedCustomer.getPhoneNumber());
-      customer.setMoneyInWallet(customer.getMoneyInWallet() + updatedCustomer.getMoneyInWallet());
       customerRepository.save(customer);
       return customer;
     } else {

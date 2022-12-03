@@ -65,15 +65,12 @@ const MainNavbar = () => {
               value={selectValue}
               onChange={(value) => {
                 setSelectValue(value);
-                if (value === null) {
-                  navigate("/app");
-                } else {
+                if (value !== null) {
                   navigate(`/app/product/${value}`);
                 }
               }}
               miw={"40%"}
               radius="xl"
-              selectOnBlur
             />
 
             <Flex dir="row" justify={"space-around"} align="center" miw={"20%"}>

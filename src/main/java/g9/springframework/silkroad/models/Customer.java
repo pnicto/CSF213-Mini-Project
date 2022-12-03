@@ -1,5 +1,6 @@
 package g9.springframework.silkroad.models;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +32,13 @@ public class Customer extends User {
 
   public Customer(String name, String email, String password, String phoneNumber) {
     super(name, email, password, Role.CUSTOMER, phoneNumber);
+    this.moneyInWallet = 1000;
+    this.cart = new Cart();
+    this.orders = new ArrayList<>();
+  }
+
+  public Customer(String name, String email, String password, String phoneNumber, LocalDateTime createdAt) {
+    super(name, email, password, Role.CUSTOMER, phoneNumber, createdAt);
     this.moneyInWallet = 1000;
     this.cart = new Cart();
     this.orders = new ArrayList<>();
