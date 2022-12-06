@@ -46,7 +46,7 @@ public class SecurityConfig {
         .csrf(csrf -> csrf.disable())
         .authorizeRequests(auth -> {
           auth.mvcMatchers("/api/v1/auth/**").permitAll();
-          auth.mvcMatchers("/api/v1/customers/**").hasAuthority("SCOPE_CUSTOMER");
+          auth.mvcMatchers("/api/v1/customers/**").hasAnyAuthority("SCOPE_CUSTOMER", "SCOPE_ADMIN", "SCOPE_MANAGER");
 
           // Products routes
           auth.mvcMatchers(HttpMethod.GET, "/api/v1/products/**")

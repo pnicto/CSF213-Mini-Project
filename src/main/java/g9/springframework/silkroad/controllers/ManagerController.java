@@ -24,6 +24,13 @@ public class ManagerController {
   private final ManagerRepository managerRepository;
   private final PasswordEncoder passwordEncoder;
 
+  record RegistrationRequest(
+      String name,
+      String email,
+      String password,
+      String phoneNumber) {
+  }
+
   @GetMapping
   Manager getManager(Principal principal) {
     Optional<Manager> mOptional = managerRepository.findByEmail(principal.getName());
@@ -66,11 +73,4 @@ public class ManagerController {
     managerRepository.deleteById(managerId);
     return managerRepository.findAll();
   }
-}
-
-record RegistrationRequest(
-    String name,
-    String email,
-    String password,
-    String phoneNumber) {
 }
