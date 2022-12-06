@@ -3,10 +3,12 @@ package g9.springframework.silkroad.controllers;
 import java.security.Principal;
 import java.util.Optional;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +22,14 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class CustomerController {
   private final CustomerRepository customerRepository;
+  private final PasswordEncoder passwordEncoder;
+
+  record RegistrationRequest(
+      String name,
+      String email,
+      String password,
+      String phoneNumber) {
+  }
 
   @GetMapping("/all")
   Iterable<Customer> getAllCustomers() {
@@ -34,6 +44,14 @@ public class CustomerController {
     } else {
       throw new IllegalStateException("Customer not found");
     }
+  }
+
+  @PostMapping
+  Iterable<Customer> createNewCustomer(@RequestBody RegistrationRequest newCustomer) {
+    customerRepository
+        .save(new Customer(newCustomer.name(), newCustomer.email(), passwordEncoder.encode(newCustomer.password()),
+            newCustomer.phoneNumber()));
+    return customerRepository.findAll();
   }
 
   @PatchMapping
