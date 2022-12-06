@@ -2,6 +2,7 @@ import { Button, Group } from "@mantine/core";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useState } from "react";
+import ManageCustomers from "../components/dashboard/ManageCustomers";
 import ManageManagers from "../components/dashboard/ManageManagers";
 import Reports from "../components/dashboard/Reports";
 import LoadingSpinner from "../components/display/LoadingSpinner";
@@ -9,7 +10,7 @@ import { useLoginStore } from "../store/useLoginStore";
 import { ReportsInterface } from "../types/interfaces";
 
 const Dashboard = () => {
-  type dashboardState = "manage managers" | "reports";
+  type dashboardState = "manage managers" | "manage customers" | "reports";
   const { authority } = useLoginStore();
   const [activeOption, setActiveOption] = useState<dashboardState>("reports");
 
@@ -36,6 +37,16 @@ const Dashboard = () => {
         >
           Generate reports
         </Button>
+        <Button
+          onClick={() => {
+            setActiveOption("manage customers");
+          }}
+          variant="outline"
+          size="md"
+          type="button"
+        >
+          Manage customers
+        </Button>
         {authority === "ADMIN" && (
           <Button
             onClick={() => {
@@ -53,6 +64,7 @@ const Dashboard = () => {
       {activeOption === "manage managers" && authority === "ADMIN" && (
         <ManageManagers />
       )}
+      {activeOption === "manage customers" && <ManageCustomers />}
     </>
   );
 };
