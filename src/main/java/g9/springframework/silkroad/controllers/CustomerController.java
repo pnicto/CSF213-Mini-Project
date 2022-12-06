@@ -66,6 +66,12 @@ public class CustomerController {
   void deleteCustomer(Principal principal) {
     customerRepository.deleteByEmail(principal.getName());
   }
+
+  @DeleteMapping("/{customerId}")
+  Iterable<Customer> deleteManager(@PathVariable("customerId") Long customerId) {
+    customerRepository.deleteById(customerId);
+    return customerRepository.findAll();
+  }
 }
 
 record WalletBody(
