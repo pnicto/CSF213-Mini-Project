@@ -15,6 +15,7 @@ import axios, { AxiosError } from "axios";
 import { useNotificationStore } from "../../store/useNotificationStore";
 import { Customer } from "../../types/interfaces";
 import LoadingSpinner from "../display/LoadingSpinner";
+import AddCustomerForm from "../forms/AddCustomerForm";
 
 const ManageCustomers = () => {
   const notificationStore = useNotificationStore();
@@ -65,6 +66,7 @@ const ManageCustomers = () => {
             onClick={() => {
               openModal({
                 title: "Add a new customer",
+                children: <AddCustomerForm />,
                 centered: true,
               });
             }}
