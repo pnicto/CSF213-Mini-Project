@@ -68,7 +68,7 @@ public class CustomerController {
   }
 
   @DeleteMapping("/{customerId}")
-  Iterable<Customer> deleteManager(@PathVariable("customerId") Long customerId) {
+  Iterable<Customer> deleteCustomer(@PathVariable("customerId") Long customerId) {
     customerRepository.deleteById(customerId);
     return customerRepository.findAll();
   }
