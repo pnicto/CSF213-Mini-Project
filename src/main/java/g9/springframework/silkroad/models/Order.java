@@ -39,6 +39,7 @@ public class Order {
   public Order(List<CartItem> cartItems, double totalPrice) {
     this.totalPrice = totalPrice;
     this.orderItems = new ArrayList<>();
+    this.createdAt = LocalDateTime.now();
     this.totalQuantity = 0;
     cartItems.forEach(cartItem -> {
       var product = cartItem.getProduct();
