@@ -13,14 +13,14 @@ public class AuthServiceImpl implements AuthService {
   private final CustomerRepository customerRepository;
   private final PasswordEncoder passwordEncoder;
 
-  public Customer register(String name, String email, String password, String phoneNumber) {
+  public Customer register(String name, String email, String password, String phoneNumber, String address) {
     boolean isCustomerExists = customerRepository.findByEmail(email).isPresent();
 
     if (isCustomerExists) {
       throw new IllegalStateException("Customer already exists");
     } else {
       return customerRepository
-          .save(new Customer(name, email, passwordEncoder.encode(password), phoneNumber));
+          .save(new Customer(name, email, passwordEncoder.encode(password), phoneNumber, address));
     }
   }
 

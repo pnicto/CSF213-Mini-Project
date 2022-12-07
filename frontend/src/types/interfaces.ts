@@ -35,6 +35,7 @@ export interface LoginUserRequestBody {
 
 export interface RegisterUserRequestBody extends LoginUserRequestBody {
   name: string;
+  address: string;
   phoneNumber: string;
 }
 

@@ -27,7 +27,7 @@ public class AuthController {
   @PostMapping("/register")
   public ResponseEntity<Customer> register(@RequestBody RegistrationRequest request) {
     var newCustomer = authService.register(request.name(), request.email(),
-        request.password(), request.phoneNumber());
+        request.password(), request.phoneNumber(), request.address());
     return ResponseEntity.created(null).body(newCustomer);
 
   }
@@ -47,6 +47,7 @@ public class AuthController {
 record RegistrationRequest(
     String name,
     String email,
+    String address,
     String password,
     String phoneNumber) {
 }
