@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.OrderBy;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,6 +31,7 @@ public class Customer extends User {
   private Cart cart;
 
   @OneToMany(cascade = CascadeType.ALL)
+  @OrderBy(value = "createdAt DESC")
   private List<Order> orders;
 
   public Customer(String name, String email, String password, String phoneNumber) {

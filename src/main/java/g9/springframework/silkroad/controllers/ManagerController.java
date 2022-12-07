@@ -3,6 +3,7 @@ package g9.springframework.silkroad.controllers;
 import java.security.Principal;
 import java.util.Optional;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,7 +44,7 @@ public class ManagerController {
 
   @GetMapping("/all")
   Iterable<Manager> getAllManagers() {
-    return managerRepository.findAll();
+    return managerRepository.findAll(Sort.by(Sort.Direction.ASC, "name"));
   }
 
   @PostMapping

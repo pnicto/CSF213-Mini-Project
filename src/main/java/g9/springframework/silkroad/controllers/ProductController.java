@@ -2,6 +2,7 @@ package g9.springframework.silkroad.controllers;
 
 import java.util.Optional;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -28,9 +29,9 @@ public class ProductController {
   @GetMapping
   public Iterable<Product> getAllProducts(@RequestParam(value = "name") Long categoryId) {
     if (categoryId == 0) {
-      return productRepository.findAll();
+      return productRepository.findAll(Sort.by(Sort.Direction.ASC, "name"));
     } else {
-      Optional<Category> categoryOpt = categoryRepository.findById((categoryId));
+      Optional<Category> categoryOpt = categoryRepository.findById(categoryId);
       if (categoryOpt.isPresent()) {
         return categoryOpt.get().getProducts();
       } else {
