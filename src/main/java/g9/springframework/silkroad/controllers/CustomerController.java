@@ -61,6 +61,7 @@ public class CustomerController {
       Customer customer = cOptional.get();
       customer.setName(updatedCustomer.getName());
       customer.setPhoneNumber(updatedCustomer.getPhoneNumber());
+      customer.setAddress(updatedCustomer.getAddress());
       customerRepository.save(customer);
       return customer;
     } else {
