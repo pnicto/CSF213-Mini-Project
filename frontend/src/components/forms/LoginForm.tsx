@@ -4,6 +4,7 @@ import {
   Container,
   Group,
   Text,
+  Textarea,
   TextInput,
   Title,
 } from "@mantine/core";
@@ -32,6 +33,7 @@ const LoginForm = () => {
       password: "",
       name: "",
       phoneNumber: "",
+      address: "",
     },
     validate: {
       email: (value: string) =>
@@ -54,6 +56,7 @@ const LoginForm = () => {
     },
     {
       onSuccess: (data) => {
+        form.reset();
         if (pageMode === "Login") {
           const { accessToken, scope } = data.data;
           loginStore.setAccessToken(accessToken);
@@ -112,6 +115,14 @@ const LoginForm = () => {
               py="sm"
               size="md"
             />
+            <Textarea
+              withAsterisk
+              label="Address"
+              {...form.getInputProps("address")}
+              type="text"
+              py="sm"
+              size="md"
+            />
           </>
         )}
         <TextInput
@@ -132,6 +143,7 @@ const LoginForm = () => {
           py="sm"
           size="md"
         />
+
         <Group position="apart">
           {pageMode === "Login" ? (
             <Text fz="xs" align="left">

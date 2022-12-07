@@ -35,6 +35,7 @@ export interface LoginUserRequestBody {
 
 export interface RegisterUserRequestBody extends LoginUserRequestBody {
   name: string;
+  address: string;
   phoneNumber: string;
 }
 
@@ -59,6 +60,7 @@ export interface CustomerCart {
   id: number;
   cartItems: CartItem[];
   totalPrice: number;
+  deliveryTime: number;
   totalQuantity: number;
 }
 
@@ -72,6 +74,7 @@ export interface Customer {
   id: number;
   name: string;
   email: string;
+  address: string;
   role: string;
   phoneNumber: string;
   createdAt: Date;
@@ -85,6 +88,7 @@ export interface Order {
   orderItems: OrderItem[];
   totalPrice: number;
   createdAt: Date;
+  deliveryTime: number;
 }
 
 export interface OrderItem {

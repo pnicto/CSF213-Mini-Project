@@ -1,4 +1,4 @@
-import { TextInput, Group, Button } from "@mantine/core";
+import { TextInput, Group, Button, Textarea } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { closeAllModals } from "@mantine/modals";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
@@ -15,6 +15,7 @@ const AddCustomerForm = () => {
       email: "",
       password: "",
       name: "",
+      address: "",
       phoneNumber: "",
     },
     validate: {
@@ -83,6 +84,13 @@ const AddCustomerForm = () => {
         placeholder="**********"
         {...form.getInputProps("password")}
         type="password"
+        py="sm"
+        size="md"
+      />
+      <Textarea
+        withAsterisk
+        label="Address"
+        {...form.getInputProps("address")}
         py="sm"
         size="md"
       />

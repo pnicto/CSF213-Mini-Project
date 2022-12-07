@@ -5,6 +5,7 @@ import {
   Paper,
   Stack,
   Text,
+  Textarea,
   TextInput,
   Title,
 } from "@mantine/core";
@@ -35,6 +36,7 @@ const CustomerProfile = () => {
       moneyInWallet: profileDataQuery.data!.data.moneyInWallet,
       cart: profileDataQuery.data!.data.cart,
       orders: profileDataQuery.data!.data.orders,
+      address: profileDataQuery.data!.data.address,
     },
     validate: {
       email: (value: string) =>
@@ -76,23 +78,6 @@ const CustomerProfile = () => {
           Profile Details
         </Title>
         <Stack>
-          <Text size={"lg"}>
-            <strong>Name:</strong> {profileDataQuery.data!.data.name}
-          </Text>
-          <Text size={"lg"}>
-            <strong>Phone number:</strong>{" "}
-            {profileDataQuery.data!.data.phoneNumber}
-          </Text>
-          <Text size={"lg"}>
-            <strong>Email:</strong> {profileDataQuery.data!.data.email}
-          </Text>
-          <Text size={"lg"}>
-            <strong>Account Balance:</strong> &#8377;
-            {profileDataQuery.data!.data.moneyInWallet}
-          </Text>
-          <Text size={"lg"} fw={700}>
-            Update Profile:
-          </Text>
           <form
             onSubmit={form.onSubmit((values) => {
               updateProfile.mutate(values);
@@ -108,12 +93,28 @@ const CustomerProfile = () => {
                 type={"text"}
                 size={"md"}
               />
+              <Text>
+                <strong>Email:</strong> {profileDataQuery.data!.data.email}
+              </Text>
               <TextInput
                 withAsterisk
                 required
                 label="Phone Number"
                 placeholder="New phone number"
                 {...form.getInputProps("phoneNumber")}
+                type={"text"}
+                size={"md"}
+              />
+              <Text>
+                <strong>Account Balance: </strong>&#8377;
+                {profileDataQuery.data!.data.moneyInWallet}
+              </Text>
+              <Textarea
+                withAsterisk
+                required
+                label="Address"
+                placeholder="New address"
+                {...form.getInputProps("address")}
                 type={"text"}
                 size={"md"}
               />

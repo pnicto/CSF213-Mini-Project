@@ -1,4 +1,4 @@
-import { Container, Flex, Grid, Paper, Text } from "@mantine/core";
+import { Badge, Container, Flex, Grid, Paper, Text } from "@mantine/core";
 import { Order } from "../../../types/interfaces";
 import OrderItemCard from "./OrderItemCard";
 
@@ -8,6 +8,9 @@ type Props = {
 
 const OrderItemsContainer = ({ order }: Props) => {
   const orderDate = new Date(order.createdAt);
+  const deliveryDate = new Date(order.createdAt);
+  deliveryDate.setDate(deliveryDate.getDate() + order.deliveryTime);
+  const today = new Date();
 
   return (
     <Paper withBorder shadow={"lg"} mr={"xl"} mb={"md"} py={"xl"}>
@@ -15,6 +18,19 @@ const OrderItemsContainer = ({ order }: Props) => {
         <Text size={"lg"}>
           <strong>Id:</strong> #{order.id}
         </Text>
+
+        {today > deliveryDate && (
+          <Badge color={"green"} variant="light">
+            Delivered
+          </Badge>
+        )}
+
+        {deliveryDate > today && (
+          <Badge color={"red"} variant="light">
+            Not delivered
+          </Badge>
+        )}
+
         <Text size={"lg"}>
           <strong>Ordered at:</strong> {orderDate.toLocaleString()}
         </Text>
