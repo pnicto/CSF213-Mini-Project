@@ -1,4 +1,12 @@
-import { Button, Center, Container, Group, Stack, Title } from "@mantine/core";
+import {
+  Button,
+  Center,
+  Container,
+  Group,
+  Stack,
+  Text,
+  Title,
+} from "@mantine/core";
 import { openConfirmModal } from "@mantine/modals";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
@@ -99,16 +107,21 @@ const Cart = () => {
   if (profileDataQuery.isLoading) {
     return <LoadingSpinner />;
   } else {
-    const { cartItems, totalPrice, totalQuantity } =
+    const { cartItems, totalPrice, totalQuantity, deliveryTime } =
       profileDataQuery.data!.data.cart;
 
     return (
       <Container mb={"xl"}>
-        <Group position="apart" mb={"md"}>
+        <Group position="apart" mb={"md"} pt={"md"}>
           <Title>Your cart</Title>
+          <Text size={"lg"}>Estimated delivery in {deliveryTime} days</Text>
           <div>
-            <Title order={3}>Total price: &#8377;{totalPrice.toFixed(2)}</Title>
-            <Title order={3}>Total quantity: {totalQuantity}</Title>
+            <Text size={"lg"}>
+              <strong>Total price:</strong> &#8377;{totalPrice.toFixed(2)}
+            </Text>
+            <Text size={"lg"}>
+              <strong>Total quantity:</strong> {totalQuantity}
+            </Text>
           </div>
         </Group>
 

@@ -26,6 +26,7 @@ public class Cart {
   private List<CartItem> cartItems;
   private double totalPrice;
   private Integer totalQuantity;
+  private int deliveryTime;
 
   public Cart() {
     this.cartItems = new ArrayList<>();
@@ -43,6 +44,9 @@ public class Cart {
     } else {
       this.cartItems.add(cartItem);
     }
+    if (cartItem.getProduct().getDeliveryTime() > this.deliveryTime) {
+      this.setDeliveryTime(cartItem.getProduct().getDeliveryTime());
+    }
     this.totalPrice += cartItem.getProduct().getPrice() * cartItem.getQuantity();
     this.totalQuantity += cartItem.getQuantity();
   }
@@ -52,6 +56,9 @@ public class Cart {
     cartItems.forEach((cartItem) -> {
       this.totalPrice += cartItem.getProduct().getPrice();
       this.totalQuantity += cartItem.getQuantity();
+      if (cartItem.getProduct().getDeliveryTime() > this.deliveryTime) {
+        this.setDeliveryTime(cartItem.getProduct().getDeliveryTime());
+      }
     });
   }
 
@@ -61,7 +68,7 @@ public class Cart {
     this.cartItems.removeIf(item -> item.getId() == cartItem.getId());
   }
 
-  public boolean itemExists(CartItem cartItem) {
+  private boolean itemExists(CartItem cartItem) {
     Iterator<CartItem> cIterator = this.cartItems.iterator();
     while (cIterator.hasNext()) {
       var item = cIterator.next();

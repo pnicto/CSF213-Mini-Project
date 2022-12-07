@@ -60,6 +60,7 @@ export interface CustomerCart {
   id: number;
   cartItems: CartItem[];
   totalPrice: number;
+  deliveryTime: number;
   totalQuantity: number;
 }
 
