@@ -27,6 +27,7 @@ public class CustomerController {
   record RegistrationRequest(
       String name,
       String email,
+      String address,
       String password,
       String phoneNumber) {
   }
@@ -50,7 +51,7 @@ public class CustomerController {
   Iterable<Customer> createNewCustomer(@RequestBody RegistrationRequest newCustomer) {
     customerRepository
         .save(new Customer(newCustomer.name(), newCustomer.email(), passwordEncoder.encode(newCustomer.password()),
-            newCustomer.phoneNumber()));
+            newCustomer.phoneNumber(), newCustomer.address()));
     return customerRepository.findAll();
   }
 

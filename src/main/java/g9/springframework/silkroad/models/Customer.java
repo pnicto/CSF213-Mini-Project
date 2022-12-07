@@ -57,4 +57,13 @@ public class Customer extends User {
     this.address = address;
   }
 
+  public Customer(String name, String email, String password, String phoneNumber,
+      String address) {
+    super(name, email, password, Role.CUSTOMER, phoneNumber, LocalDateTime.now());
+    this.moneyInWallet = 1000;
+    this.cart = new Cart();
+    this.orders = new ArrayList<>();
+    this.address = address;
+  }
+
 }
