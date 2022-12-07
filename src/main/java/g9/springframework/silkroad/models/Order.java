@@ -27,7 +27,7 @@ public class Order {
   private List<OrderItem> orderItems;
   private double totalPrice;
   private Integer totalQuantity;
-
+  private int deliveryTime;
   private LocalDateTime createdAt;
 
   public Order() {
@@ -43,6 +43,11 @@ public class Order {
     this.totalQuantity = 0;
     cartItems.forEach(cartItem -> {
       var product = cartItem.getProduct();
+
+      if (product.getDeliveryTime() > this.deliveryTime) {
+        this.setDeliveryTime(product.getDeliveryTime());
+      }
+
       this.totalQuantity += cartItem.getQuantity();
       this.orderItems.add(
           new OrderItem(product.getName(), product.getImageUrl(), product.getPrice(),
@@ -56,6 +61,11 @@ public class Order {
     this.totalQuantity = 0;
     cartItems.forEach(cartItem -> {
       var product = cartItem.getProduct();
+
+      if (product.getDeliveryTime() > this.deliveryTime) {
+        this.setDeliveryTime(product.getDeliveryTime());
+      }
+
       this.totalQuantity += cartItem.getQuantity();
       this.orderItems.add(
           new OrderItem(product.getName(), product.getImageUrl(), product.getPrice(),

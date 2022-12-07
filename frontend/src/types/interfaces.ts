@@ -88,6 +88,7 @@ export interface Order {
   orderItems: OrderItem[];
   totalPrice: number;
   createdAt: Date;
+  deliveryTime: number;
 }
 
 export interface OrderItem {
