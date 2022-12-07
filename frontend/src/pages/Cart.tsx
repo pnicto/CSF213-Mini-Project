@@ -114,7 +114,11 @@ const Cart = () => {
       <Container mb={"xl"}>
         <Group position="apart" mb={"md"} pt={"md"}>
           <Title>Your cart</Title>
-          <Text size={"lg"}>Estimated delivery in {deliveryTime} days</Text>
+
+          {cartItems.length !== 0 && (
+            <Text size={"lg"}>Estimated delivery in {deliveryTime} days</Text>
+          )}
+
           <div>
             <Text size={"lg"}>
               <strong>Total price:</strong> &#8377;{totalPrice.toFixed(2)}
