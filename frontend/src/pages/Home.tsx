@@ -96,7 +96,7 @@ const Home = () => {
           </Container>
         </Grid.Col>
         <Grid.Col span={9}>
-          <Group position="apart">
+          <Group position="apart" mb={"md"}>
             <Title order={2} mb={"md"} ml={"sm"} color="deepBlue">
               {activeCategory ? activeCategory.name : "All products: "}
             </Title>
