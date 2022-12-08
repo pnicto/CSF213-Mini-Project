@@ -5,6 +5,7 @@ import {
   Flex,
   Menu,
   Select,
+  Image,
   Title,
 } from "@mantine/core";
 import { IconDots, IconLogout, IconSearch } from "@tabler/icons";
@@ -47,14 +48,27 @@ const MainNavbar = () => {
       >
         <nav>
           <Flex justify={"space-between"} p={"xs"}>
-            <div>
+            <Flex justify={"center"} align="center">
+              <Image
+                src={
+                  "https://media.discordapp.net/attachments/1032542229014786088/1050366770042634270/SL_final_3.png"
+                }
+                withPlaceholder
+                height={55}
+              />
               <Anchor component={Link} to="/app">
-                <Title size="h1" weight="bold" color="deepBlue" order={1}>
+                <Title
+                  size="h1"
+                  weight="bold"
+                  color="deepBlue"
+                  order={1}
+                  inline
+                  span
+                >
                   Silkroad
                 </Title>
               </Anchor>
-            </div>
-
+            </Flex>
             <Select
               data={selectData}
               maxDropdownHeight={280}
