@@ -11,8 +11,6 @@ import {
 import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { useState } from "react";
-import LoadingSpinner from "../../components/display/LoadingSpinner";
-import { useProductQueryWithId } from "../../hooks/useProductsQuery";
 import { useNotificationStore } from "../../store/useNotificationStore";
 import { CustomerCart, Product } from "../../types/interfaces";
 
