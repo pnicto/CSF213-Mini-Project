@@ -1,4 +1,4 @@
-import { Center, Grid } from "@mantine/core";
+import { Center, Container, Grid, Space } from "@mantine/core";
 import { useParams } from "react-router-dom";
 import LoadingSpinner from "../../components/display/LoadingSpinner";
 import { useProductQueryWithId } from "../../hooks/useProductsQuery";
@@ -17,19 +17,23 @@ const ProductDetails = () => {
 
   return (
     <>
-      {authority === "CUSTOMER" && (
-        <Center mih={"65vh"}>
-          <Grid columns={13} maw={"100vw"} m={0}>
-            <ProductDetailsCustomerView product={data!.data} />
-          </Grid>
-        </Center>
-      )}
+      <Container fluid mt={"lg"}>
+        <Space h="xl" />
+        <Space h="xl" />
+        {authority === "CUSTOMER" && (
+          <Center mih={"65vh"}>
+            <Grid columns={13} maw={"100vw"} m={0}>
+              <ProductDetailsCustomerView product={data!.data} />
+            </Grid>
+          </Center>
+        )}
 
-      {authority !== "CUSTOMER" && (
-        <Grid columns={13} m={0}>
-          <ProductDetailsAdminManagerView product={data!.data} />
-        </Grid>
-      )}
+        {authority !== "CUSTOMER" && (
+          <Grid columns={13} m={0}>
+            <ProductDetailsAdminManagerView product={data!.data} />
+          </Grid>
+        )}
+      </Container>
     </>
   );
 };
