@@ -17,7 +17,7 @@ const Landing = () => {
   return (
     <Center h={"100vh"}>
       <Flex direction={"column"} align="center" gap={"md"}>
-        <Title size="h1" weight="bold" color="deepBlue" pb="xl">
+        <Title weight="bold" color="deepBlue" pb="xl" size={44}>
           Silkroad
         </Title>
         <CartLogo height={550} />
