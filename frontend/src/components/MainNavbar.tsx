@@ -67,6 +67,7 @@ const MainNavbar = () => {
                 setSelectValue(value);
                 if (value !== null) {
                   navigate(`/app/product/${value}`);
+                  setSelectValue(null);
                 }
               }}
               miw={"40%"}
