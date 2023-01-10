@@ -1,5 +1,7 @@
 # CSF213 Mini Project
 
+**NOTE:** Archived as evalutation is over
+
 ### Mid semester evaluation
 
 Making UML diagrams for backend and frontend.
@@ -91,3 +93,11 @@ We are using Java 17 so install it.
     server.error.include-message=always
    ```
    Add the username and password.
+
+## Working with frontend
+
+1. `cd` into the `frontend` folder and run `yarn`.
+2. Create a `.env` file similar to `.env.example`.
+3. `yarn dev` will run the project.
+
+Hopefully one day I'll come back to this make few more changes.
